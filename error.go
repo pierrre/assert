@@ -8,6 +8,7 @@ import (
 )
 
 // ErrorStringer is a function that returns a string representation of an error.
+//
 // It can be customized to provide a better error message.
 var ErrorStringer = error.Error
 

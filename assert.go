@@ -1,4 +1,9 @@
 // Package assert provides utilities to assert conditions in tests.
+//
+// Assertion functions return a boolean value indicating whether the assertion succeeded.
+//
+// By default, assertion failures are reported using testing.TB.Fatal.
+// It can be customized with the Report() option.
 package assert
 
 import (
@@ -11,9 +16,6 @@ import (
 // ReportFunc is a function that is called when an assertion fails.
 //
 // It is implemented by testing.TB.Fatal|Error|Skip|Log.
-//
-// By default it is Fatal.
-// It can be changed with Report().
 type ReportFunc func(args ...any)
 
 // Fail handles assertion failure.
@@ -29,7 +31,7 @@ func Fail(tb testing.TB, name string, msg string, opts ...Option) {
 	o.report(args...)
 }
 
-// ValueStringer is a function that returns a string representation of a value.
+// ValueStringer is a function that returns the string representation of a value.
 //
 // It can be customized to provide a better string representation.
 //
