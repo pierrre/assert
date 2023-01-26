@@ -1,0 +1,43 @@
+// Package asserttest provides utilities to test assertions.
+package asserttest
+
+import (
+	"testing"
+
+	"github.com/pierrre/assert"
+)
+
+// NewReport returns a report function that checks the message and that the report function is called.
+func NewReport(tb testing.TB, expectedMsg string) assert.ReportFunc {
+	tb.Helper()
+	return newReport(tb, func(msg string) {
+		tb.Helper()
+		assert.Equal(tb, msg, expectedMsg, assert.MessageWrap("report message"))
+	})
+}
+
+// NewReportPrefix returns a report function that checks the message prefix and that the report function is called.
+func NewReportPrefix(tb testing.TB, expectedMsgPrefix string) assert.ReportFunc {
+	tb.Helper()
+	return newReport(tb, func(msg string) {
+		tb.Helper()
+		assert.StringHasPrefix(tb, msg, expectedMsgPrefix, assert.MessageWrap("report message"))
+	})
+}
+
+func newReport(tb testing.TB, checkMsg func(msg string)) assert.ReportFunc {
+	tb.Helper()
+	reportCalled := false
+	report := func(actualArgs ...any) {
+		tb.Helper()
+		reportCalled = true
+		assert.SliceLen(tb, actualArgs, 1)
+		msg, _ := assert.Type[string](tb, actualArgs[0])
+		checkMsg(msg)
+	}
+	tb.Cleanup(func() {
+		tb.Helper()
+		assert.True(tb, reportCalled, assert.Message("report not called"))
+	})
+	return report
+}
