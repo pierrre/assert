@@ -3,13 +3,12 @@ package davecghspew
 import (
 	"testing"
 
-	"github.com/davecgh/go-spew/spew"
 	"github.com/pierrre/assert"
 	"github.com/pierrre/assert/asserttest"
 )
 
 func init() {
-	Configure(&spew.Config)
+	ConfigureDefault()
 }
 
 func Test(t *testing.T) {

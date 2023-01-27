@@ -11,6 +11,11 @@ func Configure(config *spew.ConfigState) {
 	assert.ValueStringer = NewValueStringer(config)
 }
 
+// ConfigureDefault configures the integration with the default configuration.
+func ConfigureDefault() {
+	Configure(&spew.Config)
+}
+
 // NewValueStringer returns a function that returns the string representation of a value.
 func NewValueStringer(config *spew.ConfigState) func(v any) string {
 	return func(v any) string {
