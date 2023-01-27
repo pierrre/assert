@@ -18,13 +18,13 @@ func TestNilSlice(t *testing.T) {
 }
 
 func TestNilFailSlice(t *testing.T) {
-	report := asserttest.NewReport(t, "assert nil: not nil:\nv = []")
+	report := asserttest.NewReportAuto(t)
 	ok := Nil(t, []int{}, Report(report))
 	Equal(t, false, ok)
 }
 
 func TestNilFailString(t *testing.T) {
-	report := asserttest.NewReport(t, "assert nil: not nil:\nv = \"foo\"")
+	report := asserttest.NewReportAuto(t)
 	ok := Nil(t, "foo", Report(report))
 	Equal(t, false, ok)
 }
@@ -40,13 +40,13 @@ func TestNotNilString(t *testing.T) {
 }
 
 func TestNotNilFail(t *testing.T) {
-	report := asserttest.NewReport(t, "assert not_nil: nil")
+	report := asserttest.NewReportAuto(t)
 	ok := NotNil(t, nil, Report(report))
 	Equal(t, false, ok)
 }
 
 func TestNotNilFailSlice(t *testing.T) {
-	report := asserttest.NewReport(t, "assert not_nil: nil")
+	report := asserttest.NewReportAuto(t)
 	ok := NotNil(t, []int(nil), Report(report))
 	Equal(t, false, ok)
 }

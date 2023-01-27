@@ -1,0 +1,9 @@
+{
+	"entries": [
+		{
+			"equal": {
+				"value": "assert map_not_empty[string, string]: empty"
+			}
+		}
+	]
+}

@@ -1,0 +1,9 @@
+{
+	"entries": [
+		{
+			"equal": {
+				"value": "assert map_not_equal[string, string]: equal:\nm1 = map[foo:bar]\nm2 = map[foo:bar]"
+			}
+		}
+	]
+}

@@ -1,0 +1,9 @@
+{
+	"entries": [
+		{
+			"equal": {
+				"value": "assert string_has_prefix: no prefix:\ns = \"abc\"\nprefix = \"ac\""
+			}
+		}
+	]
+}

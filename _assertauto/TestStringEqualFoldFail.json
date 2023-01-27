@@ -1,0 +1,9 @@
+{
+	"entries": [
+		{
+			"equal": {
+				"value": "assert string_equal_fold: not equal fold:\ns1 = \"abc\"\ns2 = \"ABD\""
+			}
+		}
+	]
+}

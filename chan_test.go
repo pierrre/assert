@@ -16,7 +16,7 @@ func TestChanEmpty(t *testing.T) {
 func TestChanEmptyFail(t *testing.T) {
 	c := make(chan int, 10)
 	c <- 1
-	report := asserttest.NewReport(t, "assert chan_empty[int]: not empty:\nlength = 1")
+	report := asserttest.NewReportAuto(t)
 	ok := ChanEmpty(t, c, Report(report))
 	False(t, ok)
 }
@@ -30,7 +30,7 @@ func TestChanNotEmpty(t *testing.T) {
 
 func TestChanNotEmptyFail(t *testing.T) {
 	c := make(chan int)
-	report := asserttest.NewReport(t, "assert chan_not_empty[int]: empty")
+	report := asserttest.NewReportAuto(t)
 	ok := ChanNotEmpty(t, c, Report(report))
 	False(t, ok)
 }
@@ -45,7 +45,7 @@ func TestChanLen(t *testing.T) {
 func TestChanLenFail(t *testing.T) {
 	c := make(chan int, 10)
 	c <- 1
-	report := asserttest.NewReport(t, "assert chan_len[int]: unexpected length:\nexpected = 2\nactual = 1")
+	report := asserttest.NewReportAuto(t)
 	ok := ChanLen(t, c, 2, Report(report))
 	False(t, ok)
 }

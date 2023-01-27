@@ -1,0 +1,9 @@
+{
+	"entries": [
+		{
+			"equal": {
+				"value": "assert positive[int]: not negative:\nv = 123"
+			}
+		}
+	]
+}

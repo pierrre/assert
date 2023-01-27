@@ -1,0 +1,9 @@
+{
+	"entries": [
+		{
+			"equal": {
+				"value": "assert less[int]: not less than:\nv1 = 123\nv2 = 0"
+			}
+		}
+	]
+}

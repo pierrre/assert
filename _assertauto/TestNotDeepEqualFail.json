@@ -1,0 +1,9 @@
+{
+	"entries": [
+		{
+			"equal": {
+				"value": "assert not_deep_equal[int]: equal:\nv1 = 1\nv2 = 1"
+			}
+		}
+	]
+}

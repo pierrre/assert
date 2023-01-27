@@ -13,7 +13,7 @@ func TestStringEmpty(t *testing.T) {
 }
 
 func TestStringEmptyFail(t *testing.T) {
-	report := asserttest.NewReport(t, "assert string_empty: not empty:\ns = \"abc\"")
+	report := asserttest.NewReportAuto(t)
 	ok := StringEmpty(t, "abc", Report(report))
 	False(t, ok)
 }
@@ -24,7 +24,7 @@ func TestStringNotEmpty(t *testing.T) {
 }
 
 func TestStringNotEmptyFail(t *testing.T) {
-	report := asserttest.NewReport(t, "assert string_not_empty: empty")
+	report := asserttest.NewReportAuto(t)
 	ok := StringNotEmpty(t, "", Report(report))
 	False(t, ok)
 }
@@ -35,7 +35,7 @@ func TestStringLen(t *testing.T) {
 }
 
 func TestStringLenFail(t *testing.T) {
-	report := asserttest.NewReport(t, "assert string_len: unexpected length:\nexpected = 4\nactual = 3")
+	report := asserttest.NewReportAuto(t)
 	ok := StringLen(t, "abc", 4, Report(report))
 	False(t, ok)
 }
@@ -46,7 +46,7 @@ func TestStringContains(t *testing.T) {
 }
 
 func TestStringContainsFail(t *testing.T) {
-	report := asserttest.NewReport(t, "assert string_contains: not contains:\ns = \"abc\"\nsubstr = \"bd\"")
+	report := asserttest.NewReportAuto(t)
 	ok := StringContains(t, "abc", "bd", Report(report))
 	False(t, ok)
 }
@@ -57,7 +57,7 @@ func TestStringNotContains(t *testing.T) {
 }
 
 func TestStringNotContainsFail(t *testing.T) {
-	report := asserttest.NewReport(t, "assert string_not_contains: contains:\ns = \"abc\"\nsubstr = \"bc\"")
+	report := asserttest.NewReportAuto(t)
 	ok := StringNotContains(t, "abc", "bc", Report(report))
 	False(t, ok)
 }
@@ -68,7 +68,7 @@ func TestStringHasPrefix(t *testing.T) {
 }
 
 func TestStringHasPrefixFail(t *testing.T) {
-	report := asserttest.NewReport(t, "assert string_has_prefix: no prefix:\ns = \"abc\"\nprefix = \"ac\"")
+	report := asserttest.NewReportAuto(t)
 	ok := StringHasPrefix(t, "abc", "ac", Report(report))
 	False(t, ok)
 }
@@ -79,7 +79,7 @@ func TestStringHasSuffix(t *testing.T) {
 }
 
 func TestStringHasSuffixFail(t *testing.T) {
-	report := asserttest.NewReport(t, "assert string_has_suffix: no suffix:\ns = \"abc\"\nsuffix = \"ac\"")
+	report := asserttest.NewReportAuto(t)
 	ok := StringHasSuffix(t, "abc", "ac", Report(report))
 	False(t, ok)
 }
@@ -90,7 +90,7 @@ func TestStringEqualFold(t *testing.T) {
 }
 
 func TestStringEqualFoldFail(t *testing.T) {
-	report := asserttest.NewReport(t, "assert string_equal_fold: not equal fold:\ns1 = \"abc\"\ns2 = \"ABD\"")
+	report := asserttest.NewReportAuto(t)
 	ok := StringEqualFold(t, "abc", "ABD", Report(report))
 	False(t, ok)
 }

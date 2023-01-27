@@ -17,7 +17,7 @@ func TestPanics(t *testing.T) {
 }
 
 func TestPanicsFail(t *testing.T) {
-	report := asserttest.NewReport(t, "assert panics: no panic")
+	report := asserttest.NewReportAuto(t)
 	_, ok := Panics(t, func() {}, Report(report))
 	False(t, ok)
 }

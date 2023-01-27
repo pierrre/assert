@@ -1,0 +1,9 @@
+{
+	"entries": [
+		{
+			"equal": {
+				"value": "assert slice_empty[int]: not empty:\nlength = 1\ns = [1]"
+			}
+		}
+	]
+}

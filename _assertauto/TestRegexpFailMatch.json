@@ -1,0 +1,9 @@
+{
+	"entries": [
+		{
+			"equal": {
+				"value": "assert regexp_match: no match:\nrs = \"z\"\ns = \"abc\""
+			}
+		}
+	]
+}

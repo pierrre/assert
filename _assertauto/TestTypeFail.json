@@ -1,0 +1,9 @@
+{
+	"entries": [
+		{
+			"equal": {
+				"value": "assert type[int]: assertion failed:\nsource = string\ndestination = int"
+			}
+		}
+	]
+}

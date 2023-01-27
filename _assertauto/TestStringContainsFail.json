@@ -1,0 +1,9 @@
+{
+	"entries": [
+		{
+			"equal": {
+				"value": "assert string_contains: not contains:\ns = \"abc\"\nsubstr = \"bd\""
+			}
+		}
+	]
+}

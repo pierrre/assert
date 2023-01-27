@@ -1,0 +1,9 @@
+{
+	"entries": [
+		{
+			"equal": {
+				"value": "assert bytes_equal: not equal:\nb1 = [97 98 99]\nb2 = [97 98 100]"
+			}
+		}
+	]
+}

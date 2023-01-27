@@ -1,0 +1,9 @@
+{
+	"entries": [
+		{
+			"equal": {
+				"value": "assert slice_not_contains[int]: contains:\ns = [1 2]\nv = 1"
+			}
+		}
+	]
+}

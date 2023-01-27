@@ -1,0 +1,9 @@
+{
+	"entries": [
+		{
+			"equal": {
+				"value": "assert deep_equal[int]: not equal:\ndiff = .: int not equal\nv1 = 1\nv2 = 2"
+			}
+		}
+	]
+}

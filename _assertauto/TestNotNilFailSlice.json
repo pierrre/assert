@@ -1,0 +1,9 @@
+{
+	"entries": [
+		{
+			"equal": {
+				"value": "assert not_nil: nil"
+			}
+		}
+	]
+}

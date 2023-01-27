@@ -17,7 +17,7 @@ func Test(t *testing.T) {
 }
 
 func TestFail(t *testing.T) {
-	report := asserttest.NewReport(t, "assert deep_equal[int]: not equal:\ndiff = .: int not equal\nv1 = 1\nv2 = 2")
+	report := asserttest.NewReportAuto(t)
 	ok := assert.DeepEqual(t, 1, 2, assert.Report(report))
 	assert.False(t, ok)
 }
