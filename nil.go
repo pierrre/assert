@@ -6,6 +6,8 @@ import (
 	"testing"
 )
 
+// TODO: remove once Go 1.20 is supported.
+
 // Nil asserts that v is nil.
 //
 // This function exists because it's not possible to define a type parameter for interface/function.

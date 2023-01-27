@@ -7,36 +7,6 @@ import (
 
 // TODO: find a way to support receive/send only chans. (more functions or use type parameters ?)
 
-// ChanNil asserts that c is nil.
-func ChanNil[T any](tb testing.TB, c chan T, opts ...Option) bool {
-	tb.Helper()
-	ok := c == nil
-	if !ok {
-		Fail(
-			tb,
-			fmt.Sprintf("chan_nil[%s]", TypeString[T]()),
-			"not nil",
-			opts...,
-		)
-	}
-	return ok
-}
-
-// ChanNotNil asserts that c is not nil.
-func ChanNotNil[T any](tb testing.TB, c chan T, opts ...Option) bool {
-	tb.Helper()
-	ok := c != nil
-	if !ok {
-		Fail(
-			tb,
-			fmt.Sprintf("chan_not_nil[%s]", TypeString[T]()),
-			"nil",
-			opts...,
-		)
-	}
-	return ok
-}
-
 // ChanEmpty asserts that c is empty.
 func ChanEmpty[T any](tb testing.TB, c chan T, opts ...Option) bool {
 	tb.Helper()

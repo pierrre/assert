@@ -91,3 +91,17 @@ Third party integrations allow to customize how values are printed and compared:
 - [`pierrrecompare`](https://pkg.go.dev/github.com/pierrre/assert/ext/pierrrecompare) compares values with [`github.com/pierrre/compare`](https://pkg.go.dev/github.com/pierrre/compare)
 - [`googlecmp`](https://pkg.go.dev/github.com/pierrre/assert/ext/googlecmp) compares values with [`github.com/google/go-cmp`](https://pkg.go.dev/github.com/google/go-cmp/cmp)
 - [`pierrreerrors`](https://pkg.go.dev/github.com/pierrre/assert/ext/pierrreerrors) prints errors with [`github.com/pierrre/errors`](https://pkg.go.dev/github.com/pierrre/errors)
+
+## FAQ
+
+> Why not use `github.com/stretchr/testify` ?
+
+I think it's a great library, but I wanted to [try something different](#why-).
+I also wanted to try generics, and to see if it was possible to make an assertion library without reflection.
+
+> Where are `Nil()` and `NotNil()` ?
+
+- For slices use [SliceNil()](https://pkg.go.dev/github.com/pierrre/assert#SliceNil) and [SliceNotNil()](https://pkg.go.dev/github.com/pierrre/assert#SliceNotNil)
+- For maps use [MapNil()](https://pkg.go.dev/github.com/pierrre/assert#MapNil) and [MapNotNil()](https://pkg.go.dev/github.com/pierrre/assert#MapNotNil)
+- For comparable types use [Zero()](https://pkg.go.dev/github.com/pierrre/assert#Zero) and [NotZero()](https://pkg.go.dev/github.com/pierrre/assert#NotZero)
+- For interface types use [Nil()](https://pkg.go.dev/github.com/pierrre/assert#Nil) and [NotNil()](https://pkg.go.dev/github.com/pierrre/assert#NotNil), but they will be removed once Go 1.20 is supported.
