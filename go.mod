@@ -4,7 +4,7 @@ go 1.19
 
 require (
 	github.com/davecgh/go-spew v1.1.1
-	github.com/google/go-cmp v0.5.8
+	github.com/google/go-cmp v0.5.9
 	github.com/kr/pretty v0.3.1
 	github.com/pierrre/compare v1.1.0
 	github.com/pierrre/errors v0.2.2
