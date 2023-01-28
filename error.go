@@ -73,7 +73,7 @@ func ErrorNotIs(tb testing.TB, err, target error, opts ...Option) bool {
 }
 
 // ErrorAs asserts that errors.As(err, target) returns true.
-func ErrorAs[E error](tb testing.TB, err error, target *E, opts ...Option) bool {
+func ErrorAs(tb testing.TB, err error, target any, opts ...Option) bool {
 	tb.Helper()
 	ok := errors.As(err, target)
 	if !ok {
