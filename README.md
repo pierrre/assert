@@ -8,7 +8,7 @@ Go test assertion library.
 
 - [Test assertion (equal, comparison, nil, empty, length, error, etc...)](#assertions)
 - [No reflection (uses generics)](#why-)
-- [Third party integration (print value, value comparison)](#integrations)
+- [Third party integration (print and compare values)](#integrations)
 
 ## Assertions
 
@@ -33,7 +33,9 @@ assert.Equal(t, value, 1, assert.MessageWrap("test"))
 
 ## Why ?
 
-This assertion library is an experiment to see if it is possible to do better than `github.com/stretchr/testify` with the new features offered by the recent Go versions.
+This assertion library is an experiment to see if it is possible to do better than `github.com/stretchr/testify`, by using generics.
+
+Here is an example of an issue with `github.com/stretchr/testify`:
 
 ```go
 func Test(t *testing.T) {
@@ -68,11 +70,22 @@ Use `EqualValues()` which converts the values to the same type:
 require.EqualValues(t, 1, value)
 ```
 
-But the internal implementation is not simple: it requires heavy usage of reflection, and the code is quite complex.
-What if we could simply use the `==` operator ?
+But the internal implementation is not simple: it requires [heavy usage of reflection](https://github.com/stretchr/testify/blob/master/assert/assertion_compare.go), and the code is [quite complex](https://github.com/stretchr/testify/blob/master/assert/assertions.go).
 
+What if we could simply use the `==` operator ?
 This is the solution chosen by this library.
-It uses generics to do the comparison, and it works with any types:
+It uses generics to do the comparison, and it works with any comparable type:
+
+```go
+func Equal[T comparable](tb testing.TB, v1, v2 T, opts ...Option) bool {
+    tb.Helper()
+    ok := v1 == v2
+    if !ok {
+        Fail(...)
+    }
+    return ok
+}
+```
 
 ```go
 assert.Equal(t, 1, value)
@@ -94,12 +107,12 @@ Third party integrations allow to customize how values are printed and compared:
 
 ## FAQ
 
-> Why not use `github.com/stretchr/testify` ?
+### Why not use `github.com/stretchr/testify` ?
 
 I think it's a great library, but I wanted to [try something different](#why-).
 I also wanted to try generics, and to see if it was possible to make an assertion library without reflection.
 
-> Where are `Nil()` and `NotNil()` ?
+### Where are `Nil()` and `NotNil()` ?
 
 - For slices use [SliceNil()](https://pkg.go.dev/github.com/pierrre/assert#SliceNil) and [SliceNotNil()](https://pkg.go.dev/github.com/pierrre/assert#SliceNotNil)
 - For maps use [MapNil()](https://pkg.go.dev/github.com/pierrre/assert#MapNil) and [MapNotNil()](https://pkg.go.dev/github.com/pierrre/assert#MapNotNil)
