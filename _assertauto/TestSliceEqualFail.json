@@ -1,0 +1,9 @@
+{
+	"entries": [
+		{
+			"equal": {
+				"value": "assert slice_equal[int]: not equal:\ns1 = [1]\ns2 = [2]"
+			}
+		}
+	]
+}

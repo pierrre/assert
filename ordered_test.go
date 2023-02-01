@@ -13,7 +13,7 @@ func TestGreater(t *testing.T) {
 }
 
 func TestGreaterFail(t *testing.T) {
-	report := asserttest.NewReport(t, "assert greater[int]: not greater than:\nv1 = 0\nv2 = 123")
+	report := asserttest.NewReportAuto(t)
 	ok := Greater(t, 0, 123, Report(report))
 	False(t, ok)
 }
@@ -24,7 +24,7 @@ func TestGreaterOrEqual(t *testing.T) {
 }
 
 func TestGreaterOrEqualFail(t *testing.T) {
-	report := asserttest.NewReport(t, "assert greater_or_equal[int]: not greater than or equal to:\nv1 = 0\nv2 = 123")
+	report := asserttest.NewReportAuto(t)
 	ok := GreaterOrEqual(t, 0, 123, Report(report))
 	False(t, ok)
 }
@@ -35,7 +35,7 @@ func TestLess(t *testing.T) {
 }
 
 func TestLessFail(t *testing.T) {
-	report := asserttest.NewReport(t, "assert less[int]: not less than:\nv1 = 123\nv2 = 0")
+	report := asserttest.NewReportAuto(t)
 	ok := Less(t, 123, 0, Report(report))
 	False(t, ok)
 }
@@ -46,7 +46,7 @@ func TestLessOrEqual(t *testing.T) {
 }
 
 func TestLessOrEqualFail(t *testing.T) {
-	report := asserttest.NewReport(t, "assert less_or_equal[int]: not less than or equal to:\nv1 = 123\nv2 = 0")
+	report := asserttest.NewReportAuto(t)
 	ok := LessOrEqual(t, 123, 0, Report(report))
 	False(t, ok)
 }

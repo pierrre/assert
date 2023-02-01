@@ -14,7 +14,7 @@ func TestType(t *testing.T) {
 }
 
 func TestTypeFail(t *testing.T) {
-	report := asserttest.NewReport(t, "assert type[int]: assertion failed:\nsource = string\ndestination = int")
+	report := asserttest.NewReportAuto(t)
 	_, ok := Type[int](t, "123", Report(report))
 	False(t, ok)
 }

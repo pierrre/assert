@@ -13,7 +13,7 @@ func TestZero(t *testing.T) {
 }
 
 func TestZeroFail(t *testing.T) {
-	report := asserttest.NewReport(t, "assert zero[int]: not zero:\nv = 123")
+	report := asserttest.NewReportAuto(t)
 	ok := Zero(t, 123, Report(report))
 	False(t, ok)
 }
@@ -24,7 +24,7 @@ func TestNotZero(t *testing.T) {
 }
 
 func TestNotZeroFail(t *testing.T) {
-	report := asserttest.NewReport(t, "assert not_zero[int]: zero:\nv = 0")
+	report := asserttest.NewReportAuto(t)
 	ok := NotZero(t, 0, Report(report))
 	False(t, ok)
 }

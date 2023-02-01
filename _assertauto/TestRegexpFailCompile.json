@@ -1,0 +1,9 @@
+{
+	"entries": [
+		{
+			"equal": {
+				"value": "assert regexp_compile: compilation failed:\nexpr = \"\\\\\"\nerr = error parsing regexp: trailing backslash at end of expression: ``"
+			}
+		}
+	]
+}

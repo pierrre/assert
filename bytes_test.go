@@ -13,7 +13,7 @@ func TestBytesEqual(t *testing.T) {
 }
 
 func TestBytesEqualFail(t *testing.T) {
-	report := asserttest.NewReport(t, "assert bytes_equal: not equal:\nb1 = [97 98 99]\nb2 = [97 98 100]")
+	report := asserttest.NewReportAuto(t)
 	ok := BytesEqual(t, []byte("abc"), []byte("abd"), Report(report))
 	False(t, ok)
 }
@@ -24,7 +24,7 @@ func TestBytesNotEqual(t *testing.T) {
 }
 
 func TestBytesNotEqualFail(t *testing.T) {
-	report := asserttest.NewReport(t, "assert bytes_not_equal: equal:\nb1 = [97 98 99]\nb2 = [97 98 99]")
+	report := asserttest.NewReportAuto(t)
 	ok := BytesNotEqual(t, []byte("abc"), []byte("abc"), Report(report))
 	False(t, ok)
 }

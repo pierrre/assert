@@ -14,13 +14,13 @@ func TestRegexp(t *testing.T) {
 }
 
 func TestRegexpFailMatch(t *testing.T) {
-	report := asserttest.NewReport(t, "assert regexp_match: no match:\nrs = \"z\"\ns = \"abc\"")
+	report := asserttest.NewReportAuto(t)
 	ok := RegexpMatch(t, "z", "abc", Report(report))
 	False(t, ok)
 }
 
 func TestRegexpFailCompile(t *testing.T) {
-	report := asserttest.NewReport(t, "assert regexp_compile: compilation failed:\nexpr = \"\\\\\"\nerr = error parsing regexp: trailing backslash at end of expression: ``")
+	report := asserttest.NewReportAuto(t)
 	ok := RegexpMatch(t, "\\", "abc", Report(report))
 	False(t, ok)
 }
@@ -31,13 +31,13 @@ func TestNotRegexp(t *testing.T) {
 }
 
 func TestNotRegexpFailMatch(t *testing.T) {
-	report := asserttest.NewReport(t, "assert regexp_not_match: match:\nrs = \"bc\"\ns = \"abc\"")
+	report := asserttest.NewReportAuto(t)
 	ok := RegexpNotMatch(t, "bc", "abc", Report(report))
 	False(t, ok)
 }
 
 func TestNotRegexpFailCompile(t *testing.T) {
-	report := asserttest.NewReport(t, "assert regexp_compile: compilation failed:\nexpr = \"\\\\\"\nerr = error parsing regexp: trailing backslash at end of expression: ``")
+	report := asserttest.NewReportAuto(t)
 	ok := RegexpNotMatch(t, "\\", "abc", Report(report))
 	False(t, ok)
 }

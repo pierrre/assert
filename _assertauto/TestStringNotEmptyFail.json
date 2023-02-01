@@ -1,0 +1,9 @@
+{
+	"entries": [
+		{
+			"equal": {
+				"value": "assert string_not_empty: empty"
+			}
+		}
+	]
+}

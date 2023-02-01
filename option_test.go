@@ -8,21 +8,21 @@ import (
 )
 
 func TestMessage(t *testing.T) {
-	report := asserttest.NewReport(t, "custom")
+	report := asserttest.NewReportAuto(t)
 	Fail(t, "test", "message", Report(report), Message("custom"))
 }
 
 func TestMessagef(t *testing.T) {
-	report := asserttest.NewReport(t, "custom 1")
+	report := asserttest.NewReportAuto(t)
 	Fail(t, "test", "message", Report(report), Messagef("custom %d", 1))
 }
 
 func TestMessageWrap(t *testing.T) {
-	report := asserttest.NewReport(t, "custom: assert test: message")
+	report := asserttest.NewReportAuto(t)
 	Fail(t, "test", "message", Report(report), MessageWrap("custom"))
 }
 
 func TestMessageWrapf(t *testing.T) {
-	report := asserttest.NewReport(t, "custom 1: assert test: message")
+	report := asserttest.NewReportAuto(t)
 	Fail(t, "test", "message", Report(report), MessageWrapf("custom %d", 1))
 }

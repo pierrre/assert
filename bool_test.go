@@ -13,7 +13,7 @@ func TestTrue(t *testing.T) {
 }
 
 func TestTrueFail(t *testing.T) {
-	report := asserttest.NewReport(t, "assert true: not true")
+	report := asserttest.NewReportAuto(t)
 	ok := True(t, false, Report(report))
 	False(t, ok)
 }
@@ -24,7 +24,7 @@ func TestFalse(t *testing.T) {
 }
 
 func TestFalseFail(t *testing.T) {
-	report := asserttest.NewReport(t, "assert false: not false")
+	report := asserttest.NewReportAuto(t)
 	ok := False(t, true, Report(report))
 	False(t, ok)
 }

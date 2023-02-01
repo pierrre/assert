@@ -1,0 +1,9 @@
+{
+	"entries": [
+		{
+			"equal": {
+				"value": "assert error_as: no match:\nerr = error\ntarget = **time.ParseError"
+			}
+		}
+	]
+}

@@ -1,0 +1,9 @@
+{
+	"entries": [
+		{
+			"equal": {
+				"value": "assert map_empty[string, string]: not empty:\nlength = 1\nm = map[foo:bar]"
+			}
+		}
+	]
+}

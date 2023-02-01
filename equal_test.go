@@ -13,7 +13,7 @@ func TestEqual(t *testing.T) {
 }
 
 func TestEqualFail(t *testing.T) {
-	report := asserttest.NewReport(t, "assert equal[int]: not equal:\nv1 = 123\nv2 = 456")
+	report := asserttest.NewReportAuto(t)
 	ok := Equal(t, 123, 456, Report(report))
 	False(t, ok)
 }
@@ -24,7 +24,7 @@ func TestNotEqual(t *testing.T) {
 }
 
 func TestNotEqualFail(t *testing.T) {
-	report := asserttest.NewReport(t, "assert not_equal[int]: equal:\nv1 = 123\nv2 = 123")
+	report := asserttest.NewReportAuto(t)
 	ok := NotEqual(t, 123, 123, Report(report))
 	False(t, ok)
 }

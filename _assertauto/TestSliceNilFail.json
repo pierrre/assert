@@ -1,0 +1,9 @@
+{
+	"entries": [
+		{
+			"equal": {
+				"value": "assert slice_nil[int]: not nil:\ns = []"
+			}
+		}
+	]
+}

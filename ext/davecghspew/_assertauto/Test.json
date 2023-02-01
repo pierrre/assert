@@ -1,0 +1,9 @@
+{
+	"entries": [
+		{
+			"equal": {
+				"value": "assert equal[int]: not equal:\nv1 = (int) 1\n\nv2 = (int) 2\n"
+			}
+		}
+	]
+}
