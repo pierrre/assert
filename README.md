@@ -117,4 +117,3 @@ I also wanted to try generics, and to see if it was possible to make an assertio
 - For slices use [SliceNil()](https://pkg.go.dev/github.com/pierrre/assert#SliceNil) and [SliceNotNil()](https://pkg.go.dev/github.com/pierrre/assert#SliceNotNil)
 - For maps use [MapNil()](https://pkg.go.dev/github.com/pierrre/assert#MapNil) and [MapNotNil()](https://pkg.go.dev/github.com/pierrre/assert#MapNotNil)
 - For comparable types use [Zero()](https://pkg.go.dev/github.com/pierrre/assert#Zero) and [NotZero()](https://pkg.go.dev/github.com/pierrre/assert#NotZero)
-- For interface types use [Nil()](https://pkg.go.dev/github.com/pierrre/assert#Nil) and [NotNil()](https://pkg.go.dev/github.com/pierrre/assert#NotNil), but they will be removed once Go 1.20 is supported.
