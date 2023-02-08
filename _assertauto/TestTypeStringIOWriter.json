@@ -2,7 +2,7 @@
 	"entries": [
 		{
 			"equal": {
-				"value": "assert nil: not nil:\nv = []"
+				"value": "io.Writer"
 			}
 		}
 	]

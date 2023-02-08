@@ -2,7 +2,7 @@
 	"entries": [
 		{
 			"equal": {
-				"value": "assert not_nil: nil"
+				"value": "string"
 			}
 		}
 	]

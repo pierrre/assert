@@ -47,5 +47,10 @@ var ValueStringer = func(v any) string {
 func TypeString[T any]() string {
 	var v T
 	// Use pointer in order to work with interface types.
-	return reflect.TypeOf(&v).Elem().String()
+	typ := reflect.TypeOf(&v).Elem()
+	pkgPath := typ.PkgPath()
+	if pkgPath != "" {
+		return pkgPath + "." + typ.Name()
+	}
+	return typ.String()
 }

@@ -1,9 +1,0 @@
-{
-	"entries": [
-		{
-			"equal": {
-				"value": "assert nil: not nil:\nv = \"foo\""
-			}
-		}
-	]
-}
