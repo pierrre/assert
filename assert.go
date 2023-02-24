@@ -8,7 +8,7 @@ package assert
 
 import (
 	"fmt"
-	"reflect" //nolint:depguard // Used for type string representation.
+	"reflect"
 	"strconv"
 	"testing"
 )

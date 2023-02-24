@@ -2,7 +2,7 @@ package assert
 
 import (
 	"fmt"
-	"reflect" //nolint:depguard // Used for DeepEqual.
+	"reflect"
 	"testing"
 )
 
