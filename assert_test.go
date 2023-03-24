@@ -13,7 +13,19 @@ func TestTypeStringString(t *testing.T) {
 	assertauto.Equal(t, s)
 }
 
+func TestTypeStringAllocsString(t *testing.T) {
+	AllocsPerRun(t, 100, func() {
+		TypeString[string]()
+	}, 1)
+}
+
 func TestTypeStringIOWriter(t *testing.T) {
 	s := TypeString[io.Writer]()
 	assertauto.Equal(t, s)
+}
+
+func TestTypeStringAllocsIOWriter(t *testing.T) {
+	AllocsPerRun(t, 100, func() {
+		TypeString[io.Writer]()
+	}, 2)
 }
