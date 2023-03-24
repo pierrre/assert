@@ -1,0 +1,9 @@
+{
+	"entries": [
+		{
+			"equal": {
+				"value": "assert allocs_per_run: unexpected allocs:\nexpected = 1.000000\nactual = 0.000000"
+			}
+		}
+	]
+}
