@@ -103,11 +103,10 @@ func (tf *testFunction) save(tb testing.TB) {
 		Entries: tf.entries,
 	}
 	data := jsonEncode(tb, f)
-	err := os.MkdirAll(directory, 0o755) //nolint:gosec // We want 755.
-	if err != nil {
-		panic(err)
-	}
 	fp := getFilePath(tb)
+	dir := filepath.Dir(fp)
+	err := os.MkdirAll(dir, 0o755) //nolint:gosec // We want 755.
+	assert.NoError(tb, err)
 	err = os.WriteFile(fp, data, 0o644) //nolint:gosec // We want 644.
 	assert.NoError(tb, err)
 }
