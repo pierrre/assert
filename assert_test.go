@@ -16,7 +16,7 @@ func TestTypeStringString(t *testing.T) {
 func TestTypeStringAllocsString(t *testing.T) {
 	AllocsPerRun(t, 100, func() {
 		TypeString[string]()
-	}, 1)
+	}, 0)
 }
 
 func TestTypeStringIOWriter(t *testing.T) {
@@ -27,5 +27,5 @@ func TestTypeStringIOWriter(t *testing.T) {
 func TestTypeStringAllocsIOWriter(t *testing.T) {
 	AllocsPerRun(t, 100, func() {
 		TypeString[io.Writer]()
-	}, 2)
+	}, 1)
 }

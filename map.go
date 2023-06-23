@@ -2,9 +2,8 @@ package assert
 
 import (
 	"fmt"
+	"maps"
 	"testing"
-
-	"golang.org/x/exp/maps"
 )
 
 // MapNil asserts that m is nil.

@@ -2,13 +2,12 @@ package assert
 
 import (
 	"fmt"
+	"slices"
 	"testing"
-
-	"golang.org/x/exp/slices"
 )
 
 // SliceNil asserts that s is nil.
-func SliceNil[E any](tb testing.TB, s []E, opts ...Option) bool {
+func SliceNil[S ~[]E, E any](tb testing.TB, s S, opts ...Option) bool {
 	tb.Helper()
 	ok := s == nil
 	if !ok {
@@ -23,7 +22,7 @@ func SliceNil[E any](tb testing.TB, s []E, opts ...Option) bool {
 }
 
 // SliceNotNil asserts that s is not nil.
-func SliceNotNil[E any](tb testing.TB, s []E, opts ...Option) bool {
+func SliceNotNil[S ~[]E, E any](tb testing.TB, s S, opts ...Option) bool {
 	tb.Helper()
 	ok := s != nil
 	if !ok {
@@ -38,7 +37,7 @@ func SliceNotNil[E any](tb testing.TB, s []E, opts ...Option) bool {
 }
 
 // SliceEmpty asserts that s is empty.
-func SliceEmpty[E any](tb testing.TB, s []E, opts ...Option) bool {
+func SliceEmpty[S ~[]E, E any](tb testing.TB, s S, opts ...Option) bool {
 	tb.Helper()
 	ok := len(s) == 0
 	if !ok {
@@ -53,7 +52,7 @@ func SliceEmpty[E any](tb testing.TB, s []E, opts ...Option) bool {
 }
 
 // SliceNotEmpty asserts that s is not empty.
-func SliceNotEmpty[E any](tb testing.TB, s []E, opts ...Option) bool {
+func SliceNotEmpty[S ~[]E, E any](tb testing.TB, s S, opts ...Option) bool {
 	tb.Helper()
 	ok := len(s) != 0
 	if !ok {
@@ -68,7 +67,7 @@ func SliceNotEmpty[E any](tb testing.TB, s []E, opts ...Option) bool {
 }
 
 // SliceLen asserts that s has length l.
-func SliceLen[E any](tb testing.TB, s []E, l int, opts ...Option) bool {
+func SliceLen[S ~[]E, E any](tb testing.TB, s S, l int, opts ...Option) bool {
 	tb.Helper()
 	ok := len(s) == l
 	if !ok {
@@ -83,7 +82,7 @@ func SliceLen[E any](tb testing.TB, s []E, l int, opts ...Option) bool {
 }
 
 // SliceEqual asserts that s1 and s2 are equal.
-func SliceEqual[E comparable](tb testing.TB, s1, s2 []E, opts ...Option) bool {
+func SliceEqual[S ~[]E, E comparable](tb testing.TB, s1, s2 S, opts ...Option) bool {
 	tb.Helper()
 	ok := slices.Equal(s1, s2)
 	if !ok {
@@ -98,7 +97,7 @@ func SliceEqual[E comparable](tb testing.TB, s1, s2 []E, opts ...Option) bool {
 }
 
 // SliceNotEqual asserts that s1 and s2 are not equal.
-func SliceNotEqual[E comparable](tb testing.TB, s1, s2 []E, opts ...Option) bool {
+func SliceNotEqual[S ~[]E, E comparable](tb testing.TB, s1, s2 S, opts ...Option) bool {
 	tb.Helper()
 	ok := !slices.Equal(s1, s2)
 	if !ok {
@@ -113,7 +112,7 @@ func SliceNotEqual[E comparable](tb testing.TB, s1, s2 []E, opts ...Option) bool
 }
 
 // SliceContains asserts that s contains v.
-func SliceContains[E comparable](tb testing.TB, s []E, v E, opts ...Option) bool {
+func SliceContains[S ~[]E, E comparable](tb testing.TB, s S, v E, opts ...Option) bool {
 	tb.Helper()
 	ok := slices.Contains(s, v)
 	if !ok {
@@ -128,7 +127,7 @@ func SliceContains[E comparable](tb testing.TB, s []E, v E, opts ...Option) bool
 }
 
 // SliceNotContains asserts that s does not contain v.
-func SliceNotContains[E comparable](tb testing.TB, s []E, v E, opts ...Option) bool {
+func SliceNotContains[S ~[]E, E comparable](tb testing.TB, s S, v E, opts ...Option) bool {
 	tb.Helper()
 	ok := !slices.Contains(s, v)
 	if !ok {
@@ -143,7 +142,7 @@ func SliceNotContains[E comparable](tb testing.TB, s []E, v E, opts ...Option) b
 }
 
 // SliceContainsAll asserts that s1 contains all elements in s2.
-func SliceContainsAll[E comparable](tb testing.TB, s1, s2 []E, opts ...Option) bool {
+func SliceContainsAll[S ~[]E, E comparable](tb testing.TB, s1, s2 S, opts ...Option) bool {
 	tb.Helper()
 	ok := sliceContainsAll(s1, s2)
 	if !ok {
@@ -158,7 +157,7 @@ func SliceContainsAll[E comparable](tb testing.TB, s1, s2 []E, opts ...Option) b
 }
 
 // SliceNotContainsAll asserts that s1 does not contain all elements in s2.
-func SliceNotContainsAll[E comparable](tb testing.TB, s1, s2 []E, opts ...Option) bool {
+func SliceNotContainsAll[S ~[]E, E comparable](tb testing.TB, s1, s2 S, opts ...Option) bool {
 	tb.Helper()
 	ok := !sliceContainsAll(s1, s2)
 	if !ok {
@@ -172,7 +171,7 @@ func SliceNotContainsAll[E comparable](tb testing.TB, s1, s2 []E, opts ...Option
 	return ok
 }
 
-func sliceContainsAll[E comparable](s1, s2 []E) bool {
+func sliceContainsAll[S ~[]E, E comparable](s1, s2 S) bool {
 	for _, v := range s2 {
 		if !slices.Contains(s1, v) {
 			return false

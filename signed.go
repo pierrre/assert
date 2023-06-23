@@ -3,13 +3,11 @@ package assert
 import (
 	"fmt"
 	"testing"
-
-	"golang.org/x/exp/constraints"
 )
 
 // SignedAndFloat is a constraint that requires a type to be signed or float.
 type SignedAndFloat interface {
-	constraints.Signed | constraints.Float
+	~int | ~int8 | ~int16 | ~int32 | ~int64 | ~float32 | ~float64
 }
 
 // Positive asserts that the value is positive.
