@@ -97,8 +97,9 @@ However, this approchach has a limitation: it requires to write a different asse
 
 ## Integrations
 
-Third party integrations allow to customize how values are printed and compared:
+[Third party integrations](https://pkg.go.dev/github.com/pierrre/assert/ext) allow to customize how values are printed and compared:
 
+- [`pierrrepretty`](https://pkg.go.dev/github.com/pierrre/assert/ext/pierrrepretty) prints values with [`github.com/pierrre/pretty`](https://pkg.go.dev/github.com/pierrre/pretty)
 - [`davecghspew`](https://pkg.go.dev/github.com/pierrre/assert/ext/davecghspew) prints values with [`github.com/davecgh/go-spew`](https://pkg.go.dev/github.com/davecgh/go-spew/spew)
 - [`krpretty`](https://pkg.go.dev/github.com/pierrre/assert/ext/krpretty) prints values with [`github.com/kr/pretty`](https://pkg.go.dev/github.com/kr/pretty)
 - [`pierrrecompare`](https://pkg.go.dev/github.com/pierrre/assert/ext/pierrrecompare) compares values with [`github.com/pierrre/compare`](https://pkg.go.dev/github.com/pierrre/compare)

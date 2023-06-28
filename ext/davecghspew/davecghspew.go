@@ -7,11 +7,13 @@ import (
 )
 
 // Configure configures the integration.
+//
+// It sets assert.ValueStringer with the result of NewValueStringer().
 func Configure(config *spew.ConfigState) {
 	assert.ValueStringer = NewValueStringer(config)
 }
 
-// ConfigureDefault configures the integration with the default configuration.
+// ConfigureDefault calls Configure with spew.Config (default config).
 func ConfigureDefault() {
 	Configure(&spew.Config)
 }

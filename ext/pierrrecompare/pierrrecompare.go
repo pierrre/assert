@@ -9,6 +9,8 @@ import (
 )
 
 // Configure configures the integration.
+//
+// It sets assert.DeepEqualer with DeepEqualer.
 func Configure() {
 	assert.DeepEqualer = DeepEqualer
 }

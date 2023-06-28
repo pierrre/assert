@@ -8,7 +8,7 @@ import (
 
 // Configure configures the integration.
 //
-// It sets assert.ErrorStringer to errverbose.String.
+// It sets assert.ErrorStringer with errverbose.String.
 func Configure() {
 	assert.ErrorStringer = errverbose.String //nolint:reassign // Replace the default implementation.
 }

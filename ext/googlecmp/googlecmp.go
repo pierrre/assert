@@ -7,6 +7,8 @@ import (
 )
 
 // Configure configures the integration.
+//
+// It sets assert.DeepEqualer with the result of NewDeepEqualer().
 func Configure(opts ...cmp.Option) {
 	assert.DeepEqualer = NewDeepEqualer(opts...)
 }
