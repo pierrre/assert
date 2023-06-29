@@ -7,7 +7,7 @@ require (
 	github.com/google/go-cmp v0.5.9
 	github.com/kr/pretty v0.3.1
 	github.com/pierrre/compare v1.1.4
-	github.com/pierrre/errors v0.3.9
+	github.com/pierrre/errors v0.3.10
 	github.com/pierrre/pretty v0.0.2
 	golang.org/x/exp v0.0.0-20230626212559-97b1e661b5df
 )
