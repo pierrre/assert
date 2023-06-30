@@ -14,6 +14,6 @@ require (
 
 require (
 	github.com/kr/text v0.2.0 // indirect
-	github.com/pierrre/go-libs v0.2.5 // indirect
+	github.com/pierrre/go-libs v0.2.7 // indirect
 	github.com/rogpeppe/go-internal v1.10.0 // indirect
 )
