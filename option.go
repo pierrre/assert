@@ -26,7 +26,7 @@ type Option func(*options)
 
 // MessageTransform returns an Option that adds a message transform function.
 // The function is called before the ReportFunc.
-// Is several function are added, they're called in order.
+// If several function are added, they're called in order.
 func MessageTransform(f func(msg string) string) Option {
 	return func(o *options) {
 		o.messageTransforms = append(o.messageTransforms, f)
