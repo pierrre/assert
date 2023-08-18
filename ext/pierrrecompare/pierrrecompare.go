@@ -21,6 +21,6 @@ func DeepEqualer(v1, v2 any) (diff string, equal bool) {
 	if len(res) == 0 {
 		return "", true
 	}
-	diff = fmt.Sprint(res)
+	diff = fmt.Sprintf("%+v", res)
 	return diff, false
 }
