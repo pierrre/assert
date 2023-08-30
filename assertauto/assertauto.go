@@ -60,7 +60,7 @@ func Equal[T comparable](tb testing.TB, v T, opts ...assert.Option) bool {
 }
 
 // DeepEqual asserts that the value is deep equal to the expected value.
-func DeepEqual[T comparable](tb testing.TB, v T, opts ...assert.Option) bool {
+func DeepEqual[T any](tb testing.TB, v T, opts ...assert.Option) bool {
 	tb.Helper()
 	tf := getTestFunction(tb)
 	if update {
