@@ -1,9 +1,7 @@
 {
 	"entries": [
 		{
-			"equal": {
-				"value": "assert map_len[string, string]: unexpected length:\nexpected = 2\nactual = 1"
-			}
+			"equal": "assert map_len[string, string]: unexpected length:\nexpected = 2\nactual = 1"
 		}
 	]
 }

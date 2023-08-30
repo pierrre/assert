@@ -1,9 +1,7 @@
 {
 	"entries": [
 		{
-			"equal": {
-				"value": "string"
-			}
+			"equal": "string"
 		}
 	]
 }

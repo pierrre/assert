@@ -1,9 +1,7 @@
 {
 	"entries": [
 		{
-			"equal": {
-				"value": "assert greater_or_equal[int]: not greater than or equal to:\nv1 = 0\nv2 = 123"
-			}
+			"equal": "assert greater_or_equal[int]: not greater than or equal to:\nv1 = 0\nv2 = 123"
 		}
 	]
 }

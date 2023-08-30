@@ -1,9 +1,7 @@
 {
 	"entries": [
 		{
-			"equal": {
-				"value": "custom 1"
-			}
+			"equal": "custom 1"
 		}
 	]
 }

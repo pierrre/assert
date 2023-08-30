@@ -1,9 +1,7 @@
 {
 	"entries": [
 		{
-			"equal": {
-				"value": "assert string_not_empty: empty"
-			}
+			"equal": "assert string_not_empty: empty"
 		}
 	]
 }

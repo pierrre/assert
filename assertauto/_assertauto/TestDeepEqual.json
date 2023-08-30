@@ -2,9 +2,7 @@
 	"entries": [
 		{
 			"deep_equal": {
-				"value": {
-					"Foo": "bar"
-				}
+				"Foo": "bar"
 			}
 		}
 	]

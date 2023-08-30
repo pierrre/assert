@@ -1,9 +1,7 @@
 {
 	"entries": [
 		{
-			"equal": {
-				"value": "assert error_is: no match:\nerr = error\ntarget = EOF"
-			}
+			"equal": "assert error_is: no match:\nerr = error\ntarget = EOF"
 		}
 	]
 }

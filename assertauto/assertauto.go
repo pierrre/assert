@@ -48,16 +48,14 @@ func Equal[T comparable](tb testing.TB, v T, opts ...assert.Option) bool {
 	tf := getTestFunction(tb)
 	if update {
 		e := entry{
-			Equal: &entrySingleValue{
-				Value: jsonEncode(tb, v),
-			},
+			Equal: jsonEncode(tb, v),
 		}
 		tf.addEntry(e)
 		return true
 	}
 	e := tf.getEntry(tb)
-	assert.NotZero(tb, e.Equal, assert.MessageWrap("assertauto: entry is not equal"))
-	expected := jsonDecode[T](tb, e.Equal.Value)
+	assert.SliceNotEmpty(tb, e.Equal, assert.MessageWrap("assertauto: entry is not equal"))
+	expected := jsonDecode[T](tb, e.Equal)
 	return assert.Equal(tb, v, expected, opts...)
 }
 
@@ -67,16 +65,14 @@ func DeepEqual[T comparable](tb testing.TB, v T, opts ...assert.Option) bool {
 	tf := getTestFunction(tb)
 	if update {
 		e := entry{
-			DeepEqual: &entrySingleValue{
-				Value: jsonEncode(tb, v),
-			},
+			DeepEqual: jsonEncode(tb, v),
 		}
 		tf.addEntry(e)
 		return true
 	}
 	e := tf.getEntry(tb)
-	assert.NotZero(tb, e.DeepEqual, assert.MessageWrap("assertauto: entry is not deep equal"))
-	expected := jsonDecode[T](tb, e.DeepEqual.Value)
+	assert.SliceNotEmpty(tb, e.DeepEqual, assert.MessageWrap("assertauto: entry is not deep equal"))
+	expected := jsonDecode[T](tb, e.DeepEqual)
 	return assert.DeepEqual(tb, v, expected, opts...)
 }
 
@@ -164,12 +160,8 @@ type file struct {
 }
 
 type entry struct {
-	Equal     *entrySingleValue `json:"equal,omitempty"`
-	DeepEqual *entrySingleValue `json:"deep_equal,omitempty"`
-}
-
-type entrySingleValue struct {
-	Value json.RawMessage `json:"value"`
+	Equal     json.RawMessage `json:"equal,omitempty"`
+	DeepEqual json.RawMessage `json:"deep_equal,omitempty"`
 }
 
 func jsonEncode(tb testing.TB, v any) []byte {

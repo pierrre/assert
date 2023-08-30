@@ -1,9 +1,7 @@
 {
 	"entries": [
 		{
-			"equal": {
-				"value": "io.Writer"
-			}
+			"equal": "io.Writer"
 		}
 	]
 }

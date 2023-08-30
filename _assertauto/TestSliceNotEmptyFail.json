@@ -1,9 +1,7 @@
 {
 	"entries": [
 		{
-			"equal": {
-				"value": "assert slice_not_empty[int]: empty"
-			}
+			"equal": "assert slice_not_empty[int]: empty"
 		}
 	]
 }

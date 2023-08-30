@@ -1,9 +1,7 @@
 {
 	"entries": [
 		{
-			"equal": {
-				"value": "assert chan_len[int]: unexpected length:\nexpected = 2\nactual = 1"
-			}
+			"equal": "assert chan_len[int]: unexpected length:\nexpected = 2\nactual = 1"
 		}
 	]
 }

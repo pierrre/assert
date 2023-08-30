@@ -1,9 +1,7 @@
 {
 	"entries": [
 		{
-			"equal": {
-				"value": "assert error: no error"
-			}
+			"equal": "assert error: no error"
 		}
 	]
 }

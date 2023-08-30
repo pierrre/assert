@@ -1,9 +1,7 @@
 {
 	"entries": [
 		{
-			"equal": {
-				"value": "assert chan_empty[int]: not empty:\nlength = 1"
-			}
+			"equal": "assert chan_empty[int]: not empty:\nlength = 1"
 		}
 	]
 }

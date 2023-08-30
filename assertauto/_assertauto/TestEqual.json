@@ -1,14 +1,10 @@
 {
 	"entries": [
 		{
-			"equal": {
-				"value": 123
-			}
+			"equal": 123
 		},
 		{
-			"equal": {
-				"value": "foo"
-			}
+			"equal": "foo"
 		}
 	]
 }

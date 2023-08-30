@@ -1,9 +1,7 @@
 {
 	"entries": [
 		{
-			"equal": {
-				"value": "assert greater[int]: not greater than:\nv1 = 0\nv2 = 123"
-			}
+			"equal": "assert greater[int]: not greater than:\nv1 = 0\nv2 = 123"
 		}
 	]
 }
