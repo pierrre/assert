@@ -106,7 +106,7 @@ type testFunction struct {
 func (tf *testFunction) load(tb testing.TB) {
 	tb.Helper()
 	fp := getFilePath(tb)
-	b, err := os.ReadFile(fp) //nolint:gosec // We want to read the file.
+	b, err := os.ReadFile(fp)
 	assert.NoError(tb, err)
 	f := jsonDecode[file](tb, b)
 	tf.entries = f.Entries
@@ -120,7 +120,7 @@ func (tf *testFunction) save(tb testing.TB) {
 	data := jsonEncode(tb, f)
 	fp := getFilePath(tb)
 	dir := filepath.Dir(fp)
-	err := os.MkdirAll(dir, 0o755) //nolint:gosec // We want 755.
+	err := os.MkdirAll(dir, 0o755)
 	assert.NoError(tb, err)
 	err = os.WriteFile(fp, data, 0o644) //nolint:gosec // We want 644.
 	assert.NoError(tb, err)
