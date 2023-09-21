@@ -6,7 +6,7 @@ require (
 	github.com/davecgh/go-spew v1.1.1
 	github.com/google/go-cmp v0.5.9
 	github.com/kr/pretty v0.3.1
-	github.com/pierrre/compare v1.3.2
+	github.com/pierrre/compare v1.3.3
 	github.com/pierrre/errors v0.5.1
 	github.com/pierrre/pretty v0.0.9
 )
