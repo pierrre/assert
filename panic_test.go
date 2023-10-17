@@ -28,7 +28,7 @@ func TestNotPanics(t *testing.T) {
 }
 
 func TestNotPanicsFail(t *testing.T) {
-	report := asserttest.NewReportPrefix(t, "assert not_panics: panic:\npanic = \"test\"\nstack = ")
+	report := asserttest.NewReportPrefix(t, "assert not_panics: panic:\npanic = (string) (len=4) \"test\"\nstack = ")
 	ok := NotPanics(t, func() {
 		panic("test")
 	}, Report(report))

@@ -1,7 +1,7 @@
 {
 	"entries": [
 		{
-			"equal": "assert bytes_equal: not equal:\nb1 = [97 98 99]\nb2 = [97 98 100]"
+			"equal": "assert bytes_equal: not equal:\nb1 = ([]uint8) (len=3 cap=3)\n\t00000000  61 62 63                                          |abc|\n\nb2 = ([]uint8) (len=3 cap=3)\n\t00000000  61 62 64                                          |abd|\n"
 		}
 	]
 }

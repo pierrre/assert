@@ -1,7 +1,7 @@
 {
 	"entries": [
 		{
-			"equal": "assert slice_equal[int]: not equal:\ns1 = [1]\ns2 = [2]"
+			"equal": "assert slice_equal[int]: not equal:\ns1 = ([]int) (len=1 cap=1) {\n\t(int) 1,\n}\ns2 = ([]int) (len=1 cap=1) {\n\t(int) 2,\n}"
 		}
 	]
 }

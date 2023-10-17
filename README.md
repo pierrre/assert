@@ -8,7 +8,7 @@ Go test assertion library.
 
 - [Test assertion (equal, comparison, nil, empty, length, error, etc...)](#assertions)
 - [No reflection (uses generics)](#why-)
-- [Third party integration (print and compare values)](#integrations)
+- [Customization (print and compare values)](#customization)
 
 ## Assertions
 
@@ -95,16 +95,13 @@ The constant `1` is automatically converted to the type of the `value` variable 
 
 However, this approchach has a limitation: it requires to write a different assertion function for each "kind" (map, slice, etc...)
 
-## Integrations
+## Customization
 
-[Third party integrations](https://pkg.go.dev/github.com/pierrre/assert/ext) allow to customize how values are printed and compared:
+The default behavior can be customized:
 
-- [`pierrrepretty`](https://pkg.go.dev/github.com/pierrre/assert/ext/pierrrepretty) prints values with [`github.com/pierrre/pretty`](https://pkg.go.dev/github.com/pierrre/pretty)
-- [`davecghspew`](https://pkg.go.dev/github.com/pierrre/assert/ext/davecghspew) prints values with [`github.com/davecgh/go-spew`](https://pkg.go.dev/github.com/davecgh/go-spew/spew)
-- [`krpretty`](https://pkg.go.dev/github.com/pierrre/assert/ext/krpretty) prints values with [`github.com/kr/pretty`](https://pkg.go.dev/github.com/kr/pretty)
-- [`pierrrecompare`](https://pkg.go.dev/github.com/pierrre/assert/ext/pierrrecompare) compares values with [`github.com/pierrre/compare`](https://pkg.go.dev/github.com/pierrre/compare)
-- [`googlecmp`](https://pkg.go.dev/github.com/pierrre/assert/ext/googlecmp) compares values with [`github.com/google/go-cmp`](https://pkg.go.dev/github.com/google/go-cmp/cmp)
-- [`pierrreerrors`](https://pkg.go.dev/github.com/pierrre/assert/ext/pierrreerrors) prints errors with [`github.com/pierrre/errors`](https://pkg.go.dev/github.com/pierrre/errors)
+- [`DeepEqualer`](https://pkg.go.dev/github.com/pierrre/assert#DeepEqualer) allows to customize how values are compared with [`DeepEqual()`](https://pkg.go.dev/github.com/pierrre/assert#DeepEqual).
+- [`ValueStringer`](https://pkg.go.dev/github.com/pierrre/assert#ValueStringer) allows to customize how values are printed.
+- [`ErrorStringer`](https://pkg.go.dev/github.com/pierrre/assert#ErrorStringer) allows to customize how errors are printed.
 
 ## FAQ
 

@@ -1,7 +1,7 @@
 {
 	"entries": [
 		{
-			"equal": "assert map_equal[string, string]: not equal:\nm1 = map[foo:bar]\nm2 = map[]"
+			"equal": "assert map_equal[string, string]: not equal:\nm1 = (map[string]string) (len=1) {\n\t(string) (len=3) \"foo\": (string) (len=3) \"bar\",\n}\nm2 = (map[string]string) (len=0) {\n}"
 		}
 	]
 }

@@ -9,8 +9,9 @@ package assert
 import (
 	"fmt"
 	"reflect"
-	"strconv"
 	"testing"
+
+	"github.com/pierrre/pretty"
 )
 
 // ReportFunc is a function that is called when an assertion fails.
@@ -35,13 +36,8 @@ func Fail(tb testing.TB, name string, msg string, opts ...Option) {
 //
 // It can be customized to provide a better string representation.
 //
-// By default it uses fmt.Sprint, or strconv.Quote for strings.
-var ValueStringer = func(v any) string {
-	if v, ok := v.(string); ok {
-		return strconv.Quote(v)
-	}
-	return fmt.Sprint(v)
-}
+// By default it uses [pretty.String].
+var ValueStringer = pretty.String
 
 // TypeString returns a string representation of a type.
 func TypeString[T any]() string {

@@ -1,7 +1,7 @@
 {
 	"entries": [
 		{
-			"equal": "assert map_nil[string, string]: not nil:\nm = map[]"
+			"equal": "assert map_nil[string, string]: not nil:\nm = (map[string]string) (len=0) {\n}"
 		}
 	]
 }

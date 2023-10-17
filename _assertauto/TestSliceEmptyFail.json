@@ -1,7 +1,7 @@
 {
 	"entries": [
 		{
-			"equal": "assert slice_empty[int]: not empty:\nlength = 1\ns = [1]"
+			"equal": "assert slice_empty[int]: not empty:\nlength = 1\ns = ([]int) (len=1 cap=1) {\n\t(int) 1,\n}"
 		}
 	]
 }

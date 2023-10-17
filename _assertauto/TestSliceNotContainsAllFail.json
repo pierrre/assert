@@ -1,7 +1,7 @@
 {
 	"entries": [
 		{
-			"equal": "assert slice_not_contains_all[int]: contains all:\ns1 = [1 2]\ns2 = [1]"
+			"equal": "assert slice_not_contains_all[int]: contains all:\ns1 = ([]int) (len=2 cap=2) {\n\t(int) 1,\n\t(int) 2,\n}\ns2 = ([]int) (len=1 cap=1) {\n\t(int) 1,\n}"
 		}
 	]
 }

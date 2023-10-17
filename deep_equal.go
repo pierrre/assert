@@ -2,21 +2,23 @@ package assert
 
 import (
 	"fmt"
-	"reflect"
 	"testing"
+
+	"github.com/pierrre/compare"
 )
 
 // DeepEqualer is a function that checks if two values are deep equal.
 //
 // It can be customized to provide a better comparison.
 //
-// By default it uses reflect.DeepEqual.
+// By default it uses [compare.Compare].
 var DeepEqualer = func(v1, v2 any) (diff string, equal bool) {
-	equal = reflect.DeepEqual(v1, v2)
-	if equal {
+	res := compare.Compare(v1, v2)
+	if len(res) == 0 {
 		return "", true
 	}
-	return "not implemented", false
+	diff = fmt.Sprintf("%+v", res)
+	return diff, false
 }
 
 // DeepEqual asserts that v1 and v2 are deep equal according to DeepEqualer.

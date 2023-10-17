@@ -1,7 +1,7 @@
 {
 	"entries": [
 		{
-			"equal": "assert equal[int]: not equal:\nv1 = 123\nv2 = 456"
+			"equal": "assert equal[int]: not equal:\nv1 = (int) 123\nv2 = (int) 456"
 		}
 	]
 }
