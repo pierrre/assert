@@ -8,7 +8,7 @@ require (
 	github.com/kr/pretty v0.3.1
 	github.com/pierrre/compare v1.4.1
 	github.com/pierrre/errors v0.5.1
-	github.com/pierrre/pretty v0.0.9
+	github.com/pierrre/pretty v0.0.10
 )
 
 require (
