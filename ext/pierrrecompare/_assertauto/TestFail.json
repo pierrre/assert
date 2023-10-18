@@ -1,7 +1,0 @@
-{
-	"entries": [
-		{
-			"equal": "assert deep_equal[int]: not equal:\ndiff = .: int not equal\n\tv1=1\n\tv2=2\nv1 = (int) 1\nv2 = (int) 2"
-		}
-	]
-}
