@@ -37,7 +37,7 @@ func Fail(tb testing.TB, name string, msg string, opts ...Option) {
 // It can be customized to provide a better string representation.
 //
 // By default it uses [pretty.String].
-var ValueStringer = pretty.String
+var ValueStringer func(any) string = pretty.String
 
 // TypeString returns a string representation of a type.
 func TypeString[T any]() string {
