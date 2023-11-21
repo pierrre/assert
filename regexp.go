@@ -6,7 +6,7 @@ import (
 	"testing"
 )
 
-// RegexpString is a type that can be either a *regexp.Regexp or a string.
+// RegexpString is a type that can be either a [*regexp.Regexp] or a [string].
 //
 // If it's a string, it's automatically compiled to a *regexp.Regexp.
 type RegexpString interface {

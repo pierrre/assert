@@ -24,7 +24,7 @@ func buildOptions(tb testing.TB, opts []Option) *options {
 // Option is an option for an assertion.
 type Option func(*options)
 
-// MessageTransform returns an Option that adds a message transform function.
+// MessageTransform returns an [Option] that adds a message transform function.
 // The function is called before the ReportFunc.
 // If several function are added, they're called in order.
 func MessageTransform(f func(msg string) string) Option {
@@ -33,21 +33,21 @@ func MessageTransform(f func(msg string) string) Option {
 	}
 }
 
-// Message returns an Option that sets the message.
+// Message returns an [Option] that sets the message.
 func Message(msg string) Option {
 	return MessageTransform(func(_ string) string {
 		return msg
 	})
 }
 
-// Messagef returns an Option that sets the formatted message.
+// Messagef returns an [Option] that sets the formatted message.
 func Messagef(format string, args ...any) Option {
 	return MessageTransform(func(_ string) string {
 		return fmt.Sprintf(format, args...)
 	})
 }
 
-// MessageWrap returns an Option that wraps the message.
+// MessageWrap returns an [Option] that wraps the message.
 // The final message is "<msg>: <original message>".
 func MessageWrap(msg string) Option {
 	return MessageTransform(func(wrappedMsg string) string {
@@ -55,7 +55,7 @@ func MessageWrap(msg string) Option {
 	})
 }
 
-// MessageWrapf returns an Option that wraps the message.
+// MessageWrapf returns an [Option] that wraps the message.
 // The final message is "<format msg>: <original message>".
 func MessageWrapf(format string, args ...any) Option {
 	return MessageTransform(func(wrappedMsg string) string {
@@ -63,7 +63,7 @@ func MessageWrapf(format string, args ...any) Option {
 	})
 }
 
-// Report returns an Option that sets the report function.
+// Report returns an [Option] that sets the report function.
 func Report(f ReportFunc) Option {
 	return func(o *options) {
 		o.report = f
