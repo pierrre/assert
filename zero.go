@@ -14,7 +14,7 @@ func Zero[T comparable](tb testing.TB, v T, opts ...Option) bool {
 		Fail(
 			tb,
 			fmt.Sprintf("zero[%s]", TypeString[T]()),
-			fmt.Sprintf("not zero:\nv = %s", ValueStringer(v)),
+			"not zero:\nv = "+ValueStringer(v),
 			opts...,
 		)
 	}
@@ -30,7 +30,7 @@ func NotZero[T comparable](tb testing.TB, v T, opts ...Option) bool {
 		Fail(
 			tb,
 			fmt.Sprintf("not_zero[%s]", TypeString[T]()),
-			fmt.Sprintf("zero:\nv = %s", ValueStringer(v)),
+			"zero:\nv = "+ValueStringer(v),
 			opts...,
 		)
 	}

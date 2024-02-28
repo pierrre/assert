@@ -35,7 +35,7 @@ func NoError(tb testing.TB, err error, opts ...Option) bool {
 		Fail(
 			tb,
 			"no_error",
-			fmt.Sprintf("error: %s", ErrorStringer(err)),
+			"error: "+ErrorStringer(err),
 			opts...,
 		)
 	}

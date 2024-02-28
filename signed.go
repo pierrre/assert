@@ -18,7 +18,7 @@ func Positive[T SignedAndFloat](tb testing.TB, v T, opts ...Option) bool {
 		Fail(
 			tb,
 			fmt.Sprintf("positive[%s]", TypeString[T]()),
-			fmt.Sprintf("not positive:\nv = %s", ValueStringer(v)),
+			"not positive:\nv = "+ValueStringer(v),
 			opts...,
 		)
 	}
@@ -33,7 +33,7 @@ func Negative[T SignedAndFloat](tb testing.TB, v T, opts ...Option) bool {
 		Fail(
 			tb,
 			fmt.Sprintf("positive[%s]", TypeString[T]()),
-			fmt.Sprintf("not negative:\nv = %s", ValueStringer(v)),
+			"not negative:\nv = "+ValueStringer(v),
 			opts...,
 		)
 	}

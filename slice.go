@@ -14,7 +14,7 @@ func SliceNil[S ~[]E, E any](tb testing.TB, s S, opts ...Option) bool {
 		Fail(
 			tb,
 			fmt.Sprintf("slice_nil[%s]", TypeString[E]()),
-			fmt.Sprintf("not nil:\ns = %s", ValueStringer(s)),
+			"not nil:\ns = "+ValueStringer(s),
 			opts...,
 		)
 	}

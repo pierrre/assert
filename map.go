@@ -14,7 +14,7 @@ func MapNil[M ~map[K]V, K comparable, V any](tb testing.TB, m M, opts ...Option)
 		Fail(
 			tb,
 			fmt.Sprintf("map_nil[%s, %s]", TypeString[K](), TypeString[V]()),
-			fmt.Sprintf("not nil:\nm = %s", ValueStringer(m)),
+			"not nil:\nm = "+ValueStringer(m),
 			opts...,
 		)
 	}
