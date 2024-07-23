@@ -9,6 +9,7 @@ package assert
 import (
 	"fmt"
 	"reflect"
+	"sync"
 	"testing"
 
 	"github.com/pierrre/pretty"
@@ -39,14 +40,25 @@ func Fail(tb testing.TB, name string, msg string, opts ...Option) {
 // By default it uses [pretty.String].
 var ValueStringer func(any) string = pretty.String
 
+var (
+	typeStringCache   = make(map[reflect.Type]string)
+	typeStringCacheMu sync.Mutex
+)
+
 // TypeString returns a string representation of a type.
 func TypeString[T any]() string {
-	var v T
-	// Use pointer in order to work with interface types.
-	typ := reflect.TypeOf(&v).Elem()
-	pkgPath := typ.PkgPath()
-	if pkgPath != "" {
-		return pkgPath + "." + typ.Name()
+	typ := reflect.TypeFor[T]()
+	typeStringCacheMu.Lock()
+	defer typeStringCacheMu.Unlock()
+	name, ok := typeStringCache[typ]
+	if !ok {
+		pkgPath := typ.PkgPath()
+		if pkgPath != "" {
+			name = pkgPath + "." + typ.Name()
+		} else {
+			name = typ.String()
+		}
+		typeStringCache[typ] = name
 	}
-	return typ.String()
+	return name
 }
