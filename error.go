@@ -10,7 +10,9 @@ import (
 // ErrorStringer is a function that returns a string representation of an error.
 //
 // It can be customized to provide a better error message.
-var ErrorStringer func(error) string = error.Error
+var ErrorStringer func(error) string = func(err error) string {
+	return fmt.Sprintf("%q", err)
+}
 
 // Error asserts that err is not nil.
 func Error(tb testing.TB, err error, opts ...Option) bool {

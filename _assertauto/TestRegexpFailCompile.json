@@ -1,7 +1,7 @@
 {
 	"entries": [
 		{
-			"equal": "assert regexp_compile: compilation failed:\nexpr = \"\\\\\"\nerr = error parsing regexp: trailing backslash at end of expression: ``"
+			"equal": "assert regexp_compile: compilation failed:\nexpr = \"\\\\\"\nerr = \"error parsing regexp: trailing backslash at end of expression: ``\""
 		}
 	]
 }

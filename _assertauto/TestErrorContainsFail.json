@@ -1,7 +1,7 @@
 {
 	"entries": [
 		{
-			"equal": "assert error_contains: not contains:\nerr = error\nsubstr = \"zzz\""
+			"equal": "assert error_contains: not contains:\nerr = \"error\"\nsubstr = \"zzz\""
 		}
 	]
 }
