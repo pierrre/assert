@@ -11,6 +11,9 @@ import (
 //
 // It can be customized to provide a better error message.
 var ErrorStringer func(error) string = func(err error) string {
+	if err == nil {
+		return "<nil>"
+	}
 	return fmt.Sprintf("%q", err)
 }
 

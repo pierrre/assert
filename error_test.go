@@ -44,6 +44,12 @@ func TestErrorIsFail(t *testing.T) {
 	False(t, ok)
 }
 
+func TestErrorIsFailNil(t *testing.T) {
+	report := asserttest.NewReportAuto(t)
+	ok := ErrorIs(t, nil, io.EOF, Report(report))
+	False(t, ok)
+}
+
 func TestErrorNotIs(t *testing.T) {
 	ok := ErrorNotIs(t, errors.New("error"), io.EOF)
 	True(t, ok)
