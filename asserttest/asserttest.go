@@ -47,7 +47,7 @@ func newReport(tb testing.TB, checkMsg func(msg string)) assert.ReportFunc {
 	}
 	tb.Cleanup(func() {
 		tb.Helper()
-		assert.True(tb, reportCalled, assert.Message("report not called"))
+		assert.True(tb, reportCalled, assert.Message("report not called"), assert.Report(tb.Error))
 	})
 	return report
 }
