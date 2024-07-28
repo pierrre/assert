@@ -79,6 +79,12 @@ func TestErrorEqualFail(t *testing.T) {
 	False(t, ok)
 }
 
+func TestErrorEqualFailNil(t *testing.T) {
+	report := asserttest.NewReportAuto(t)
+	ok := ErrorEqual(t, nil, "zzz", Report(report))
+	False(t, ok)
+}
+
 func TestErrorContains(t *testing.T) {
 	ok := ErrorContains(t, errors.New("aaa error bbb"), "error")
 	True(t, ok)
@@ -87,5 +93,11 @@ func TestErrorContains(t *testing.T) {
 func TestErrorContainsFail(t *testing.T) {
 	report := asserttest.NewReportAuto(t)
 	ok := ErrorContains(t, errors.New("error"), "zzz", Report(report))
+	False(t, ok)
+}
+
+func TestErrorContainsFailNil(t *testing.T) {
+	report := asserttest.NewReportAuto(t)
+	ok := ErrorContains(t, nil, "zzz", Report(report))
 	False(t, ok)
 }

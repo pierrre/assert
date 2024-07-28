@@ -92,7 +92,11 @@ func ErrorAs(tb testing.TB, err error, target any, opts ...Option) bool {
 // ErrorEqual asserts that the result of [error.Error] is equal to message.
 func ErrorEqual(tb testing.TB, err error, message string, opts ...Option) bool {
 	tb.Helper()
-	ok := err.Error() == message
+	ok := Error(tb, err, opts...)
+	if !ok {
+		return false
+	}
+	ok = err.Error() == message
 	if !ok {
 		Fail(
 			tb,
@@ -107,7 +111,11 @@ func ErrorEqual(tb testing.TB, err error, message string, opts ...Option) bool {
 // ErrorContains asserts that the result of [error.Error] contains substr.
 func ErrorContains(tb testing.TB, err error, substr string, opts ...Option) bool {
 	tb.Helper()
-	ok := strings.Contains(err.Error(), substr)
+	ok := Error(tb, err, opts...)
+	if !ok {
+		return false
+	}
+	ok = strings.Contains(err.Error(), substr)
 	if !ok {
 		Fail(
 			tb,
