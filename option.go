@@ -10,8 +10,7 @@ type options struct {
 	report            ReportFunc
 }
 
-func buildOptions(tb testing.TB, opts []Option) *options {
-	tb.Helper()
+func buildOptions(tb testing.TB, opts []Option) *options { //nolint:thelper // It's not a test helper.
 	o := &options{
 		report: tb.Fatal,
 	}

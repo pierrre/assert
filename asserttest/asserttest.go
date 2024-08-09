@@ -22,7 +22,7 @@ func NewReportAuto(tb testing.TB) assert.ReportFunc {
 	tb.Helper()
 	return newReport(tb, func(msg string) {
 		tb.Helper()
-		assertauto.Equal(tb, msg, assert.MessageWrap("report message"))
+		assertauto.Equal(tb, msg, assertauto.AssertOptions(assert.MessageWrap("report message")))
 	})
 }
 

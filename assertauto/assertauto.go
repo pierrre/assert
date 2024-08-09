@@ -43,37 +43,54 @@ func init() {
 }
 
 // Equal asserts that the value is equal to the expected value.
-func Equal[T comparable](tb testing.TB, v T, opts ...assert.Option) bool {
+func Equal[T comparable](tb testing.TB, v T, opts ...Option) bool {
 	tb.Helper()
-	tf := getTestFunction(tb)
+	o := buildOptions(opts)
 	if update {
-		e := entry{
+		addEntry(tb, entry{
 			Equal: jsonEncode(tb, v),
-		}
-		tf.addEntry(e)
+		}, o)
 		return true
 	}
-	e := tf.getEntry(tb)
-	assert.SliceNotEmpty(tb, e.Equal, assert.MessageWrap("assertauto: entry is not equal"))
+	e := getEntry(tb, o)
+	if !assert.SliceNotEmpty(tb, e.Equal, append(o.opts, assert.MessageWrap("assertauto: entry is not equal"))...) {
+		return false
+	}
 	expected := jsonDecode[T](tb, e.Equal)
-	return assert.Equal(tb, v, expected, opts...)
+	return assert.Equal(tb, v, expected, append(o.opts, assert.MessageWrap("assertauto"))...)
 }
 
 // DeepEqual asserts that the value is deep equal to the expected value.
-func DeepEqual[T any](tb testing.TB, v T, opts ...assert.Option) bool {
+func DeepEqual[T any](tb testing.TB, v T, opts ...Option) bool {
 	tb.Helper()
-	tf := getTestFunction(tb)
+	o := buildOptions(opts)
 	if update {
-		e := entry{
+		addEntry(tb, entry{
 			DeepEqual: jsonEncode(tb, v),
-		}
-		tf.addEntry(e)
+		}, o)
 		return true
 	}
-	e := tf.getEntry(tb)
-	assert.SliceNotEmpty(tb, e.DeepEqual, assert.MessageWrap("assertauto: entry is not deep equal"))
+	e := getEntry(tb, o)
+	if !assert.SliceNotEmpty(tb, e.DeepEqual, assert.MessageWrap("assertauto: entry is not deep equal")) {
+		return false
+	}
 	expected := jsonDecode[T](tb, e.DeepEqual)
-	return assert.DeepEqual(tb, v, expected, opts...)
+	return assert.DeepEqual(tb, v, expected, append(o.opts, assert.MessageWrap("assertauto"))...)
+}
+
+func addEntry(tb testing.TB, e entry, opts *options) {
+	tb.Helper()
+	e.Name = opts.name
+	tf := getTestFunction(tb)
+	tf.addEntry(e)
+}
+
+func getEntry(tb testing.TB, opts *options) entry {
+	tb.Helper()
+	tf := getTestFunction(tb)
+	e := tf.getEntry(tb)
+	assert.Equal(tb, e.Name, opts.name, assert.MessageWrap("assertauto: entry name"))
+	return e
 }
 
 var (
@@ -158,7 +175,7 @@ func (tf *testFunction) cleanup(tb testing.TB) {
 	tb.Helper()
 	if update {
 		tf.save(tb)
-	} else {
+	} else if !tb.Failed() {
 		assert.SliceEmpty(tb, tf.entries, assert.MessageWrap("assertauto: entries remaining"))
 	}
 }
@@ -168,6 +185,7 @@ type file struct {
 }
 
 type entry struct {
+	Name      string          `json:"name,omitempty"`
 	Equal     json.RawMessage `json:"equal,omitempty"`
 	DeepEqual json.RawMessage `json:"deep_equal,omitempty"`
 }
@@ -196,4 +214,34 @@ func jsonDecode[T any](tb testing.TB, data []byte) T {
 func getFilePath(tb testing.TB) string {
 	tb.Helper()
 	return filepath.Join(directory, tb.Name()+".json")
+}
+
+type options struct {
+	name string
+	opts []assert.Option
+}
+
+func buildOptions(opts []Option) *options {
+	o := &options{}
+	for _, opt := range opts {
+		opt(o)
+	}
+	return o
+}
+
+// Option is an option for assertauto.
+type Option func(*options)
+
+// Name returns an [Option] that sets the name of the entry.
+func Name(name string) Option {
+	return func(o *options) {
+		o.name = name
+	}
+}
+
+// AssertOptions returns an [Option] that sets the assert options.
+func AssertOptions(opts ...assert.Option) Option {
+	return func(o *options) {
+		o.opts = opts
+	}
 }

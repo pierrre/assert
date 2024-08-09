@@ -7,9 +7,9 @@ import (
 )
 
 func TestEqual(t *testing.T) {
-	ok := Equal(t, 123)
+	ok := Equal(t, 123, Name("int"))
 	assert.True(t, ok)
-	ok = Equal(t, "foo")
+	ok = Equal(t, "foo", Name("string"))
 	assert.True(t, ok)
 }
 

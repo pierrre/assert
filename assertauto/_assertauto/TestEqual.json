@@ -1,9 +1,11 @@
 {
 	"entries": [
 		{
+			"name": "int",
 			"equal": 123
 		},
 		{
+			"name": "string",
 			"equal": "foo"
 		}
 	]
