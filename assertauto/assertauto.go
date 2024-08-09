@@ -85,16 +85,24 @@ func getTestFunction(tb testing.TB) *testFunction {
 	tb.Helper()
 	testFunctionsMutex.Lock()
 	defer testFunctionsMutex.Unlock()
-	tf, ok := testFunctions[tb.Name()]
+	name := tb.Name()
+	tf, ok := testFunctions[name]
 	if !ok {
 		tf = &testFunction{}
-		testFunctions[tb.Name()] = tf
+		testFunctions[name] = tf
 		tb.Cleanup(func() {
 			tb.Helper()
+			deleteTestFunction(name)
 			tf.cleanup(tb)
 		})
 	}
 	return tf
+}
+
+func deleteTestFunction(name string) {
+	testFunctionsMutex.Lock()
+	defer testFunctionsMutex.Unlock()
+	delete(testFunctions, name)
 }
 
 type testFunction struct {
