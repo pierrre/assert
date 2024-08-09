@@ -4,8 +4,6 @@ import (
 	"cmp"
 	"fmt"
 	"testing"
-
-	"github.com/pierrre/go-libs/reflectutil"
 )
 
 // Greater asserts that v1 > v2.
@@ -15,7 +13,7 @@ func Greater[T cmp.Ordered](tb testing.TB, v1, v2 T, opts ...Option) bool {
 	if !ok {
 		Fail(
 			tb,
-			fmt.Sprintf("greater[%s]", reflectutil.TypeFullNameFor[T]()),
+			fmt.Sprintf("greater[%s]", typeName[T]()),
 			fmt.Sprintf("not greater than:\nv1 = %s\nv2 = %s", ValueStringer(v1), ValueStringer(v2)),
 			opts...,
 		)
@@ -30,7 +28,7 @@ func GreaterOrEqual[T cmp.Ordered](tb testing.TB, v1, v2 T, opts ...Option) bool
 	if !ok {
 		Fail(
 			tb,
-			fmt.Sprintf("greater_or_equal[%s]", reflectutil.TypeFullNameFor[T]()),
+			fmt.Sprintf("greater_or_equal[%s]", typeName[T]()),
 			fmt.Sprintf("not greater than or equal to:\nv1 = %s\nv2 = %s", ValueStringer(v1), ValueStringer(v2)),
 			opts...,
 		)
@@ -45,7 +43,7 @@ func Less[T cmp.Ordered](tb testing.TB, v1, v2 T, opts ...Option) bool {
 	if !ok {
 		Fail(
 			tb,
-			fmt.Sprintf("less[%s]", reflectutil.TypeFullNameFor[T]()),
+			fmt.Sprintf("less[%s]", typeName[T]()),
 			fmt.Sprintf("not less than:\nv1 = %s\nv2 = %s", ValueStringer(v1), ValueStringer(v2)),
 			opts...,
 		)
@@ -60,7 +58,7 @@ func LessOrEqual[T cmp.Ordered](tb testing.TB, v1, v2 T, opts ...Option) bool {
 	if !ok {
 		Fail(
 			tb,
-			fmt.Sprintf("less_or_equal[%s]", reflectutil.TypeFullNameFor[T]()),
+			fmt.Sprintf("less_or_equal[%s]", typeName[T]()),
 			fmt.Sprintf("not less than or equal to:\nv1 = %s\nv2 = %s", ValueStringer(v1), ValueStringer(v2)),
 			opts...,
 		)

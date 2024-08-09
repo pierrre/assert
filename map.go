@@ -4,8 +4,6 @@ import (
 	"fmt"
 	"maps"
 	"testing"
-
-	"github.com/pierrre/go-libs/reflectutil"
 )
 
 // MapNil asserts that m is nil.
@@ -15,7 +13,7 @@ func MapNil[M ~map[K]V, K comparable, V any](tb testing.TB, m M, opts ...Option)
 	if !ok {
 		Fail(
 			tb,
-			fmt.Sprintf("map_nil[%s, %s]", reflectutil.TypeFullNameFor[K](), reflectutil.TypeFullNameFor[V]()),
+			fmt.Sprintf("map_nil[%s, %s]", typeName[K](), typeName[V]()),
 			"not nil:\nm = "+ValueStringer(m),
 			opts...,
 		)
@@ -30,7 +28,7 @@ func MapNotNil[M ~map[K]V, K comparable, V any](tb testing.TB, m M, opts ...Opti
 	if !ok {
 		Fail(
 			tb,
-			fmt.Sprintf("map_not_nil[%s, %s]", reflectutil.TypeFullNameFor[K](), reflectutil.TypeFullNameFor[V]()),
+			fmt.Sprintf("map_not_nil[%s, %s]", typeName[K](), typeName[V]()),
 			"nil",
 			opts...,
 		)
@@ -45,7 +43,7 @@ func MapEmpty[M ~map[K]V, K comparable, V any](tb testing.TB, m M, opts ...Optio
 	if !ok {
 		Fail(
 			tb,
-			fmt.Sprintf("map_empty[%s, %s]", reflectutil.TypeFullNameFor[K](), reflectutil.TypeFullNameFor[V]()),
+			fmt.Sprintf("map_empty[%s, %s]", typeName[K](), typeName[V]()),
 			fmt.Sprintf("not empty:\nlength = %d\nm = %s", len(m), ValueStringer(m)),
 			opts...,
 		)
@@ -60,7 +58,7 @@ func MapNotEmpty[M ~map[K]V, K comparable, V any](tb testing.TB, m M, opts ...Op
 	if !ok {
 		Fail(
 			tb,
-			fmt.Sprintf("map_not_empty[%s, %s]", reflectutil.TypeFullNameFor[K](), reflectutil.TypeFullNameFor[V]()),
+			fmt.Sprintf("map_not_empty[%s, %s]", typeName[K](), typeName[V]()),
 			"empty",
 			opts...,
 		)
@@ -75,7 +73,7 @@ func MapLen[M ~map[K]V, K comparable, V any](tb testing.TB, m M, l int, opts ...
 	if !ok {
 		Fail(
 			tb,
-			fmt.Sprintf("map_len[%s, %s]", reflectutil.TypeFullNameFor[K](), reflectutil.TypeFullNameFor[V]()),
+			fmt.Sprintf("map_len[%s, %s]", typeName[K](), typeName[V]()),
 			fmt.Sprintf("unexpected length:\nexpected = %d\nactual = %d", l, len(m)),
 			opts...,
 		)
@@ -90,7 +88,7 @@ func MapEqual[M1, M2 ~map[K]V, K, V comparable](tb testing.TB, m1 M1, m2 M2, opt
 	if !ok {
 		Fail(
 			tb,
-			fmt.Sprintf("map_equal[%s, %s]", reflectutil.TypeFullNameFor[K](), reflectutil.TypeFullNameFor[V]()),
+			fmt.Sprintf("map_equal[%s, %s]", typeName[K](), typeName[V]()),
 			fmt.Sprintf("not equal:\nm1 = %s\nm2 = %s", ValueStringer(m1), ValueStringer(m2)),
 			opts...,
 		)
@@ -105,7 +103,7 @@ func MapNotEqual[M1, M2 ~map[K]V, K, V comparable](tb testing.TB, m1 M1, m2 M2, 
 	if !ok {
 		Fail(
 			tb,
-			fmt.Sprintf("map_not_equal[%s, %s]", reflectutil.TypeFullNameFor[K](), reflectutil.TypeFullNameFor[V]()),
+			fmt.Sprintf("map_not_equal[%s, %s]", typeName[K](), typeName[V]()),
 			fmt.Sprintf("equal:\nm1 = %s\nm2 = %s", ValueStringer(m1), ValueStringer(m2)),
 			opts...,
 		)

@@ -5,7 +5,6 @@ import (
 	"testing"
 
 	"github.com/pierrre/compare"
-	"github.com/pierrre/go-libs/reflectutil"
 )
 
 // DeepEqualer is a function that checks if two values are deep equal.
@@ -30,7 +29,7 @@ func DeepEqual[T any](tb testing.TB, v1, v2 T, opts ...Option) bool {
 	if !ok {
 		Fail(
 			tb,
-			fmt.Sprintf("deep_equal[%s]", reflectutil.TypeFullNameFor[T]()),
+			fmt.Sprintf("deep_equal[%s]", typeName[T]()),
 			fmt.Sprintf("not equal:\ndiff = %s\nv1 = %s\nv2 = %s", diff, ValueStringer(v1), ValueStringer(v2)),
 			opts...,
 		)
@@ -46,7 +45,7 @@ func NotDeepEqual[T any](tb testing.TB, v1, v2 T, opts ...Option) bool {
 	if !ok {
 		Fail(
 			tb,
-			fmt.Sprintf("not_deep_equal[%s]", reflectutil.TypeFullNameFor[T]()),
+			fmt.Sprintf("not_deep_equal[%s]", typeName[T]()),
 			fmt.Sprintf("equal:\nv1 = %s\nv2 = %s", ValueStringer(v1), ValueStringer(v2)),
 			opts...,
 		)

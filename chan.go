@@ -3,8 +3,6 @@ package assert
 import (
 	"fmt"
 	"testing"
-
-	"github.com/pierrre/go-libs/reflectutil"
 )
 
 // TODO: find a way to support receive/send only chans. (more functions or use type parameters ?)
@@ -16,7 +14,7 @@ func ChanEmpty[T any](tb testing.TB, c chan T, opts ...Option) bool {
 	if !ok {
 		Fail(
 			tb,
-			fmt.Sprintf("chan_empty[%s]", reflectutil.TypeFullNameFor[T]()),
+			fmt.Sprintf("chan_empty[%s]", typeName[T]()),
 			fmt.Sprintf("not empty:\nlength = %d", len(c)),
 			opts...,
 		)
@@ -31,7 +29,7 @@ func ChanNotEmpty[T any](tb testing.TB, c chan T, opts ...Option) bool {
 	if !ok {
 		Fail(
 			tb,
-			fmt.Sprintf("chan_not_empty[%s]", reflectutil.TypeFullNameFor[T]()),
+			fmt.Sprintf("chan_not_empty[%s]", typeName[T]()),
 			"empty",
 			opts...,
 		)
@@ -46,7 +44,7 @@ func ChanLen[T any](tb testing.TB, c chan T, l int, opts ...Option) bool {
 	if !ok {
 		Fail(
 			tb,
-			fmt.Sprintf("chan_len[%s]", reflectutil.TypeFullNameFor[T]()),
+			fmt.Sprintf("chan_len[%s]", typeName[T]()),
 			fmt.Sprintf("unexpected length:\nexpected = %d\nactual = %d", l, len(c)),
 			opts...,
 		)

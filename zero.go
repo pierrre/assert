@@ -3,8 +3,6 @@ package assert
 import (
 	"fmt"
 	"testing"
-
-	"github.com/pierrre/go-libs/reflectutil"
 )
 
 // Zero asserts that v == zero.
@@ -15,7 +13,7 @@ func Zero[T comparable](tb testing.TB, v T, opts ...Option) bool {
 	if !ok {
 		Fail(
 			tb,
-			fmt.Sprintf("zero[%s]", reflectutil.TypeFullNameFor[T]()),
+			fmt.Sprintf("zero[%s]", typeName[T]()),
 			"not zero:\nv = "+ValueStringer(v),
 			opts...,
 		)
@@ -31,7 +29,7 @@ func NotZero[T comparable](tb testing.TB, v T, opts ...Option) bool {
 	if !ok {
 		Fail(
 			tb,
-			fmt.Sprintf("not_zero[%s]", reflectutil.TypeFullNameFor[T]()),
+			fmt.Sprintf("not_zero[%s]", typeName[T]()),
 			"zero:\nv = "+ValueStringer(v),
 			opts...,
 		)

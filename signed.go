@@ -3,8 +3,6 @@ package assert
 import (
 	"fmt"
 	"testing"
-
-	"github.com/pierrre/go-libs/reflectutil"
 )
 
 // SignedAndFloat is a constraint that requires a type to be signed or float.
@@ -19,7 +17,7 @@ func Positive[T SignedAndFloat](tb testing.TB, v T, opts ...Option) bool {
 	if !ok {
 		Fail(
 			tb,
-			fmt.Sprintf("positive[%s]", reflectutil.TypeFullNameFor[T]()),
+			fmt.Sprintf("positive[%s]", typeName[T]()),
 			"not positive:\nv = "+ValueStringer(v),
 			opts...,
 		)
@@ -34,7 +32,7 @@ func Negative[T SignedAndFloat](tb testing.TB, v T, opts ...Option) bool {
 	if !ok {
 		Fail(
 			tb,
-			fmt.Sprintf("positive[%s]", reflectutil.TypeFullNameFor[T]()),
+			fmt.Sprintf("positive[%s]", typeName[T]()),
 			"not negative:\nv = "+ValueStringer(v),
 			opts...,
 		)
