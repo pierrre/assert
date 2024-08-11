@@ -78,6 +78,31 @@ func DeepEqual[T any](tb testing.TB, v T, opts ...Option) bool {
 	return assert.DeepEqual(tb, v, expected, append(o.opts, assert.MessageWrap("assertauto"))...)
 }
 
+// AllocsPerRun asserts that a function allocates a certain number of times per run.
+func AllocsPerRun(tb testing.TB, runs int, f func(), opts ...Option) bool {
+	tb.Helper()
+	o := buildOptions(opts)
+	if update {
+		allocs := testing.AllocsPerRun(runs, f)
+		addEntry(tb, entry{
+			AllocsPerRun: &allocsPerRunEntry{
+				Runs:   runs,
+				Allocs: allocs,
+			},
+		}, o)
+		return true
+	}
+	e := getEntry(tb, o)
+	if !assert.NotZero(tb, e.AllocsPerRun, assert.MessageWrap("assertauto: entry is not allocs per run")) {
+		return false
+	}
+	if !assert.Equal(tb, e.AllocsPerRun.Runs, runs, append(o.opts, assert.MessageWrap("assertauto: allocs per run: runs"))...) {
+		return false
+	}
+	expected := e.AllocsPerRun.Allocs
+	return assert.AllocsPerRun(tb, runs, f, expected, append(o.opts, assert.MessageWrap("assertauto"))...)
+}
+
 func addEntry(tb testing.TB, e entry, opts *options) {
 	tb.Helper()
 	e.Name = opts.name
@@ -185,9 +210,15 @@ type file struct {
 }
 
 type entry struct {
-	Name      string          `json:"name,omitempty"`
-	Equal     json.RawMessage `json:"equal,omitempty"`
-	DeepEqual json.RawMessage `json:"deep_equal,omitempty"`
+	Name         string             `json:"name,omitempty"`
+	Equal        json.RawMessage    `json:"equal,omitempty"`
+	DeepEqual    json.RawMessage    `json:"deep_equal,omitempty"`
+	AllocsPerRun *allocsPerRunEntry `json:"allocs_per_run,omitempty"`
+}
+
+type allocsPerRunEntry struct {
+	Runs   int     `json:"runs"`
+	Allocs float64 `json:"allocs"`
 }
 
 func jsonEncode(tb testing.TB, v any) []byte {

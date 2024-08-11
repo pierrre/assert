@@ -26,3 +26,10 @@ func TestDeepEqual(t *testing.T) {
 	})
 	assert.True(t, ok)
 }
+
+func TestAllocsPerRun(t *testing.T) {
+	ok := AllocsPerRun(t, 10, func() {
+		_ = make([]byte, 1<<20)
+	})
+	assert.True(t, ok)
+}
