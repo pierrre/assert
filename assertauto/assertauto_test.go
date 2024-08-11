@@ -4,7 +4,12 @@ import (
 	"testing"
 
 	"github.com/pierrre/assert"
+	"github.com/pierrre/pretty"
 )
+
+func init() {
+	pretty.DefaultCommonValueWriter.ConfigureTest()
+}
 
 func TestEqual(t *testing.T) {
 	ok := Equal(t, 123, Name("int"))
