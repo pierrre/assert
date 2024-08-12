@@ -2,7 +2,6 @@ package assert
 
 import (
 	"fmt"
-	"reflect"
 	"testing"
 
 	"github.com/pierrre/go-libs/reflectutil"
@@ -24,5 +23,5 @@ func Type[T any](tb testing.TB, v any, opts ...Option) (T, bool) {
 }
 
 func typeName[T any]() string {
-	return reflectutil.TypeFullName(reflect.TypeFor[T]())
+	return reflectutil.TypeFullNameFor[T]()
 }
