@@ -1,0 +1,7 @@
+{
+	"entries": [
+		{
+			"equal": "assertauto: entry name: assert equal[string]: not equal:\nv1 = [string] (len=3) \"foo\"\nv2 = [string] (len=3) \"bar\""
+		}
+	]
+}

@@ -17,43 +17,65 @@ import (
 )
 
 const (
-	directory    = "_assertauto"
-	updateEnvVar = "ASSERTAUTO_UPDATE"
+	directoryEnvVar  = "ASSERTAUTO_DIRECTORY"
+	directoryDefault = "_assertauto"
+	updateEnvVar     = "ASSERTAUTO_UPDATE"
+	updateDefault    = false
 )
 
-var update = false
+var (
+	directoryGlobal = initDirectoryGlobal()
+	updateGlobal    = initUpdateGlobal()
+)
 
 func init() {
-	s, ok := os.LookupEnv(updateEnvVar)
-	if !ok {
-		return
-	}
-	b, err := strconv.ParseBool(s)
-	if err != nil {
-		err = fmt.Errorf("parse %s environment variable: %w", updateEnvVar, err)
-		panic(err)
-	}
-	update = b
-	if update {
-		err = os.RemoveAll(directory)
+	if updateGlobal {
+		err := os.RemoveAll(directoryGlobal)
 		if err != nil {
 			panic(err)
 		}
 	}
 }
 
+func initDirectoryGlobal() string {
+	s, ok := os.LookupEnv(directoryEnvVar)
+	if !ok {
+		return directoryDefault
+	}
+	if s == "" {
+		return directoryDefault
+	}
+	return s
+}
+
+func initUpdateGlobal() bool {
+	s, ok := os.LookupEnv(updateEnvVar)
+	if !ok {
+		return updateDefault
+	}
+	b, err := strconv.ParseBool(s)
+	if err != nil {
+		err = fmt.Errorf("parse %s environment variable: %w", updateEnvVar, err)
+		panic(err)
+	}
+	return b
+}
+
 // Equal asserts that the value is equal to the expected value.
 func Equal[T comparable](tb testing.TB, v T, opts ...Option) bool {
 	tb.Helper()
-	o := buildOptions(opts)
-	if update {
+	o := buildOptions(tb, opts)
+	if o.update {
 		addEntry(tb, entry{
 			Equal: jsonEncode(tb, v),
 		}, o)
 		return true
 	}
-	e := getEntry(tb, o)
-	if !assert.SliceNotEmpty(tb, e.Equal, append(o.opts, assert.MessageWrap("assertauto: entry is not equal"))...) {
+	e, ok := getEntry(tb, o)
+	if !ok {
+		return false
+	}
+	if !assert.SliceNotEmpty(tb, e.Equal, append(o.opts, assert.MessageWrap("assertauto: entry is not \"equal\""))...) {
 		return false
 	}
 	expected := jsonDecode[T](tb, e.Equal)
@@ -63,15 +85,18 @@ func Equal[T comparable](tb testing.TB, v T, opts ...Option) bool {
 // DeepEqual asserts that the value is deep equal to the expected value.
 func DeepEqual[T any](tb testing.TB, v T, opts ...Option) bool {
 	tb.Helper()
-	o := buildOptions(opts)
-	if update {
+	o := buildOptions(tb, opts)
+	if o.update {
 		addEntry(tb, entry{
 			DeepEqual: jsonEncode(tb, v),
 		}, o)
 		return true
 	}
-	e := getEntry(tb, o)
-	if !assert.SliceNotEmpty(tb, e.DeepEqual, assert.MessageWrap("assertauto: entry is not deep equal")) {
+	e, ok := getEntry(tb, o)
+	if !ok {
+		return false
+	}
+	if !assert.SliceNotEmpty(tb, e.DeepEqual, append(o.opts, assert.MessageWrap("assertauto: entry is not \"deep equal\""))...) {
 		return false
 	}
 	expected := jsonDecode[T](tb, e.DeepEqual)
@@ -81,8 +106,8 @@ func DeepEqual[T any](tb testing.TB, v T, opts ...Option) bool {
 // AllocsPerRun asserts that a function allocates a certain number of times per run.
 func AllocsPerRun(tb testing.TB, runs int, f func(), opts ...Option) bool {
 	tb.Helper()
-	o := buildOptions(opts)
-	if update {
+	o := buildOptions(tb, opts)
+	if o.update {
 		allocs := testing.AllocsPerRun(runs, f)
 		addEntry(tb, entry{
 			AllocsPerRun: &allocsPerRunEntry{
@@ -92,8 +117,11 @@ func AllocsPerRun(tb testing.TB, runs int, f func(), opts ...Option) bool {
 		}, o)
 		return true
 	}
-	e := getEntry(tb, o)
-	if !assert.NotZero(tb, e.AllocsPerRun, assert.MessageWrap("assertauto: entry is not allocs per run")) {
+	e, ok := getEntry(tb, o)
+	if !ok {
+		return false
+	}
+	if !assert.NotZero(tb, e.AllocsPerRun, append(o.opts, assert.MessageWrap("assertauto: entry is not \"allocs per run\""))...) {
 		return false
 	}
 	if !assert.Equal(tb, e.AllocsPerRun.Runs, runs, append(o.opts, assert.MessageWrap("assertauto: allocs per run: runs"))...) {
@@ -106,27 +134,32 @@ func AllocsPerRun(tb testing.TB, runs int, f func(), opts ...Option) bool {
 func addEntry(tb testing.TB, e entry, opts *options) {
 	tb.Helper()
 	e.Name = opts.name
-	tf := getTestFunction(tb)
+	tf := getTestFunction(tb, opts)
 	tf.addEntry(e)
 }
 
-func getEntry(tb testing.TB, opts *options) entry {
+func getEntry(tb testing.TB, opts *options) (entry, bool) {
 	tb.Helper()
-	tf := getTestFunction(tb)
-	e := tf.getEntry(tb)
-	assert.Equal(tb, e.Name, opts.name, assert.MessageWrap("assertauto: entry name"))
-	return e
+	tf := getTestFunction(tb, opts)
+	e, ok := tf.getEntry(tb, opts)
+	if !ok {
+		return entry{}, false
+	}
+	if !assert.Equal(tb, e.Name, opts.name, append(opts.opts, assert.MessageWrap("assertauto: entry name"))...) {
+		return e, false
+	}
+	return e, true
 }
 
 var (
-	testFunctionsMutex sync.Mutex
-	testFunctions      = make(map[string]*testFunction)
+	testFunctionsLock sync.Mutex
+	testFunctions     = make(map[string]*testFunction)
 )
 
-func getTestFunction(tb testing.TB) *testFunction {
+func getTestFunction(tb testing.TB, opts *options) *testFunction {
 	tb.Helper()
-	testFunctionsMutex.Lock()
-	defer testFunctionsMutex.Unlock()
+	testFunctionsLock.Lock()
+	defer testFunctionsLock.Unlock()
 	name := tb.Name()
 	tf, ok := testFunctions[name]
 	if !ok {
@@ -135,15 +168,15 @@ func getTestFunction(tb testing.TB) *testFunction {
 		tb.Cleanup(func() {
 			tb.Helper()
 			deleteTestFunction(name)
-			tf.cleanup(tb)
+			tf.cleanup(tb, opts)
 		})
 	}
 	return tf
 }
 
 func deleteTestFunction(name string) {
-	testFunctionsMutex.Lock()
-	defer testFunctionsMutex.Unlock()
+	testFunctionsLock.Lock()
+	defer testFunctionsLock.Unlock()
 	delete(testFunctions, name)
 }
 
@@ -153,24 +186,25 @@ type testFunction struct {
 	entries     []entry
 }
 
-func (tf *testFunction) load(tb testing.TB) {
+func (tf *testFunction) load(tb testing.TB, opts *options) {
 	tb.Helper()
-	fp := getFilePath(tb)
+	fp := getFilePath(opts)
 	b, err := os.ReadFile(fp)
 	assert.NoError(tb, err)
 	f := jsonDecode[file](tb, b)
 	tf.entries = f.Entries
 }
 
-func (tf *testFunction) save(tb testing.TB) {
+func (tf *testFunction) save(tb testing.TB, opts *options) {
 	tb.Helper()
 	f := &file{
 		Entries: tf.entries,
 	}
 	data := jsonEncode(tb, f)
-	fp := getFilePath(tb)
-	dir := filepath.Dir(fp)
-	err := os.MkdirAll(dir, 0o755)
+	fp := getFilePath(opts)
+	err := os.MkdirAll(opts.directory, 0o755)
+	assert.NoError(tb, err)
+	err = os.RemoveAll(fp)
 	assert.NoError(tb, err)
 	err = os.WriteFile(fp, data, 0o644) //nolint:gosec // We want 644.
 	assert.NoError(tb, err)
@@ -182,26 +216,29 @@ func (tf *testFunction) addEntry(entry entry) {
 	tf.entries = append(tf.entries, entry)
 }
 
-func (tf *testFunction) getEntry(tb testing.TB) entry {
+func (tf *testFunction) getEntry(tb testing.TB, opts *options) (entry, bool) {
 	tb.Helper()
 	tf.mu.Lock()
 	defer tf.mu.Unlock()
-	if !tf.initialized && !update {
-		tf.load(tb)
+	if !tf.initialized && !opts.update {
+		tf.load(tb, opts)
 		tf.initialized = true
 	}
-	assert.SliceNotEmpty(tb, tf.entries, assert.MessageWrap("assertauto: no entry remaining"))
+	ok := assert.SliceNotEmpty(tb, tf.entries, append(opts.opts, assert.MessageWrap("assertauto: no entry remaining"))...)
+	if !ok {
+		return entry{}, false
+	}
 	e := tf.entries[0]
 	tf.entries = tf.entries[1:]
-	return e
+	return e, true
 }
 
-func (tf *testFunction) cleanup(tb testing.TB) {
+func (tf *testFunction) cleanup(tb testing.TB, opts *options) {
 	tb.Helper()
-	if update {
-		tf.save(tb)
+	if opts.update {
+		tf.save(tb, opts)
 	} else if !tb.Failed() {
-		assert.SliceEmpty(tb, tf.entries, assert.MessageWrap("assertauto: entries remaining"))
+		assert.SliceEmpty(tb, tf.entries, append(opts.opts, assert.MessageWrap("assertauto: entries remaining"))...)
 	}
 }
 
@@ -242,26 +279,56 @@ func jsonDecode[T any](tb testing.TB, data []byte) T {
 	return v
 }
 
-func getFilePath(tb testing.TB) string {
-	tb.Helper()
-	return filepath.Join(directory, tb.Name()+".json")
+func getFilePath(opts *options) string {
+	return filepath.Join(opts.directory, opts.testName+".json")
 }
 
 type options struct {
-	name string
-	opts []assert.Option
+	update    bool
+	directory string
+	testName  string
+	name      string
+	opts      []assert.Option
 }
 
-func buildOptions(opts []Option) *options {
-	o := &options{}
+func buildOptions(tb testing.TB, opts []Option) *options {
+	tb.Helper()
+	o := newOptions(tb)
 	for _, opt := range opts {
 		opt(o)
 	}
 	return o
 }
 
+func newOptions(tb testing.TB) *options {
+	tb.Helper()
+	return &options{
+		update:    updateGlobal,
+		directory: directoryGlobal,
+		testName:  tb.Name(),
+	}
+}
+
 // Option is an option for assertauto.
 type Option func(*options)
+
+func update(u bool) Option {
+	return func(o *options) {
+		o.update = u
+	}
+}
+
+func directory(d string) Option {
+	return func(o *options) {
+		o.directory = d
+	}
+}
+
+func testName(n string) Option {
+	return func(o *options) {
+		o.testName = n
+	}
+}
 
 // Name returns an [Option] that sets the name of the entry.
 func Name(name string) Option {

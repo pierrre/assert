@@ -1,0 +1,7 @@
+{
+	"entries": [
+		{
+			"equal": "assertauto: assert equal[int]: not equal:\nv1 = [int] 456\nv2 = [int] 123"
+		}
+	]
+}
