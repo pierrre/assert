@@ -168,7 +168,6 @@ func getTestFunction(tb testing.TB, opts *options) *testFunction {
 		tb.Cleanup(func() {
 			tb.Helper()
 			deleteTestFunction(name)
-			tf.cleanup(tb, opts)
 		})
 	}
 	return tf
@@ -191,6 +190,10 @@ func newTestFunction(tb testing.TB, opts *options) *testFunction {
 	if !opts.update {
 		tf.load(tb, opts)
 	}
+	tb.Cleanup(func() {
+		tb.Helper()
+		tf.cleanup(tb, opts)
+	})
 	return tf
 }
 
