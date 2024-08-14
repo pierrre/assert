@@ -2,7 +2,10 @@
 	"entries": [
 		{
 			"deep_equal": {
-				"Foo": "bar"
+				"type": "*github.com/pierrre/assert/assertauto_test.testStruct",
+				"value": {
+					"Foo": "bar"
+				}
 			}
 		}
 	]

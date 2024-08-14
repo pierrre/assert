@@ -1,7 +1,10 @@
 {
 	"entries": [
 		{
-			"equal": "assert positive[int]: not negative:\nv = [int] 0"
+			"equal": {
+				"type": "string",
+				"value": "assert positive[int]: not negative:\nv = [int] 0"
+			}
 		}
 	]
 }

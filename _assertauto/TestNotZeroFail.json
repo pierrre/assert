@@ -1,7 +1,10 @@
 {
 	"entries": [
 		{
-			"equal": "assert not_zero[int]: zero:\nv = [int] 0"
+			"equal": {
+				"type": "string",
+				"value": "assert not_zero[int]: zero:\nv = [int] 0"
+			}
 		}
 	]
 }

@@ -1,7 +1,10 @@
 {
 	"entries": [
 		{
-			"equal": "assert map_not_nil[string, string]: nil"
+			"equal": {
+				"type": "string",
+				"value": "assert map_not_nil[string, string]: nil"
+			}
 		}
 	]
 }

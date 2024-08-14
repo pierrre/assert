@@ -1,7 +1,10 @@
 {
 	"entries": [
 		{
-			"equal": "assert slice_not_empty[int]: empty"
+			"equal": {
+				"type": "string",
+				"value": "assert slice_not_empty[int]: empty"
+			}
 		}
 	]
 }

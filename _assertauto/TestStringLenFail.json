@@ -1,7 +1,10 @@
 {
 	"entries": [
 		{
-			"equal": "assert string_len: unexpected length:\nexpected = 4\nactual = 3"
+			"equal": {
+				"type": "string",
+				"value": "assert string_len: unexpected length:\nexpected = 4\nactual = 3"
+			}
 		}
 	]
 }

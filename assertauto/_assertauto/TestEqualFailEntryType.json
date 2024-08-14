@@ -1,7 +1,10 @@
 {
 	"entries": [
 		{
-			"equal": "assertauto: entry is not \"equal\": assert slice_not_empty[uint8]: empty"
+			"equal": {
+				"type": "string",
+				"value": "assertauto: equal: wrong entry type"
+			}
 		}
 	]
 }

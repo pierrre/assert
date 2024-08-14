@@ -1,7 +1,10 @@
 {
 	"entries": [
 		{
-			"equal": "assert slice_nil[int]: not nil:\ns = [[]int] (len=0 cap=0) {}"
+			"equal": {
+				"type": "string",
+				"value": "assert slice_nil[int]: not nil:\ns = [[]int] (len=0 cap=0) {}"
+			}
 		}
 	]
 }

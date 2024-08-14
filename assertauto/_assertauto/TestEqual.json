@@ -2,11 +2,17 @@
 	"entries": [
 		{
 			"name": "int",
-			"equal": 123
+			"equal": {
+				"type": "int",
+				"value": 123
+			}
 		},
 		{
 			"name": "string",
-			"equal": "foo"
+			"equal": {
+				"type": "string",
+				"value": "foo"
+			}
 		}
 	]
 }

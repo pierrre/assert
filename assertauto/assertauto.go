@@ -14,6 +14,7 @@ import (
 	"testing"
 
 	"github.com/pierrre/assert"
+	"github.com/pierrre/go-libs/reflectutil"
 )
 
 const (
@@ -62,12 +63,16 @@ func initUpdateGlobal() bool {
 }
 
 // Equal asserts that the value is equal to the expected value.
-func Equal[T comparable](tb testing.TB, v T, optfs ...Option) bool {
+func Equal[T comparable](tb testing.TB, v T, optfs ...Option) bool { //nolint:dupl // TODO deduplicate.
 	tb.Helper()
 	opts := buildOptions(optfs)
+	typeName := getTypeName[T]()
 	if opts.update {
 		addEntry(tb, entry{
-			Equal: jsonEncode(tb, v),
+			Equal: &equalEntry{
+				Type:  typeName,
+				Value: jsonEncode(tb, v),
+			},
 		}, opts)
 		return true
 	}
@@ -75,20 +80,27 @@ func Equal[T comparable](tb testing.TB, v T, optfs ...Option) bool {
 	if !ok {
 		return false
 	}
-	if !assert.SliceNotEmpty(tb, e.Equal, append(opts.opts, assert.MessageWrap("assertauto: entry is not \"equal\""))...) {
+	if !assert.NotZero(tb, e.Equal, append(opts.opts, assert.Message("assertauto: equal: wrong entry type"))...) {
 		return false
 	}
-	expected := jsonDecode[T](tb, e.Equal)
+	if !assert.Equal(tb, e.Equal.Type, typeName, append(opts.opts, assert.MessageWrap("assertauto: equal: type"))...) {
+		return false
+	}
+	expected := jsonDecode[T](tb, e.Equal.Value)
 	return assert.Equal(tb, v, expected, append(opts.opts, assert.MessageWrap("assertauto"))...)
 }
 
 // DeepEqual asserts that the value is deep equal to the expected value.
-func DeepEqual[T any](tb testing.TB, v T, optfs ...Option) bool {
+func DeepEqual[T any](tb testing.TB, v T, optfs ...Option) bool { //nolint:dupl // TODO deduplicate.
 	tb.Helper()
 	opts := buildOptions(optfs)
+	typeName := getTypeName[T]()
 	if opts.update {
 		addEntry(tb, entry{
-			DeepEqual: jsonEncode(tb, v),
+			DeepEqual: &deepEqualEntry{
+				Type:  typeName,
+				Value: jsonEncode(tb, v),
+			},
 		}, opts)
 		return true
 	}
@@ -96,10 +108,13 @@ func DeepEqual[T any](tb testing.TB, v T, optfs ...Option) bool {
 	if !ok {
 		return false
 	}
-	if !assert.SliceNotEmpty(tb, e.DeepEqual, append(opts.opts, assert.MessageWrap("assertauto: entry is not \"deep equal\""))...) {
+	if !assert.NotZero(tb, e.DeepEqual, append(opts.opts, assert.Message("assertauto: deep equal: wrong entry type"))...) {
 		return false
 	}
-	expected := jsonDecode[T](tb, e.DeepEqual)
+	if !assert.Equal(tb, e.DeepEqual.Type, typeName, append(opts.opts, assert.MessageWrap("assertauto: deep equal: type"))...) {
+		return false
+	}
+	expected := jsonDecode[T](tb, e.DeepEqual.Value)
 	return assert.DeepEqual(tb, v, expected, append(opts.opts, assert.MessageWrap("assertauto"))...)
 }
 
@@ -121,7 +136,7 @@ func AllocsPerRun(tb testing.TB, runs int, f func(), optfs ...Option) bool {
 	if !ok {
 		return false
 	}
-	if !assert.NotZero(tb, e.AllocsPerRun, append(opts.opts, assert.MessageWrap("assertauto: entry is not \"allocs per run\""))...) {
+	if !assert.NotZero(tb, e.AllocsPerRun, append(opts.opts, assert.Message("assertauto: allocs per run: wrong entry type"))...) {
 		return false
 	}
 	if !assert.Equal(tb, e.AllocsPerRun.Runs, runs, append(opts.opts, assert.MessageWrap("assertauto: allocs per run: runs"))...) {
@@ -268,9 +283,19 @@ type file struct {
 
 type entry struct {
 	Name         string             `json:"name,omitempty"`
-	Equal        json.RawMessage    `json:"equal,omitempty"`
-	DeepEqual    json.RawMessage    `json:"deep_equal,omitempty"`
+	Equal        *equalEntry        `json:"equal,omitempty"`
+	DeepEqual    *deepEqualEntry    `json:"deep_equal,omitempty"`
 	AllocsPerRun *allocsPerRunEntry `json:"allocs_per_run,omitempty"`
+}
+
+type equalEntry struct {
+	Type  string          `json:"type"`
+	Value json.RawMessage `json:"value"`
+}
+
+type deepEqualEntry struct {
+	Type  string          `json:"type"`
+	Value json.RawMessage `json:"value"`
 }
 
 type allocsPerRunEntry struct {
@@ -349,4 +374,8 @@ func AssertOptions(opts ...assert.Option) Option {
 	return func(o *options) {
 		o.opts = opts
 	}
+}
+
+func getTypeName[T any]() string {
+	return reflectutil.TypeFullNameFor[T]()
 }

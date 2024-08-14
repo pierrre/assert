@@ -1,7 +1,10 @@
 {
 	"entries": [
 		{
-			"equal": "custom: assert test: message"
+			"equal": {
+				"type": "string",
+				"value": "custom: assert test: message"
+			}
 		}
 	]
 }

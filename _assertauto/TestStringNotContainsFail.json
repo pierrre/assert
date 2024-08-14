@@ -1,7 +1,10 @@
 {
 	"entries": [
 		{
-			"equal": "assert string_not_contains: contains:\ns = \"abc\"\nsubstr = \"bc\""
+			"equal": {
+				"type": "string",
+				"value": "assert string_not_contains: contains:\ns = \"abc\"\nsubstr = \"bc\""
+			}
 		}
 	]
 }

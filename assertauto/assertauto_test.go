@@ -60,6 +60,21 @@ func TestEqualFailEntryType(t *testing.T) {
 	})
 }
 
+func TestEqualFailType(t *testing.T) {
+	rootTest := t
+	tmpDir := t.TempDir()
+	t.Run("Write", func(t *testing.T) {
+		InitTestFunction(t, tmpDir, rootTest.Name(), Update(true))
+		ok := Equal(t, "foo", Update(true))
+		assert.True(t, ok)
+	})
+	t.Run("Read", func(t *testing.T) {
+		InitTestFunction(t, tmpDir, rootTest.Name(), Update(false))
+		ok := Equal(t, 123, Update(false), AssertOptions(assert.Report(asserttest.NewReportAuto(rootTest))))
+		assert.False(t, ok)
+	})
+}
+
 func TestDeepEqual(t *testing.T) {
 	test(t, func(t *testing.T, opts ...Option) { //nolint:thelper // This is not a helper.
 		ok := DeepEqual(t, &testStruct{
@@ -109,6 +124,23 @@ func TestDeepEqualFailEntryType(t *testing.T) {
 		ok := DeepEqual(t, &testStruct{
 			Foo: "bar",
 		}, Update(false), AssertOptions(assert.Report(asserttest.NewReportAuto(rootTest))))
+		assert.False(t, ok)
+	})
+}
+
+func TestDeepEqualFailType(t *testing.T) {
+	rootTest := t
+	tmpDir := t.TempDir()
+	t.Run("Write", func(t *testing.T) {
+		InitTestFunction(t, tmpDir, rootTest.Name(), Update(true))
+		ok := DeepEqual(t, &testStruct{
+			Foo: "bar",
+		}, Update(true))
+		assert.True(t, ok)
+	})
+	t.Run("Read", func(t *testing.T) {
+		InitTestFunction(t, tmpDir, rootTest.Name(), Update(false))
+		ok := DeepEqual(t, 123, Update(false), AssertOptions(assert.Report(asserttest.NewReportAuto(rootTest))))
 		assert.False(t, ok)
 	})
 }

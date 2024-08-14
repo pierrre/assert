@@ -1,7 +1,10 @@
 {
 	"entries": [
 		{
-			"equal": "assert panics: no panic"
+			"equal": {
+				"type": "string",
+				"value": "assert panics: no panic"
+			}
 		}
 	]
 }

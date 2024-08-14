@@ -1,7 +1,10 @@
 {
 	"entries": [
 		{
-			"equal": "assert error_equal: not equal:\nerr = \"error\"\nmessage = \"zzz\""
+			"equal": {
+				"type": "string",
+				"value": "assert error_equal: not equal:\nerr = \"error\"\nmessage = \"zzz\""
+			}
 		}
 	]
 }

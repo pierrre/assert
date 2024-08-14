@@ -1,7 +1,10 @@
 {
 	"entries": [
 		{
-			"equal": "assert chan_not_empty[int]: empty"
+			"equal": {
+				"type": "string",
+				"value": "assert chan_not_empty[int]: empty"
+			}
 		}
 	]
 }

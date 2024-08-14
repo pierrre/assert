@@ -1,7 +1,10 @@
 {
 	"entries": [
 		{
-			"equal": "assertauto: allocs per run: runs: assert equal[int]: not equal:\nv1 = [int] 10\nv2 = [int] 20"
+			"equal": {
+				"type": "string",
+				"value": "assertauto: allocs per run: runs: assert equal[int]: not equal:\nv1 = [int] 10\nv2 = [int] 20"
+			}
 		}
 	]
 }

@@ -1,7 +1,10 @@
 {
 	"entries": [
 		{
-			"equal": "assertauto: entry is not \"allocs per run\": assert not_zero[*github.com/pierrre/assert/assertauto.allocsPerRunEntry]: zero:\nv = [*assertauto.allocsPerRunEntry] <nil>"
+			"equal": {
+				"type": "string",
+				"value": "assertauto: allocs per run: wrong entry type"
+			}
 		}
 	]
 }

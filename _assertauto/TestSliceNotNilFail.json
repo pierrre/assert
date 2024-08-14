@@ -1,7 +1,10 @@
 {
 	"entries": [
 		{
-			"equal": "assert slice_not_nil[int]: nil"
+			"equal": {
+				"type": "string",
+				"value": "assert slice_not_nil[int]: nil"
+			}
 		}
 	]
 }

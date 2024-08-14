@@ -1,7 +1,10 @@
 {
 	"entries": [
 		{
-			"equal": "assertauto: assert allocs_per_run: unexpected allocs:\nexpected = 0\nactual = 1"
+			"equal": {
+				"type": "string",
+				"value": "assertauto: assert allocs_per_run: unexpected allocs:\nexpected = 0\nactual = 1"
+			}
 		}
 	]
 }

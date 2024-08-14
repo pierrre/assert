@@ -1,7 +1,10 @@
 {
 	"entries": [
 		{
-			"equal": "assert error_is: no match:\nerr = <nil>\ntarget = \"EOF\""
+			"equal": {
+				"type": "string",
+				"value": "assert error_is: no match:\nerr = <nil>\ntarget = \"EOF\""
+			}
 		}
 	]
 }

@@ -1,7 +1,10 @@
 {
 	"entries": [
 		{
-			"equal": "assert string_empty: not empty:\ns = \"abc\""
+			"equal": {
+				"type": "string",
+				"value": "assert string_empty: not empty:\ns = \"abc\""
+			}
 		}
 	]
 }

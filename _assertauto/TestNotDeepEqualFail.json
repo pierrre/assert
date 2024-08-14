@@ -1,7 +1,10 @@
 {
 	"entries": [
 		{
-			"equal": "assert not_deep_equal[int]: equal:\nv1 = [int] 1\nv2 = [int] 1"
+			"equal": {
+				"type": "string",
+				"value": "assert not_deep_equal[int]: equal:\nv1 = [int] 1\nv2 = [int] 1"
+			}
 		}
 	]
 }

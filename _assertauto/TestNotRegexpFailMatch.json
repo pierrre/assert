@@ -1,7 +1,10 @@
 {
 	"entries": [
 		{
-			"equal": "assert regexp_not_match: match:\nrs = \"bc\"\ns = \"abc\""
+			"equal": {
+				"type": "string",
+				"value": "assert regexp_not_match: match:\nrs = \"bc\"\ns = \"abc\""
+			}
 		}
 	]
 }

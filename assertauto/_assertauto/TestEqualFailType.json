@@ -1,0 +1,10 @@
+{
+	"entries": [
+		{
+			"equal": {
+				"type": "string",
+				"value": "assertauto: equal: type: assert equal[string]: not equal:\nv1 = [string] (len=6) \"string\"\nv2 = [string] (len=3) \"int\""
+			}
+		}
+	]
+}

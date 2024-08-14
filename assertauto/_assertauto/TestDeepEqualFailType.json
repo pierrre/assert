@@ -1,0 +1,10 @@
+{
+	"entries": [
+		{
+			"equal": {
+				"type": "string",
+				"value": "assertauto: deep equal: type: assert equal[string]: not equal:\nv1 = [string] (len=53) \"*github.com/pierrre/assert/assertauto_test.testStruct\"\nv2 = [string] (len=3) \"int\""
+			}
+		}
+	]
+}

@@ -1,7 +1,10 @@
 {
 	"entries": [
 		{
-			"equal": "assert string_equal_fold: not equal fold:\ns1 = \"abc\"\ns2 = \"ABD\""
+			"equal": {
+				"type": "string",
+				"value": "assert string_equal_fold: not equal fold:\ns1 = \"abc\"\ns2 = \"ABD\""
+			}
 		}
 	]
 }

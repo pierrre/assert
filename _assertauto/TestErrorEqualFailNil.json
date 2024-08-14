@@ -1,7 +1,10 @@
 {
 	"entries": [
 		{
-			"equal": "assert error: no error"
+			"equal": {
+				"type": "string",
+				"value": "assert error: no error"
+			}
 		}
 	]
 }
