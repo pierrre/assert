@@ -26,11 +26,13 @@ func TestEqualFail(t *testing.T) {
 	rootTest := t
 	tmpDir := t.TempDir()
 	t.Run("Write", func(t *testing.T) {
-		ok := Equal(t, 123, Update(true), Directory(tmpDir), FileName(rootTest.Name()))
+		InitTestFunction(t, tmpDir, rootTest.Name(), Update(true))
+		ok := Equal(t, 123, Update(true))
 		assert.True(t, ok)
 	})
 	t.Run("Read", func(t *testing.T) {
-		ok := Equal(t, 456, Update(false), Directory(tmpDir), FileName(rootTest.Name()), AssertOptions(assert.Report(asserttest.NewReportAuto(rootTest))))
+		InitTestFunction(t, tmpDir, rootTest.Name(), Update(false))
+		ok := Equal(t, 456, Update(false), AssertOptions(assert.Report(asserttest.NewReportAuto(rootTest))))
 		assert.False(t, ok)
 	})
 }
@@ -45,13 +47,15 @@ func TestEqualFailEntryType(t *testing.T) {
 	rootTest := t
 	tmpDir := t.TempDir()
 	t.Run("Write", func(t *testing.T) {
+		InitTestFunction(t, tmpDir, rootTest.Name(), Update(true))
 		ok := DeepEqual(t, &testSTruct{
 			Foo: "bar",
-		}, Update(true), Directory(tmpDir), FileName(rootTest.Name()))
+		}, Update(true))
 		assert.True(t, ok)
 	})
 	t.Run("Read", func(t *testing.T) {
-		ok := Equal(t, 123, Update(false), Directory(tmpDir), FileName(rootTest.Name()), AssertOptions(assert.Report(asserttest.NewReportAuto(rootTest))))
+		InitTestFunction(t, tmpDir, rootTest.Name(), Update(false))
+		ok := Equal(t, 123, Update(false), AssertOptions(assert.Report(asserttest.NewReportAuto(rootTest))))
 		assert.False(t, ok)
 	})
 }
@@ -69,15 +73,17 @@ func TestDeepEqualFail(t *testing.T) {
 	rootTest := t
 	tmpDir := t.TempDir()
 	t.Run("Write", func(t *testing.T) {
+		InitTestFunction(t, tmpDir, rootTest.Name(), Update(true))
 		ok := DeepEqual(t, &testSTruct{
 			Foo: "bar",
-		}, Update(true), Directory(tmpDir), FileName(rootTest.Name()))
+		}, Update(true))
 		assert.True(t, ok)
 	})
 	t.Run("Read", func(t *testing.T) {
+		InitTestFunction(t, tmpDir, rootTest.Name(), Update(false))
 		ok := DeepEqual(t, &testSTruct{
 			Foo: "baz",
-		}, Update(false), Directory(tmpDir), FileName(rootTest.Name()), AssertOptions(assert.Report(asserttest.NewReportAuto(rootTest))))
+		}, Update(false), AssertOptions(assert.Report(asserttest.NewReportAuto(rootTest))))
 		assert.False(t, ok)
 	})
 }
@@ -94,13 +100,15 @@ func TestDeepEqualFailEntryType(t *testing.T) {
 	rootTest := t
 	tmpDir := t.TempDir()
 	t.Run("Write", func(t *testing.T) {
-		ok := Equal(t, 123, Update(true), Directory(tmpDir), FileName(rootTest.Name()))
+		InitTestFunction(t, tmpDir, rootTest.Name(), Update(true))
+		ok := Equal(t, 123, Update(true))
 		assert.True(t, ok)
 	})
 	t.Run("Read", func(t *testing.T) {
+		InitTestFunction(t, tmpDir, rootTest.Name(), Update(false))
 		ok := DeepEqual(t, &testSTruct{
 			Foo: "bar",
-		}, Update(false), Directory(tmpDir), FileName(rootTest.Name()), AssertOptions(assert.Report(asserttest.NewReportAuto(rootTest))))
+		}, Update(false), AssertOptions(assert.Report(asserttest.NewReportAuto(rootTest))))
 		assert.False(t, ok)
 	})
 }
@@ -118,13 +126,15 @@ func TestAllocsPerRunFail(t *testing.T) {
 	rootTest := t
 	tmpDir := t.TempDir()
 	t.Run("Write", func(t *testing.T) {
-		ok := AllocsPerRun(t, 10, func() {}, Update(true), Directory(tmpDir), FileName(rootTest.Name()))
+		InitTestFunction(t, tmpDir, rootTest.Name(), Update(true))
+		ok := AllocsPerRun(t, 10, func() {}, Update(true))
 		assert.True(t, ok)
 	})
 	t.Run("Read", func(t *testing.T) {
+		InitTestFunction(t, tmpDir, rootTest.Name(), Update(false))
 		ok := AllocsPerRun(t, 10, func() {
 			_ = make([]byte, 1<<20)
-		}, Update(false), Directory(tmpDir), FileName(rootTest.Name()), AssertOptions(assert.Report(asserttest.NewReportAuto(rootTest))))
+		}, Update(false), AssertOptions(assert.Report(asserttest.NewReportAuto(rootTest))))
 		assert.False(t, ok)
 	})
 }
@@ -141,13 +151,15 @@ func TestAllocsPerRunFailEntryType(t *testing.T) {
 	rootTest := t
 	tmpDir := t.TempDir()
 	t.Run("Write", func(t *testing.T) {
-		ok := Equal(t, 123, Update(true), Directory(tmpDir), FileName(rootTest.Name()))
+		InitTestFunction(t, tmpDir, rootTest.Name(), Update(true))
+		ok := Equal(t, 123, Update(true))
 		assert.True(t, ok)
 	})
 	t.Run("Read", func(t *testing.T) {
+		InitTestFunction(t, tmpDir, rootTest.Name(), Update(false))
 		ok := AllocsPerRun(t, 10, func() {
 			_ = make([]byte, 1<<20)
-		}, Update(false), Directory(tmpDir), FileName(rootTest.Name()), AssertOptions(assert.Report(asserttest.NewReportAuto(rootTest))))
+		}, Update(false), AssertOptions(assert.Report(asserttest.NewReportAuto(rootTest))))
 		assert.False(t, ok)
 	})
 }
@@ -156,15 +168,17 @@ func TestAllocsPerRunFailRuns(t *testing.T) {
 	rootTest := t
 	tmpDir := t.TempDir()
 	t.Run("Write", func(t *testing.T) {
+		InitTestFunction(t, tmpDir, rootTest.Name(), Update(true))
 		ok := AllocsPerRun(t, 10, func() {
 			_ = make([]byte, 1<<20)
-		}, Update(true), Directory(tmpDir), FileName(rootTest.Name()))
+		}, Update(true))
 		assert.True(t, ok)
 	})
 	t.Run("Read", func(t *testing.T) {
+		InitTestFunction(t, tmpDir, rootTest.Name(), Update(false))
 		ok := AllocsPerRun(t, 20, func() {
 			_ = make([]byte, 1<<20)
-		}, Update(false), Directory(tmpDir), FileName(rootTest.Name()), AssertOptions(assert.Report(asserttest.NewReportAuto(rootTest))))
+		}, Update(false), AssertOptions(assert.Report(asserttest.NewReportAuto(rootTest))))
 		assert.False(t, ok)
 	})
 }
@@ -173,13 +187,15 @@ func TestFailEntryNoRemaining(t *testing.T) {
 	rootTest := t
 	tmpDir := t.TempDir()
 	t.Run("Write", func(t *testing.T) {
-		ok := Equal(t, 123, Update(true), Directory(tmpDir), FileName(rootTest.Name()))
+		InitTestFunction(t, tmpDir, rootTest.Name(), Update(true))
+		ok := Equal(t, 123, Update(true))
 		assert.True(t, ok)
 	})
 	t.Run("Read", func(t *testing.T) {
-		ok := Equal(t, 123, Update(false), Directory(tmpDir), FileName(rootTest.Name()))
+		InitTestFunction(t, tmpDir, rootTest.Name(), Update(false))
+		ok := Equal(t, 123, Update(false))
 		assert.True(t, ok)
-		ok = Equal(t, 123, Update(false), Directory(tmpDir), FileName(rootTest.Name()), AssertOptions(assert.Report(asserttest.NewReportAuto(rootTest))))
+		ok = Equal(t, 123, Update(false), AssertOptions(assert.Report(asserttest.NewReportAuto(rootTest))))
 		assert.False(t, ok)
 	})
 }
@@ -188,13 +204,15 @@ func TestFailEntriesRemaining(t *testing.T) {
 	rootTest := t
 	tmpDir := t.TempDir()
 	t.Run("Write", func(t *testing.T) {
-		ok := Equal(t, 123, Update(true), Directory(tmpDir), FileName(rootTest.Name()))
+		InitTestFunction(t, tmpDir, rootTest.Name(), Update(true))
+		ok := Equal(t, 123, Update(true))
 		assert.True(t, ok)
-		ok = Equal(t, 123, Update(true), Directory(tmpDir), FileName(rootTest.Name()))
+		ok = Equal(t, 123, Update(true))
 		assert.True(t, ok)
 	})
 	t.Run("Read", func(t *testing.T) {
-		ok := Equal(t, 123, Update(false), Directory(tmpDir), FileName(rootTest.Name()), AssertOptions(assert.Report(asserttest.NewReportAuto(rootTest))))
+		InitTestFunction(t, tmpDir, rootTest.Name(), Update(false), AssertOptions(assert.Report(asserttest.NewReportAuto(rootTest))))
+		ok := Equal(t, 123, Update(false))
 		assert.True(t, ok)
 	})
 }
@@ -204,13 +222,16 @@ func test(t *testing.T, f func(t *testing.T, opts ...Option)) {
 	rootTest := t
 	tmpDir := t.TempDir()
 	t.Run("Write", func(t *testing.T) {
-		f(t, Update(true), Directory(tmpDir), FileName(rootTest.Name()))
+		InitTestFunction(t, tmpDir, rootTest.Name(), Update(true))
+		f(t, Update(true))
 	})
 	t.Run("Read", func(t *testing.T) {
-		f(t, Update(false), Directory(tmpDir), FileName(rootTest.Name()))
+		InitTestFunction(t, tmpDir, rootTest.Name(), Update(false))
+		f(t, Update(false))
 	})
 	t.Run("Normal", func(t *testing.T) {
-		f(t, FileName(rootTest.Name()))
+		InitTestFunction(t, DirectoryGlobal, rootTest.Name())
+		f(t)
 	})
 }
 
@@ -219,11 +240,13 @@ func testFailName(t *testing.T, f func(t *testing.T, opts ...Option) bool) {
 	rootTest := t
 	tmpDir := t.TempDir()
 	t.Run("Write", func(t *testing.T) {
-		ok := f(t, Update(true), Directory(tmpDir), FileName(rootTest.Name()), Name("foo"))
+		InitTestFunction(t, tmpDir, rootTest.Name(), Update(true))
+		ok := f(t, Update(true), Name("foo"))
 		assert.True(t, ok)
 	})
 	t.Run("Read", func(t *testing.T) {
-		ok := f(t, Update(false), Directory(tmpDir), FileName(rootTest.Name()), Name("bar"), AssertOptions(assert.Report(asserttest.NewReportAuto(rootTest))))
+		InitTestFunction(t, tmpDir, rootTest.Name(), Update(false))
+		ok := f(t, Update(false), Name("bar"), AssertOptions(assert.Report(asserttest.NewReportAuto(rootTest))))
 		assert.False(t, ok)
 	})
 }
