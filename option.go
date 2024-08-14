@@ -23,6 +23,24 @@ func buildOptions(tb testing.TB, opts []Option) *options { //nolint:thelper // I
 // Option is an option for an assertion.
 type Option func(*options)
 
+// Lazy returns an [Option] that defers the evaluation of the option.
+//
+// It helps to reduce allocations when the option is not used.
+func Lazy(f func() Option) Option {
+	return func(o *options) {
+		f()(o)
+	}
+}
+
+// Options returns an [Option] that combines several options.
+func Options(opts ...Option) Option {
+	return func(o *options) {
+		for _, opt := range opts {
+			opt(o)
+		}
+	}
+}
+
 // MessageTransform returns an [Option] that adds a message transform function.
 // The function is called before the ReportFunc.
 // If several function are added, they're called in order.
