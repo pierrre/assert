@@ -135,7 +135,7 @@ func addEntry(tb testing.TB, e entry, opts *options) {
 	tb.Helper()
 	e.Name = opts.name
 	tf := getTestFunction(tb, opts)
-	tf.addEntry(e)
+	tf.addEntry(tb, e)
 }
 
 func getEntry(tb testing.TB, opts *options) (entry, bool) {
@@ -186,6 +186,7 @@ func deleteTestFunction(name string) {
 
 type testFunction struct {
 	mu      sync.Mutex
+	update  bool
 	entries []entry
 }
 
@@ -194,8 +195,10 @@ func newTestFunction(tb testing.TB, fp string, opts *options) *testFunction {
 	if fp == "" {
 		fp = getFilePathGlobal(tb)
 	}
-	tf := &testFunction{}
-	if !opts.update {
+	tf := &testFunction{
+		update: opts.update,
+	}
+	if !tf.update {
 		tf.load(tb, fp)
 	}
 	tb.Cleanup(func() {
@@ -228,9 +231,11 @@ func (tf *testFunction) save(tb testing.TB, fp string) {
 	assert.NoError(tb, err)
 }
 
-func (tf *testFunction) addEntry(entry entry) {
+func (tf *testFunction) addEntry(tb testing.TB, entry entry) {
+	tb.Helper()
 	tf.mu.Lock()
 	defer tf.mu.Unlock()
+	assert.True(tb, tf.update, assert.MessageWrap("assertauto: cannot add entry if update is false"))
 	tf.entries = append(tf.entries, entry)
 }
 
@@ -238,6 +243,7 @@ func (tf *testFunction) getEntry(tb testing.TB, opts *options) (entry, bool) {
 	tb.Helper()
 	tf.mu.Lock()
 	defer tf.mu.Unlock()
+	assert.False(tb, tf.update, assert.MessageWrap("assertauto: cannot get entry if update is true"))
 	ok := assert.SliceNotEmpty(tb, tf.entries, append(opts.opts, assert.MessageWrap("assertauto: no entry remaining"))...)
 	if !ok {
 		return entry{}, false
