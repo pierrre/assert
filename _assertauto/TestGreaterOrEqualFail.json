@@ -1,7 +1,7 @@
 {
 	"entries": [
 		{
-			"equal": "assert greater_or_equal[int]: not greater than or equal to:\nv1 = (int) 0\nv2 = (int) 123"
+			"equal": "assert greater_or_equal[int]: not greater than or equal to:\nv1 = [int] 0\nv2 = [int] 123"
 		}
 	]
 }

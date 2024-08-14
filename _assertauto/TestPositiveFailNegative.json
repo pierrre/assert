@@ -1,7 +1,7 @@
 {
 	"entries": [
 		{
-			"equal": "assert positive[int]: not positive:\nv = (int) -123"
+			"equal": "assert positive[int]: not positive:\nv = [int] -123"
 		}
 	]
 }

@@ -1,7 +1,7 @@
 {
 	"entries": [
 		{
-			"equal": "assert slice_nil[int]: not nil:\ns = ([]int) (len=0 cap=0) {}"
+			"equal": "assert slice_nil[int]: not nil:\ns = [[]int] (len=0 cap=0) {}"
 		}
 	]
 }
