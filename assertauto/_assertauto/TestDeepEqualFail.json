@@ -1,7 +1,7 @@
 {
 	"entries": [
 		{
-			"equal": "assertauto: assert deep_equal[*github.com/pierrre/assert/assertauto_test.testSTruct]: not equal:\ndiff = .Foo: string not equal\n\tv1=\"baz\"\n\tv2=\"bar\"\nv1 = [*assertauto_test.testSTruct] => {\n\tFoo: [string] (len=3) \"baz\",\n}\nv2 = [*assertauto_test.testSTruct] => {\n\tFoo: [string] (len=3) \"bar\",\n}"
+			"equal": "assertauto: assert deep_equal[*github.com/pierrre/assert/assertauto_test.testStruct]: not equal:\ndiff = .Foo: string not equal\n\tv1=\"baz\"\n\tv2=\"bar\"\nv1 = [*assertauto_test.testStruct] => {\n\tFoo: [string] (len=3) \"baz\",\n}\nv2 = [*assertauto_test.testStruct] => {\n\tFoo: [string] (len=3) \"bar\",\n}"
 		}
 	]
 }

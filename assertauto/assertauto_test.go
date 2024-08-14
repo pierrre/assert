@@ -48,7 +48,7 @@ func TestEqualFailEntryType(t *testing.T) {
 	tmpDir := t.TempDir()
 	t.Run("Write", func(t *testing.T) {
 		InitTestFunction(t, tmpDir, rootTest.Name(), Update(true))
-		ok := DeepEqual(t, &testSTruct{
+		ok := DeepEqual(t, &testStruct{
 			Foo: "bar",
 		}, Update(true))
 		assert.True(t, ok)
@@ -62,7 +62,7 @@ func TestEqualFailEntryType(t *testing.T) {
 
 func TestDeepEqual(t *testing.T) {
 	test(t, func(t *testing.T, opts ...Option) { //nolint:thelper // This is not a helper.
-		ok := DeepEqual(t, &testSTruct{
+		ok := DeepEqual(t, &testStruct{
 			Foo: "bar",
 		}, opts...)
 		assert.True(t, ok)
@@ -74,14 +74,14 @@ func TestDeepEqualFail(t *testing.T) {
 	tmpDir := t.TempDir()
 	t.Run("Write", func(t *testing.T) {
 		InitTestFunction(t, tmpDir, rootTest.Name(), Update(true))
-		ok := DeepEqual(t, &testSTruct{
+		ok := DeepEqual(t, &testStruct{
 			Foo: "bar",
 		}, Update(true))
 		assert.True(t, ok)
 	})
 	t.Run("Read", func(t *testing.T) {
 		InitTestFunction(t, tmpDir, rootTest.Name(), Update(false))
-		ok := DeepEqual(t, &testSTruct{
+		ok := DeepEqual(t, &testStruct{
 			Foo: "baz",
 		}, Update(false), AssertOptions(assert.Report(asserttest.NewReportAuto(rootTest))))
 		assert.False(t, ok)
@@ -90,7 +90,7 @@ func TestDeepEqualFail(t *testing.T) {
 
 func TestDeepEqualFailName(t *testing.T) {
 	testFailName(t, func(t *testing.T, opts ...Option) bool { //nolint:thelper // This is not a helper.
-		return DeepEqual(t, &testSTruct{
+		return DeepEqual(t, &testStruct{
 			Foo: "bar",
 		}, opts...)
 	})
@@ -106,7 +106,7 @@ func TestDeepEqualFailEntryType(t *testing.T) {
 	})
 	t.Run("Read", func(t *testing.T) {
 		InitTestFunction(t, tmpDir, rootTest.Name(), Update(false))
-		ok := DeepEqual(t, &testSTruct{
+		ok := DeepEqual(t, &testStruct{
 			Foo: "bar",
 		}, Update(false), AssertOptions(assert.Report(asserttest.NewReportAuto(rootTest))))
 		assert.False(t, ok)
@@ -251,6 +251,6 @@ func testFailName(t *testing.T, f func(t *testing.T, opts ...Option) bool) {
 	})
 }
 
-type testSTruct struct {
+type testStruct struct {
 	Foo string
 }
