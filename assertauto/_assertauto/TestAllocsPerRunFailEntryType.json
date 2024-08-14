@@ -3,7 +3,7 @@
 		{
 			"equal": {
 				"type": "string",
-				"value": "assertauto: allocs per run: wrong entry type"
+				"value": "assertauto: allocs_per_run: wrong entry type"
 			}
 		}
 	]

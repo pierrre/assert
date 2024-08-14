@@ -63,7 +63,7 @@ func initUpdateGlobal() bool {
 }
 
 // Equal asserts that the value is equal to the expected value.
-func Equal[T comparable](tb testing.TB, v T, optfs ...Option) bool { //nolint:dupl // TODO deduplicate.
+func Equal[T comparable](tb testing.TB, v T, optfs ...Option) bool {
 	tb.Helper()
 	opts := buildOptions(optfs)
 	typeName := getTypeName[T]()
@@ -80,18 +80,18 @@ func Equal[T comparable](tb testing.TB, v T, optfs ...Option) bool { //nolint:du
 	if !ok {
 		return false
 	}
-	if !assert.NotZero(tb, e.Equal, append(opts.opts, assert.Message("assertauto: equal: wrong entry type"))...) {
+	if !assert.NotZero(tb, e.Equal, append(opts.opts, messageWrongEntryType, messageWrapEqual, messageWrap)...) {
 		return false
 	}
-	if !assert.Equal(tb, e.Equal.Type, typeName, append(opts.opts, assert.MessageWrap("assertauto: equal: type"))...) {
+	if !assert.Equal(tb, e.Equal.Type, typeName, append(opts.opts, messageWrapType, messageWrapEqual, messageWrap)...) {
 		return false
 	}
 	expected := jsonDecode[T](tb, e.Equal.Value)
-	return assert.Equal(tb, v, expected, append(opts.opts, assert.MessageWrap("assertauto"))...)
+	return assert.Equal(tb, v, expected, append(opts.opts, messageWrap)...)
 }
 
 // DeepEqual asserts that the value is deep equal to the expected value.
-func DeepEqual[T any](tb testing.TB, v T, optfs ...Option) bool { //nolint:dupl // TODO deduplicate.
+func DeepEqual[T any](tb testing.TB, v T, optfs ...Option) bool {
 	tb.Helper()
 	opts := buildOptions(optfs)
 	typeName := getTypeName[T]()
@@ -108,14 +108,14 @@ func DeepEqual[T any](tb testing.TB, v T, optfs ...Option) bool { //nolint:dupl 
 	if !ok {
 		return false
 	}
-	if !assert.NotZero(tb, e.DeepEqual, append(opts.opts, assert.Message("assertauto: deep equal: wrong entry type"))...) {
+	if !assert.NotZero(tb, e.DeepEqual, append(opts.opts, messageWrongEntryType, messageWrapDeepEqual, messageWrap)...) {
 		return false
 	}
-	if !assert.Equal(tb, e.DeepEqual.Type, typeName, append(opts.opts, assert.MessageWrap("assertauto: deep equal: type"))...) {
+	if !assert.Equal(tb, e.DeepEqual.Type, typeName, append(opts.opts, messageWrapType, messageWrapDeepEqual, messageWrap)...) {
 		return false
 	}
 	expected := jsonDecode[T](tb, e.DeepEqual.Value)
-	return assert.DeepEqual(tb, v, expected, append(opts.opts, assert.MessageWrap("assertauto"))...)
+	return assert.DeepEqual(tb, v, expected, append(opts.opts, messageWrap)...)
 }
 
 // AllocsPerRun asserts that a function allocates a certain number of times per run.
@@ -136,14 +136,14 @@ func AllocsPerRun(tb testing.TB, runs int, f func(), optfs ...Option) bool {
 	if !ok {
 		return false
 	}
-	if !assert.NotZero(tb, e.AllocsPerRun, append(opts.opts, assert.Message("assertauto: allocs per run: wrong entry type"))...) {
+	if !assert.NotZero(tb, e.AllocsPerRun, append(opts.opts, messageWrongEntryType, messageWrapAllocsPerRun, messageWrap)...) {
 		return false
 	}
-	if !assert.Equal(tb, e.AllocsPerRun.Runs, runs, append(opts.opts, assert.MessageWrap("assertauto: allocs per run: runs"))...) {
+	if !assert.Equal(tb, e.AllocsPerRun.Runs, runs, append(opts.opts, messageWrapRuns, messageWrapAllocsPerRun, messageWrap)...) {
 		return false
 	}
 	expected := e.AllocsPerRun.Allocs
-	return assert.AllocsPerRun(tb, runs, f, expected, append(opts.opts, assert.MessageWrap("assertauto"))...)
+	return assert.AllocsPerRun(tb, runs, f, expected, append(opts.opts, messageWrap)...)
 }
 
 func addEntry(tb testing.TB, e entry, opts *options) {
@@ -160,7 +160,7 @@ func getEntry(tb testing.TB, opts *options) (entry, bool) {
 	if !ok {
 		return entry{}, false
 	}
-	if !assert.Equal(tb, e.Name, opts.name, append(opts.opts, assert.MessageWrap("assertauto: entry name"))...) {
+	if !assert.Equal(tb, e.Name, opts.name, append(opts.opts, messageWrapEntryName, messageWrap)...) {
 		return e, false
 	}
 	return e, true
@@ -250,7 +250,7 @@ func (tf *testFunction) addEntry(tb testing.TB, entry entry) {
 	tb.Helper()
 	tf.mu.Lock()
 	defer tf.mu.Unlock()
-	assert.True(tb, tf.update, assert.MessageWrap("assertauto: cannot add entry if update is false"))
+	assert.True(tb, tf.update, messageWrapCannotAddEntry, messageWrap)
 	tf.entries = append(tf.entries, entry)
 }
 
@@ -258,8 +258,8 @@ func (tf *testFunction) getEntry(tb testing.TB, opts *options) (entry, bool) {
 	tb.Helper()
 	tf.mu.Lock()
 	defer tf.mu.Unlock()
-	assert.False(tb, tf.update, assert.MessageWrap("assertauto: cannot get entry if update is true"))
-	ok := assert.SliceNotEmpty(tb, tf.entries, append(opts.opts, assert.MessageWrap("assertauto: no entry remaining"))...)
+	assert.False(tb, tf.update, messageWrapCannotGetEntry, messageWrap)
+	ok := assert.SliceNotEmpty(tb, tf.entries, append(opts.opts, messageWrapNoEntryRemaining, messageWrap)...)
 	if !ok {
 		return entry{}, false
 	}
@@ -273,7 +273,7 @@ func (tf *testFunction) cleanup(tb testing.TB, fp string, opts *options) {
 	if opts.update {
 		tf.save(tb, fp)
 	} else if !tb.Failed() {
-		assert.SliceEmpty(tb, tf.entries, append(opts.opts, assert.MessageWrap("assertauto: entries remaining"))...)
+		assert.SliceEmpty(tb, tf.entries, append(opts.opts, messageWrapEntriesRemaining, messageWrap)...)
 	}
 }
 
@@ -379,3 +379,18 @@ func AssertOptions(opts ...assert.Option) Option {
 func getTypeName[T any]() string {
 	return reflectutil.TypeFullNameFor[T]()
 }
+
+var (
+	messageWrap                 = assert.MessageWrap("assertauto")
+	messageWrapEqual            = assert.MessageWrap("equal")
+	messageWrapDeepEqual        = assert.MessageWrap("deep_equal")
+	messageWrapAllocsPerRun     = assert.MessageWrap("allocs_per_run")
+	messageWrongEntryType       = assert.Message("wrong entry type")
+	messageWrapType             = assert.MessageWrap("type")
+	messageWrapRuns             = assert.MessageWrap("runs")
+	messageWrapEntryName        = assert.MessageWrap("entry name")
+	messageWrapCannotAddEntry   = assert.MessageWrap("cannot add entry if update is false")
+	messageWrapCannotGetEntry   = assert.MessageWrap("cannot get entry if update is true")
+	messageWrapNoEntryRemaining = assert.MessageWrap("no entry remaining")
+	messageWrapEntriesRemaining = assert.MessageWrap("entries remaining")
+)

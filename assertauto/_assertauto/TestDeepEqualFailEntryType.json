@@ -3,7 +3,7 @@
 		{
 			"equal": {
 				"type": "string",
-				"value": "assertauto: deep equal: wrong entry type"
+				"value": "assertauto: deep_equal: wrong entry type"
 			}
 		}
 	]
