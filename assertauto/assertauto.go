@@ -163,7 +163,7 @@ func getTestFunction(tb testing.TB, opts *options) *testFunction {
 	name := tb.Name()
 	tf, ok := testFunctions[name]
 	if !ok {
-		tf = &testFunction{}
+		tf = newTestFunction(tb, opts)
 		testFunctions[name] = tf
 		tb.Cleanup(func() {
 			tb.Helper()
@@ -181,9 +181,17 @@ func deleteTestFunction(name string) {
 }
 
 type testFunction struct {
-	mu          sync.Mutex
-	initialized bool
-	entries     []entry
+	mu      sync.Mutex
+	entries []entry
+}
+
+func newTestFunction(tb testing.TB, opts *options) *testFunction {
+	tb.Helper()
+	tf := &testFunction{}
+	if !opts.update {
+		tf.load(tb, opts)
+	}
+	return tf
 }
 
 func (tf *testFunction) load(tb testing.TB, opts *options) {
@@ -220,10 +228,6 @@ func (tf *testFunction) getEntry(tb testing.TB, opts *options) (entry, bool) {
 	tb.Helper()
 	tf.mu.Lock()
 	defer tf.mu.Unlock()
-	if !tf.initialized && !opts.update {
-		tf.load(tb, opts)
-		tf.initialized = true
-	}
 	ok := assert.SliceNotEmpty(tb, tf.entries, append(opts.opts, assert.MessageWrap("assertauto: no entry remaining"))...)
 	if !ok {
 		return entry{}, false
@@ -280,13 +284,13 @@ func jsonDecode[T any](tb testing.TB, data []byte) T {
 }
 
 func getFilePath(opts *options) string {
-	return filepath.Join(opts.directory, opts.testName+".json")
+	return filepath.Join(opts.directory, opts.fileName+".json")
 }
 
 type options struct {
 	update    bool
 	directory string
-	testName  string
+	fileName  string
 	name      string
 	opts      []assert.Option
 }
@@ -305,7 +309,7 @@ func newOptions(tb testing.TB) *options {
 	return &options{
 		update:    updateGlobal,
 		directory: directoryGlobal,
-		testName:  tb.Name(),
+		fileName:  tb.Name(),
 	}
 }
 
@@ -324,9 +328,9 @@ func directory(d string) Option {
 	}
 }
 
-func testName(n string) Option {
+func fileName(n string) Option {
 	return func(o *options) {
-		o.testName = n
+		o.fileName = n
 	}
 }
 

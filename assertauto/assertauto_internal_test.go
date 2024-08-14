@@ -8,6 +8,6 @@ func Directory(d string) Option {
 	return directory(d)
 }
 
-func SetTestName(n string) Option {
-	return testName(n)
+func FileName(n string) Option {
+	return fileName(n)
 }
