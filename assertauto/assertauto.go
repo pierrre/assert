@@ -68,26 +68,40 @@ func Equal[T comparable](tb testing.TB, v T, optfs ...Option) bool {
 	opts := buildOptions(optfs)
 	typeName := getTypeName[T]()
 	if opts.update {
-		addEntry(tb, entry{
-			Equal: &equalEntry{
-				Type:  typeName,
-				Value: jsonEncode(tb, v),
-			},
-		}, opts)
+		equalUpdate(tb, v, typeName, opts)
 		return true
 	}
-	e, ok := getEntry(tb, opts)
+	e, ok := equalCheck(tb, typeName, opts)
 	if !ok {
-		return false
-	}
-	if !assert.NotZero(tb, e.Equal, append(opts.opts, messageWrongEntryType, messageWrapEqual, messageWrap)...) {
-		return false
-	}
-	if !assert.Equal(tb, e.Equal.Type, typeName, append(opts.opts, messageWrapType, messageWrapEqual, messageWrap)...) {
 		return false
 	}
 	expected := jsonDecode[T](tb, e.Equal.Value)
 	return assert.Equal(tb, v, expected, append(opts.opts, messageWrap)...)
+}
+
+func equalUpdate(tb testing.TB, v any, typeName string, opts *options) {
+	tb.Helper()
+	addEntry(tb, entry{
+		Equal: &equalEntry{
+			Type:  typeName,
+			Value: jsonEncode(tb, v),
+		},
+	}, opts)
+}
+
+func equalCheck(tb testing.TB, typeName string, opts *options) (entry, bool) {
+	tb.Helper()
+	e, ok := getEntry(tb, opts)
+	if !ok {
+		return e, false
+	}
+	if !assert.NotZero(tb, e.Equal, append(opts.opts, messageWrongEntryType, messageWrapEqual, messageWrap)...) {
+		return e, false
+	}
+	if !assert.Equal(tb, e.Equal.Type, typeName, append(opts.opts, messageWrapType, messageWrapEqual, messageWrap)...) {
+		return e, false
+	}
+	return e, true
 }
 
 // DeepEqual asserts that the value is deep equal to the expected value.
@@ -96,26 +110,40 @@ func DeepEqual[T any](tb testing.TB, v T, optfs ...Option) bool {
 	opts := buildOptions(optfs)
 	typeName := getTypeName[T]()
 	if opts.update {
-		addEntry(tb, entry{
-			DeepEqual: &deepEqualEntry{
-				Type:  typeName,
-				Value: jsonEncode(tb, v),
-			},
-		}, opts)
+		deepEqualUpdate(tb, v, typeName, opts)
 		return true
 	}
-	e, ok := getEntry(tb, opts)
+	e, ok := deepEqualCheck(tb, typeName, opts)
 	if !ok {
-		return false
-	}
-	if !assert.NotZero(tb, e.DeepEqual, append(opts.opts, messageWrongEntryType, messageWrapDeepEqual, messageWrap)...) {
-		return false
-	}
-	if !assert.Equal(tb, e.DeepEqual.Type, typeName, append(opts.opts, messageWrapType, messageWrapDeepEqual, messageWrap)...) {
 		return false
 	}
 	expected := jsonDecode[T](tb, e.DeepEqual.Value)
 	return assert.DeepEqual(tb, v, expected, append(opts.opts, messageWrap)...)
+}
+
+func deepEqualUpdate(tb testing.TB, v any, typeName string, opts *options) {
+	tb.Helper()
+	addEntry(tb, entry{
+		DeepEqual: &deepEqualEntry{
+			Type:  typeName,
+			Value: jsonEncode(tb, v),
+		},
+	}, opts)
+}
+
+func deepEqualCheck(tb testing.TB, typeName string, opts *options) (entry, bool) {
+	tb.Helper()
+	e, ok := getEntry(tb, opts)
+	if !ok {
+		return e, false
+	}
+	if !assert.NotZero(tb, e.DeepEqual, append(opts.opts, messageWrongEntryType, messageWrapDeepEqual, messageWrap)...) {
+		return e, false
+	}
+	if !assert.Equal(tb, e.DeepEqual.Type, typeName, append(opts.opts, messageWrapType, messageWrapDeepEqual, messageWrap)...) {
+		return e, false
+	}
+	return e, true
 }
 
 // AllocsPerRun asserts that a function allocates a certain number of times per run.
@@ -123,15 +151,24 @@ func AllocsPerRun(tb testing.TB, runs int, f func(), optfs ...Option) bool {
 	tb.Helper()
 	opts := buildOptions(optfs)
 	if opts.update {
-		allocs := testing.AllocsPerRun(runs, f)
-		addEntry(tb, entry{
-			AllocsPerRun: &allocsPerRunEntry{
-				Runs:   runs,
-				Allocs: allocs,
-			},
-		}, opts)
+		allocsPerRunUpdate(tb, runs, f, opts)
 		return true
 	}
+	return allocsPerRunCheck(tb, runs, f, opts)
+}
+
+func allocsPerRunUpdate(tb testing.TB, runs int, f func(), opts *options) {
+	tb.Helper()
+	addEntry(tb, entry{
+		AllocsPerRun: &allocsPerRunEntry{
+			Runs:   runs,
+			Allocs: testing.AllocsPerRun(runs, f),
+		},
+	}, opts)
+}
+
+func allocsPerRunCheck(tb testing.TB, runs int, f func(), opts *options) bool {
+	tb.Helper()
 	e, ok := getEntry(tb, opts)
 	if !ok {
 		return false
