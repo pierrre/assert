@@ -36,4 +36,8 @@ func Fail(tb testing.TB, name string, msg string, opts ...Option) {
 // It can be customized to provide a better string representation.
 //
 // By default it uses [pretty.String].
-var ValueStringer func(any) string = pretty.String
+var ValueStringer func(any) string = prettyString
+
+func prettyString(v any) string {
+	return pretty.String(v)
+}
