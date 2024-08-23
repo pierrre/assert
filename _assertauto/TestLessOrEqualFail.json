@@ -3,7 +3,7 @@
 		{
 			"equal": {
 				"type": "string",
-				"value": "assert less_or_equal[int]: not less than or equal to:\nv1 = [int] 123\nv2 = [int] 0"
+				"value": "assert less_or_equal[int]: not less than or equal to:\nv1 = 123\nv2 = 0"
 			}
 		}
 	]

@@ -3,7 +3,7 @@
 		{
 			"equal": {
 				"type": "string",
-				"value": "assert not_zero[int]: zero:\nv = [int] 0"
+				"value": "assert not_zero[int]: zero:\nv = 0"
 			}
 		}
 	]

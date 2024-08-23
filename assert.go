@@ -39,5 +39,8 @@ func Fail(tb testing.TB, name string, msg string, opts ...Option) {
 var ValueStringer func(any) string = prettyString
 
 func prettyString(v any) string {
-	return pretty.String(v)
+	return pretty.String(v, func(st pretty.State) pretty.State {
+		st.KnownType = true
+		return st
+	})
 }

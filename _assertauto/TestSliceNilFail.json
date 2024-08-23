@@ -3,7 +3,7 @@
 		{
 			"equal": {
 				"type": "string",
-				"value": "assert slice_nil[int]: not nil:\ns = [[]int] (len=0 cap=0) {}"
+				"value": "assert slice_nil[int]: not nil:\ns = (len=0 cap=0) {}"
 			}
 		}
 	]
