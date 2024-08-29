@@ -147,10 +147,11 @@ func TestDeepEqualFailType(t *testing.T) {
 
 func TestAllocsPerRun(t *testing.T) {
 	test(t, func(t *testing.T, opts ...Option) { //nolint:thelper // This is not a helper.
-		ok := AllocsPerRun(t, 10, func() {
+		allocs, ok := AllocsPerRun(t, 10, func() {
 			_ = make([]byte, 1<<20)
 		}, opts...)
 		assert.True(t, ok)
+		assert.Equal(t, 1, allocs)
 	})
 }
 
@@ -159,12 +160,12 @@ func TestAllocsPerRunFail(t *testing.T) {
 	tmpDir := t.TempDir()
 	t.Run("Write", func(t *testing.T) {
 		InitTestFunction(t, tmpDir, rootTest.Name(), Update(true))
-		ok := AllocsPerRun(t, 10, func() {}, Update(true))
+		_, ok := AllocsPerRun(t, 10, func() {}, Update(true))
 		assert.True(t, ok)
 	})
 	t.Run("Read", func(t *testing.T) {
 		InitTestFunction(t, tmpDir, rootTest.Name(), Update(false))
-		ok := AllocsPerRun(t, 10, func() {
+		_, ok := AllocsPerRun(t, 10, func() {
 			_ = make([]byte, 1<<20)
 		}, Update(false), AssertOptions(assert.Report(asserttest.NewReportAuto(rootTest))))
 		assert.False(t, ok)
@@ -173,9 +174,10 @@ func TestAllocsPerRunFail(t *testing.T) {
 
 func TestAllocsPerRunFailName(t *testing.T) {
 	testFailName(t, func(t *testing.T, opts ...Option) bool { //nolint:thelper // This is not a helper.
-		return AllocsPerRun(t, 10, func() {
+		_, ok := AllocsPerRun(t, 10, func() {
 			_ = make([]byte, 1<<20)
 		}, opts...)
+		return ok
 	})
 }
 
@@ -189,7 +191,7 @@ func TestAllocsPerRunFailEntryType(t *testing.T) {
 	})
 	t.Run("Read", func(t *testing.T) {
 		InitTestFunction(t, tmpDir, rootTest.Name(), Update(false))
-		ok := AllocsPerRun(t, 10, func() {
+		_, ok := AllocsPerRun(t, 10, func() {
 			_ = make([]byte, 1<<20)
 		}, Update(false), AssertOptions(assert.Report(asserttest.NewReportAuto(rootTest))))
 		assert.False(t, ok)
@@ -201,14 +203,14 @@ func TestAllocsPerRunFailRuns(t *testing.T) {
 	tmpDir := t.TempDir()
 	t.Run("Write", func(t *testing.T) {
 		InitTestFunction(t, tmpDir, rootTest.Name(), Update(true))
-		ok := AllocsPerRun(t, 10, func() {
+		_, ok := AllocsPerRun(t, 10, func() {
 			_ = make([]byte, 1<<20)
 		}, Update(true))
 		assert.True(t, ok)
 	})
 	t.Run("Read", func(t *testing.T) {
 		InitTestFunction(t, tmpDir, rootTest.Name(), Update(false))
-		ok := AllocsPerRun(t, 20, func() {
+		_, ok := AllocsPerRun(t, 20, func() {
 			_ = make([]byte, 1<<20)
 		}, Update(false), AssertOptions(assert.Report(asserttest.NewReportAuto(rootTest))))
 		assert.False(t, ok)

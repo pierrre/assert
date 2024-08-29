@@ -147,40 +147,41 @@ func deepEqualCheck(tb testing.TB, typeName string, opts *options) (entry, bool)
 }
 
 // AllocsPerRun asserts that a function allocates a certain number of times per run.
-func AllocsPerRun(tb testing.TB, runs int, f func(), optfs ...Option) bool {
+func AllocsPerRun(tb testing.TB, runs int, f func(), optfs ...Option) (float64, bool) {
 	tb.Helper()
 	opts := buildOptions(optfs)
 	if opts.update {
-		allocsPerRunUpdate(tb, runs, f, opts)
-		return true
+		return allocsPerRunUpdate(tb, runs, f, opts), true
 	}
 	return allocsPerRunCheck(tb, runs, f, opts)
 }
 
-func allocsPerRunUpdate(tb testing.TB, runs int, f func(), opts *options) {
+func allocsPerRunUpdate(tb testing.TB, runs int, f func(), opts *options) float64 {
 	tb.Helper()
+	allocs := testing.AllocsPerRun(runs, f)
 	addEntry(tb, entry{
 		AllocsPerRun: &allocsPerRunEntry{
 			Runs:   runs,
-			Allocs: testing.AllocsPerRun(runs, f),
+			Allocs: allocs,
 		},
 	}, opts)
+	return allocs
 }
 
-func allocsPerRunCheck(tb testing.TB, runs int, f func(), opts *options) bool {
+func allocsPerRunCheck(tb testing.TB, runs int, f func(), opts *options) (float64, bool) {
 	tb.Helper()
 	e, ok := getEntry(tb, opts)
 	if !ok {
-		return false
+		return 0, false
 	}
 	if !assert.NotZero(tb, e.AllocsPerRun, append(opts.opts, messageWrongEntryType, messageWrapAllocsPerRun, messageWrap)...) {
-		return false
+		return 0, false
 	}
 	if !assert.Equal(tb, e.AllocsPerRun.Runs, runs, append(opts.opts, messageWrapRuns, messageWrapAllocsPerRun, messageWrap)...) {
-		return false
+		return 0, false
 	}
 	expected := e.AllocsPerRun.Allocs
-	return assert.AllocsPerRun(tb, runs, f, expected, append(opts.opts, messageWrap)...)
+	return expected, assert.AllocsPerRun(tb, runs, f, expected, append(opts.opts, messageWrap)...)
 }
 
 func addEntry(tb testing.TB, e entry, opts *options) {
