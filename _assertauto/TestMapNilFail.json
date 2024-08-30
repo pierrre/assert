@@ -3,7 +3,7 @@
 		{
 			"equal": {
 				"type": "string",
-				"value": "assert map_nil[string, string]: not nil:\nm = (len=0) {}"
+				"value": "assert map_nil[string, string]: not nil:\nm = [map[string]string] (len=0) {}"
 			}
 		}
 	]
