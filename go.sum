@@ -2,5 +2,5 @@ github.com/pierrre/compare v1.4.10 h1:79reqKizcG04/9gw36nZ1zX9KUHx9l3JK13B4kZy0t
 github.com/pierrre/compare v1.4.10/go.mod h1:BOhu0I/xlf4sEQv0eygRWhGmJwsz1KCzfeVBuR+topM=
 github.com/pierrre/go-libs v0.7.5 h1:wFvWPvjm+BgfLyHvS1kiQpfXQ4lZtln0/MgSbDkGejc=
 github.com/pierrre/go-libs v0.7.5/go.mod h1:M4CRrYyylKQOogkC0DlpUxQmePdK0sM3oj4MEk3RkJc=
-github.com/pierrre/pretty v0.5.0 h1:fBUqVpdSa7g5q9Pv9KV/cMqwrSoxdeWC2CBqSzlCcuE=
-github.com/pierrre/pretty v0.5.0/go.mod h1:XveOMVnIEDqjPvV75xBekGZr2PDm3ieiQWeZS0gsYKY=
+github.com/pierrre/pretty v0.5.4 h1:PDf1FYbWPJiv9GIfqbJ9A3vrQvf74aZukNmCl9af8DI=
+github.com/pierrre/pretty v0.5.4/go.mod h1:uWYVnbl2WseO2nYFIFFWVrki0NNvNKs5aOLV4nuR7iI=
