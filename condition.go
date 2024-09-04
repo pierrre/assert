@@ -5,10 +5,12 @@ import (
 )
 
 // Condition asserts that f returns true.
+//
+//nolint:thelper // It's called below.
 func Condition(tb testing.TB, f func() bool, opts ...Option) bool {
-	tb.Helper()
 	ok := f()
 	if !ok {
+		tb.Helper()
 		Fail(
 			tb,
 			"condition",

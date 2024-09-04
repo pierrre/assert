@@ -6,10 +6,12 @@ import (
 )
 
 // Equal asserts that v1 == v2.
+//
+//nolint:thelper // It's called below.
 func Equal[T comparable](tb testing.TB, v1, v2 T, opts ...Option) bool {
-	tb.Helper()
 	ok := v1 == v2
 	if !ok {
+		tb.Helper()
 		Fail(
 			tb,
 			fmt.Sprintf("equal[%s]", typeName[T]()),
@@ -21,10 +23,12 @@ func Equal[T comparable](tb testing.TB, v1, v2 T, opts ...Option) bool {
 }
 
 // NotEqual asserts that v1 != v2.
+//
+//nolint:thelper // It's called below.
 func NotEqual[T comparable](tb testing.TB, v1, v2 T, opts ...Option) bool {
-	tb.Helper()
 	ok := v1 != v2
 	if !ok {
+		tb.Helper()
 		Fail(
 			tb,
 			fmt.Sprintf("not_equal[%s]", typeName[T]()),

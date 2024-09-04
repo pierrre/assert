@@ -6,11 +6,13 @@ import (
 )
 
 // Zero asserts that v == zero.
+//
+//nolint:thelper // It's called below.
 func Zero[T comparable](tb testing.TB, v T, opts ...Option) bool {
-	tb.Helper()
 	var zero T
 	ok := v == zero
 	if !ok {
+		tb.Helper()
 		Fail(
 			tb,
 			fmt.Sprintf("zero[%s]", typeName[T]()),
@@ -22,11 +24,13 @@ func Zero[T comparable](tb testing.TB, v T, opts ...Option) bool {
 }
 
 // NotZero asserts that v != zero.
+//
+//nolint:thelper // It's called below.
 func NotZero[T comparable](tb testing.TB, v T, opts ...Option) bool {
-	tb.Helper()
 	var zero T
 	ok := v != zero
 	if !ok {
+		tb.Helper()
 		Fail(
 			tb,
 			fmt.Sprintf("not_zero[%s]", typeName[T]()),

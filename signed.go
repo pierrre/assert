@@ -11,10 +11,12 @@ type SignedAndFloat interface {
 }
 
 // Positive asserts that the value is positive.
+//
+//nolint:thelper // It's called below.
 func Positive[T SignedAndFloat](tb testing.TB, v T, opts ...Option) bool {
-	tb.Helper()
 	ok := v > 0
 	if !ok {
+		tb.Helper()
 		Fail(
 			tb,
 			fmt.Sprintf("positive[%s]", typeName[T]()),
@@ -26,10 +28,12 @@ func Positive[T SignedAndFloat](tb testing.TB, v T, opts ...Option) bool {
 }
 
 // Negative asserts that the value is negative.
+//
+//nolint:thelper // It's called below.
 func Negative[T SignedAndFloat](tb testing.TB, v T, opts ...Option) bool {
-	tb.Helper()
 	ok := v < 0
 	if !ok {
+		tb.Helper()
 		Fail(
 			tb,
 			fmt.Sprintf("positive[%s]", typeName[T]()),

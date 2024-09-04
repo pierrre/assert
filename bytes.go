@@ -8,10 +8,12 @@ import (
 
 // BytesEqual asserts that b1 and b2 are equal.
 // It uses [bytes.Equal] to compare the two byte slices.
+//
+//nolint:thelper // It's called below.
 func BytesEqual(tb testing.TB, b1, b2 []byte, opts ...Option) bool {
-	tb.Helper()
 	ok := bytes.Equal(b1, b2)
 	if !ok {
+		tb.Helper()
 		Fail(
 			tb,
 			"bytes_equal",
@@ -24,10 +26,12 @@ func BytesEqual(tb testing.TB, b1, b2 []byte, opts ...Option) bool {
 
 // BytesNotEqual asserts that b1 and b2 are not equal.
 // It uses [bytes.Equal] to compare the two byte slices.
+//
+//nolint:thelper // It's called below.
 func BytesNotEqual(tb testing.TB, b1, b2 []byte, opts ...Option) bool {
-	tb.Helper()
 	ok := !bytes.Equal(b1, b2)
 	if !ok {
+		tb.Helper()
 		Fail(
 			tb,
 			"bytes_not_equal",

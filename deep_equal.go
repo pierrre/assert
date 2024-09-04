@@ -22,11 +22,13 @@ var DeepEqualer = func(v1, v2 any) (diff string, equal bool) {
 }
 
 // DeepEqual asserts that v1 and v2 are deep equal according to [DeepEqualer].
+//
+//nolint:thelper // It's called below.
 func DeepEqual[T any](tb testing.TB, v1, v2 T, opts ...Option) bool {
-	tb.Helper()
 	diff, equal := DeepEqualer(v1, v2)
 	ok := equal
 	if !ok {
+		tb.Helper()
 		Fail(
 			tb,
 			fmt.Sprintf("deep_equal[%s]", typeName[T]()),
@@ -38,11 +40,13 @@ func DeepEqual[T any](tb testing.TB, v1, v2 T, opts ...Option) bool {
 }
 
 // NotDeepEqual asserts that v1 and v2 are not deep equal according to [DeepEqualer].
+//
+//nolint:thelper // It's called below.
 func NotDeepEqual[T any](tb testing.TB, v1, v2 T, opts ...Option) bool {
-	tb.Helper()
 	_, equal := DeepEqualer(v1, v2)
 	ok := !equal
 	if !ok {
+		tb.Helper()
 		Fail(
 			tb,
 			fmt.Sprintf("not_deep_equal[%s]", typeName[T]()),

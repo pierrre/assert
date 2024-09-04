@@ -7,10 +7,12 @@ import (
 )
 
 // SliceNil asserts that s is nil.
+//
+//nolint:thelper // It's called below.
 func SliceNil[S ~[]E, E any](tb testing.TB, s S, opts ...Option) bool {
-	tb.Helper()
 	ok := s == nil
 	if !ok {
+		tb.Helper()
 		Fail(
 			tb,
 			fmt.Sprintf("slice_nil[%s]", typeName[E]()),
@@ -22,10 +24,12 @@ func SliceNil[S ~[]E, E any](tb testing.TB, s S, opts ...Option) bool {
 }
 
 // SliceNotNil asserts that s is not nil.
+//
+//nolint:thelper // It's called below.
 func SliceNotNil[S ~[]E, E any](tb testing.TB, s S, opts ...Option) bool {
-	tb.Helper()
 	ok := s != nil
 	if !ok {
+		tb.Helper()
 		Fail(
 			tb,
 			fmt.Sprintf("slice_not_nil[%s]", typeName[E]()),
@@ -37,10 +41,12 @@ func SliceNotNil[S ~[]E, E any](tb testing.TB, s S, opts ...Option) bool {
 }
 
 // SliceEmpty asserts that s is empty.
+//
+//nolint:thelper // It's called below.
 func SliceEmpty[S ~[]E, E any](tb testing.TB, s S, opts ...Option) bool {
-	tb.Helper()
 	ok := len(s) == 0
 	if !ok {
+		tb.Helper()
 		Fail(
 			tb,
 			fmt.Sprintf("slice_empty[%s]", typeName[E]()),
@@ -52,10 +58,12 @@ func SliceEmpty[S ~[]E, E any](tb testing.TB, s S, opts ...Option) bool {
 }
 
 // SliceNotEmpty asserts that s is not empty.
+//
+//nolint:thelper // It's called below.
 func SliceNotEmpty[S ~[]E, E any](tb testing.TB, s S, opts ...Option) bool {
-	tb.Helper()
 	ok := len(s) != 0
 	if !ok {
+		tb.Helper()
 		Fail(
 			tb,
 			fmt.Sprintf("slice_not_empty[%s]", typeName[E]()),
@@ -67,10 +75,12 @@ func SliceNotEmpty[S ~[]E, E any](tb testing.TB, s S, opts ...Option) bool {
 }
 
 // SliceLen asserts that s has length l.
+//
+//nolint:thelper // It's called below.
 func SliceLen[S ~[]E, E any](tb testing.TB, s S, l int, opts ...Option) bool {
-	tb.Helper()
 	ok := len(s) == l
 	if !ok {
+		tb.Helper()
 		Fail(
 			tb,
 			fmt.Sprintf("slice_len[%s]", typeName[E]()),
@@ -82,10 +92,12 @@ func SliceLen[S ~[]E, E any](tb testing.TB, s S, l int, opts ...Option) bool {
 }
 
 // SliceEqual asserts that s1 and s2 are equal.
+//
+//nolint:thelper // It's called below.
 func SliceEqual[S ~[]E, E comparable](tb testing.TB, s1, s2 S, opts ...Option) bool {
-	tb.Helper()
 	ok := slices.Equal(s1, s2)
 	if !ok {
+		tb.Helper()
 		Fail(
 			tb,
 			fmt.Sprintf("slice_equal[%s]", typeName[E]()),
@@ -97,10 +109,12 @@ func SliceEqual[S ~[]E, E comparable](tb testing.TB, s1, s2 S, opts ...Option) b
 }
 
 // SliceNotEqual asserts that s1 and s2 are not equal.
+//
+//nolint:thelper // It's called below.
 func SliceNotEqual[S ~[]E, E comparable](tb testing.TB, s1, s2 S, opts ...Option) bool {
-	tb.Helper()
 	ok := !slices.Equal(s1, s2)
 	if !ok {
+		tb.Helper()
 		Fail(
 			tb,
 			fmt.Sprintf("slice_not_equal[%s]", typeName[E]()),
@@ -112,10 +126,12 @@ func SliceNotEqual[S ~[]E, E comparable](tb testing.TB, s1, s2 S, opts ...Option
 }
 
 // SliceContains asserts that s contains v.
+//
+//nolint:thelper // It's called below.
 func SliceContains[S ~[]E, E comparable](tb testing.TB, s S, v E, opts ...Option) bool {
-	tb.Helper()
 	ok := slices.Contains(s, v)
 	if !ok {
+		tb.Helper()
 		Fail(
 			tb,
 			fmt.Sprintf("slice_contains[%s]", typeName[E]()),
@@ -127,10 +143,12 @@ func SliceContains[S ~[]E, E comparable](tb testing.TB, s S, v E, opts ...Option
 }
 
 // SliceNotContains asserts that s does not contain v.
+//
+//nolint:thelper // It's called below.
 func SliceNotContains[S ~[]E, E comparable](tb testing.TB, s S, v E, opts ...Option) bool {
-	tb.Helper()
 	ok := !slices.Contains(s, v)
 	if !ok {
+		tb.Helper()
 		Fail(
 			tb,
 			fmt.Sprintf("slice_not_contains[%s]", typeName[E]()),
@@ -142,10 +160,12 @@ func SliceNotContains[S ~[]E, E comparable](tb testing.TB, s S, v E, opts ...Opt
 }
 
 // SliceContainsAll asserts that s1 contains all elements in s2.
+//
+//nolint:thelper // It's called below.
 func SliceContainsAll[S ~[]E, E comparable](tb testing.TB, s1, s2 S, opts ...Option) bool {
-	tb.Helper()
 	ok := sliceContainsAll(s1, s2)
 	if !ok {
+		tb.Helper()
 		Fail(
 			tb,
 			fmt.Sprintf("slice_contains_all[%s]", typeName[E]()),
@@ -157,10 +177,12 @@ func SliceContainsAll[S ~[]E, E comparable](tb testing.TB, s1, s2 S, opts ...Opt
 }
 
 // SliceNotContainsAll asserts that s1 does not contain all elements in s2.
+//
+//nolint:thelper // It's called below.
 func SliceNotContainsAll[S ~[]E, E comparable](tb testing.TB, s1, s2 S, opts ...Option) bool {
-	tb.Helper()
 	ok := !sliceContainsAll(s1, s2)
 	if !ok {
+		tb.Helper()
 		Fail(
 			tb,
 			fmt.Sprintf("slice_not_contains_all[%s]", typeName[E]()),

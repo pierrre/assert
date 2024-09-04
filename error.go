@@ -18,10 +18,12 @@ var ErrorStringer func(error) string = func(err error) string {
 }
 
 // Error asserts that err is not nil.
+//
+//nolint:thelper // It's called below.
 func Error(tb testing.TB, err error, opts ...Option) bool {
-	tb.Helper()
 	ok := err != nil
 	if !ok {
+		tb.Helper()
 		Fail(
 			tb,
 			"error",
@@ -33,10 +35,12 @@ func Error(tb testing.TB, err error, opts ...Option) bool {
 }
 
 // NoError asserts that err is nil.
+//
+//nolint:thelper // It's called below.
 func NoError(tb testing.TB, err error, opts ...Option) bool {
-	tb.Helper()
 	ok := err == nil
 	if !ok {
+		tb.Helper()
 		Fail(
 			tb,
 			"no_error",
@@ -48,10 +52,12 @@ func NoError(tb testing.TB, err error, opts ...Option) bool {
 }
 
 // ErrorIs asserts that [errors.Is] returns true.
+//
+//nolint:thelper // It's called below.
 func ErrorIs(tb testing.TB, err, target error, opts ...Option) bool {
-	tb.Helper()
 	ok := errors.Is(err, target)
 	if !ok {
+		tb.Helper()
 		Fail(
 			tb,
 			"error_is",
@@ -63,10 +69,12 @@ func ErrorIs(tb testing.TB, err, target error, opts ...Option) bool {
 }
 
 // ErrorNotIs asserts that [errors.Is] returns false.
+//
+//nolint:thelper // It's called below.
 func ErrorNotIs(tb testing.TB, err, target error, opts ...Option) bool {
-	tb.Helper()
 	ok := !errors.Is(err, target)
 	if !ok {
+		tb.Helper()
 		Fail(
 			tb,
 			"error_not_is",
@@ -78,10 +86,12 @@ func ErrorNotIs(tb testing.TB, err, target error, opts ...Option) bool {
 }
 
 // ErrorAs asserts that [errors.As] returns true.
+//
+//nolint:thelper // It's called below.
 func ErrorAs(tb testing.TB, err error, target any, opts ...Option) bool {
-	tb.Helper()
 	ok := errors.As(err, target)
 	if !ok {
+		tb.Helper()
 		Fail(
 			tb,
 			"error_as",

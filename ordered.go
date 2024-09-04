@@ -7,10 +7,12 @@ import (
 )
 
 // Greater asserts that v1 > v2.
+//
+//nolint:thelper // It's called below.
 func Greater[T cmp.Ordered](tb testing.TB, v1, v2 T, opts ...Option) bool {
-	tb.Helper()
 	ok := v1 > v2
 	if !ok {
+		tb.Helper()
 		Fail(
 			tb,
 			fmt.Sprintf("greater[%s]", typeName[T]()),
@@ -22,10 +24,12 @@ func Greater[T cmp.Ordered](tb testing.TB, v1, v2 T, opts ...Option) bool {
 }
 
 // GreaterOrEqual asserts that v1 >= v2.
+//
+//nolint:thelper // It's called below.
 func GreaterOrEqual[T cmp.Ordered](tb testing.TB, v1, v2 T, opts ...Option) bool {
-	tb.Helper()
 	ok := v1 >= v2
 	if !ok {
+		tb.Helper()
 		Fail(
 			tb,
 			fmt.Sprintf("greater_or_equal[%s]", typeName[T]()),
@@ -37,10 +41,12 @@ func GreaterOrEqual[T cmp.Ordered](tb testing.TB, v1, v2 T, opts ...Option) bool
 }
 
 // Less asserts that v1 < v2.
+//
+//nolint:thelper // It's called below.
 func Less[T cmp.Ordered](tb testing.TB, v1, v2 T, opts ...Option) bool {
-	tb.Helper()
 	ok := v1 < v2
 	if !ok {
+		tb.Helper()
 		Fail(
 			tb,
 			fmt.Sprintf("less[%s]", typeName[T]()),
@@ -52,10 +58,12 @@ func Less[T cmp.Ordered](tb testing.TB, v1, v2 T, opts ...Option) bool {
 }
 
 // LessOrEqual asserts that v1 <= v2.
+//
+//nolint:thelper // It's called below.
 func LessOrEqual[T cmp.Ordered](tb testing.TB, v1, v2 T, opts ...Option) bool {
-	tb.Helper()
 	ok := v1 <= v2
 	if !ok {
+		tb.Helper()
 		Fail(
 			tb,
 			fmt.Sprintf("less_or_equal[%s]", typeName[T]()),

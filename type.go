@@ -8,10 +8,12 @@ import (
 )
 
 // Type asserts that v is of type T, and returns it.
+//
+//nolint:thelper // It's called below.
 func Type[T any](tb testing.TB, v any, opts ...Option) (T, bool) {
-	tb.Helper()
 	vt, ok := v.(T)
 	if !ok {
+		tb.Helper()
 		Fail(
 			tb,
 			fmt.Sprintf("type[%s]", typeName[T]()),

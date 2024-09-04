@@ -5,10 +5,12 @@ import (
 )
 
 // True asserts that v == true.
+//
+//nolint:thelper // It's called below.
 func True(tb testing.TB, v bool, opts ...Option) bool {
-	tb.Helper()
 	ok := v
 	if !ok {
+		tb.Helper()
 		Fail(
 			tb,
 			"true",
@@ -20,10 +22,12 @@ func True(tb testing.TB, v bool, opts ...Option) bool {
 }
 
 // False asserts that v == false.
+//
+//nolint:thelper // It's called below.
 func False(tb testing.TB, v bool, opts ...Option) bool {
-	tb.Helper()
 	ok := !v
 	if !ok {
+		tb.Helper()
 		Fail(
 			tb,
 			"false",
