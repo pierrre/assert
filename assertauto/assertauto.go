@@ -264,7 +264,7 @@ func newTestFunction(tb testing.TB, fp string, opts *options) *testFunction {
 func (tf *testFunction) load(tb testing.TB, fp string) {
 	tb.Helper()
 	b, err := os.ReadFile(fp)
-	assert.NoError(tb, err)
+	assert.NoError(tb, err, messageWrapLoad, messageWrap)
 	f := jsonDecode[file](tb, b)
 	tf.entries = f.Entries
 }
@@ -277,11 +277,11 @@ func (tf *testFunction) save(tb testing.TB, fp string) {
 	data := jsonEncode(tb, f)
 	dir := filepath.Dir(fp)
 	err := os.MkdirAll(dir, 0o755)
-	assert.NoError(tb, err)
+	assert.NoError(tb, err, messageWrapSave, messageWrap)
 	err = os.RemoveAll(fp)
-	assert.NoError(tb, err)
+	assert.NoError(tb, err, messageWrapSave, messageWrap)
 	err = os.WriteFile(fp, data, 0o644) //nolint:gosec // We want 644.
-	assert.NoError(tb, err)
+	assert.NoError(tb, err, messageWrapSave, messageWrap)
 }
 
 func (tf *testFunction) addEntry(tb testing.TB, entry entry) {
@@ -348,7 +348,7 @@ func jsonEncode(tb testing.TB, v any) []byte {
 	enc.SetIndent("", "\t")
 	enc.SetEscapeHTML(false)
 	err := enc.Encode(v)
-	assert.NoError(tb, err)
+	assert.NoError(tb, err, messageWrapJSONEncode, messageWrap)
 	return buf.Bytes()
 }
 
@@ -358,7 +358,7 @@ func jsonDecode[T any](tb testing.TB, data []byte) T {
 	dec := json.NewDecoder(bytes.NewReader(data))
 	dec.DisallowUnknownFields()
 	err := dec.Decode(&v)
-	assert.NoError(tb, err)
+	assert.NoError(tb, err, messageWrapJSONDecode, messageWrap)
 	return v
 }
 
@@ -431,4 +431,8 @@ var (
 	messageWrapCannotGetEntry   = assert.MessageWrap("cannot get entry if update is true")
 	messageWrapNoEntryRemaining = assert.MessageWrap("no entry remaining")
 	messageWrapEntriesRemaining = assert.MessageWrap("entries remaining")
+	messageWrapLoad             = assert.MessageWrap("load")
+	messageWrapSave             = assert.MessageWrap("save")
+	messageWrapJSONEncode       = assert.MessageWrap("json encode")
+	messageWrapJSONDecode       = assert.MessageWrap("json decode")
 )
