@@ -11,14 +11,19 @@ import (
 //
 // It can be customized to provide a better comparison.
 //
-// By default it uses [compare.Compare].
-var DeepEqualer = func(v1, v2 any) (diff string, equal bool) {
-	res := compare.Compare(v1, v2)
-	if len(res) == 0 {
-		return "", true
+// By default it uses [compare.DefaultComparator].
+var DeepEqualer = NewDeepEqualerWithComparator(compare.DefaultComparator)
+
+// NewDeepEqualerWithComparator creates a new [DeepEqualer] with a custom [compare.Comparator].
+func NewDeepEqualerWithComparator(cr *compare.Comparator) func(v1, v2 any) (string, bool) {
+	return func(v1, v2 any) (string, bool) {
+		res := cr.Compare(v1, v2)
+		if len(res) == 0 {
+			return "", true
+		}
+		diff := fmt.Sprintf("%+v", res)
+		return diff, false
 	}
-	diff = fmt.Sprintf("%+v", res)
-	return diff, false
 }
 
 // DeepEqual asserts that v1 and v2 are deep equal according to [DeepEqualer].
