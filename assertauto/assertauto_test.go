@@ -1,6 +1,7 @@
 package assertauto_test
 
 import (
+	"errors"
 	"testing"
 
 	"github.com/pierrre/assert"
@@ -141,6 +142,34 @@ func TestDeepEqualFailType(t *testing.T) {
 	t.Run("Read", func(t *testing.T) {
 		InitTestFunction(t, tmpDir, rootTest.Name(), Update(false))
 		ok := DeepEqual(t, 123, Update(false), AssertOptions(assert.Report(asserttest.NewReportAuto(rootTest))))
+		assert.False(t, ok)
+	})
+}
+
+func TestErrorEqual(t *testing.T) {
+	test(t, func(t *testing.T, opts ...Option) { //nolint:thelper // This is not a helper.
+		ok := ErrorEqual(t, errors.New("error"), opts...)
+		assert.True(t, ok)
+	})
+}
+
+func TestErrorEqualFailName(t *testing.T) {
+	testFailName(t, func(t *testing.T, opts ...Option) bool { //nolint:thelper // This is not a helper.
+		return ErrorEqual(t, errors.New("error"), opts...)
+	})
+}
+
+func TestErrorEqualFailEntryType(t *testing.T) {
+	rootTest := t
+	tmpDir := t.TempDir()
+	t.Run("Write", func(t *testing.T) {
+		InitTestFunction(t, tmpDir, rootTest.Name(), Update(true))
+		ok := Equal(t, 123, Update(true))
+		assert.True(t, ok)
+	})
+	t.Run("Read", func(t *testing.T) {
+		InitTestFunction(t, tmpDir, rootTest.Name(), Update(false))
+		ok := ErrorEqual(t, errors.New("error"), Update(false), AssertOptions(assert.Report(asserttest.NewReportAuto(rootTest))))
 		assert.False(t, ok)
 	})
 }

@@ -146,6 +146,39 @@ func deepEqualCheck(tb testing.TB, typeName string, opts *options) (entry, bool)
 	return e, true
 }
 
+// ErrorEqual asserts that the error message is equal to the expected message.
+func ErrorEqual(tb testing.TB, err error, optfs ...Option) bool {
+	tb.Helper()
+	opts := buildOptions(optfs)
+	if opts.update {
+		errorEqualUpdate(tb, err, opts)
+		return true
+	}
+	return errorEqualCheck(tb, err, opts)
+}
+
+func errorEqualUpdate(tb testing.TB, err error, opts *options) {
+	tb.Helper()
+	assert.Error(tb, err, append(opts.opts, messageWrapErrorEqual, messageWrap)...)
+	addEntry(tb, entry{
+		ErrorEqual: &errorEqualEntry{
+			Message: err.Error(),
+		},
+	}, opts)
+}
+
+func errorEqualCheck(tb testing.TB, err error, opts *options) bool {
+	tb.Helper()
+	e, ok := getEntry(tb, opts)
+	if !ok {
+		return false
+	}
+	if !assert.NotZero(tb, e.ErrorEqual, append(opts.opts, messageWrongEntryType, messageWrapErrorEqual, messageWrap)...) {
+		return false
+	}
+	return assert.ErrorEqual(tb, err, e.ErrorEqual.Message, append(opts.opts, messageWrap)...)
+}
+
 // AllocsPerRun asserts that a function allocates a certain number of times per run.
 func AllocsPerRun(tb testing.TB, runs int, f func(), optfs ...Option) (float64, bool) {
 	tb.Helper()
@@ -323,6 +356,7 @@ type entry struct {
 	Name         string             `json:"name,omitempty"`
 	Equal        *equalEntry        `json:"equal,omitempty"`
 	DeepEqual    *deepEqualEntry    `json:"deep_equal,omitempty"`
+	ErrorEqual   *errorEqualEntry   `json:"error_equal,omitempty"`
 	AllocsPerRun *allocsPerRunEntry `json:"allocs_per_run,omitempty"`
 }
 
@@ -334,6 +368,10 @@ type equalEntry struct {
 type deepEqualEntry struct {
 	Type  string          `json:"type"`
 	Value json.RawMessage `json:"value"`
+}
+
+type errorEqualEntry struct {
+	Message string `json:"message"`
 }
 
 type allocsPerRunEntry struct {
@@ -422,6 +460,7 @@ var (
 	messageWrap                 = assert.MessageWrap("assertauto")
 	messageWrapEqual            = assert.MessageWrap("equal")
 	messageWrapDeepEqual        = assert.MessageWrap("deep_equal")
+	messageWrapErrorEqual       = assert.MessageWrap("error_equal")
 	messageWrapAllocsPerRun     = assert.MessageWrap("allocs_per_run")
 	messageWrongEntryType       = assert.Message("wrong entry type")
 	messageWrapType             = assert.MessageWrap("type")
