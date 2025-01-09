@@ -1,0 +1,10 @@
+{
+	"entries": [
+		{
+			"equal": {
+				"type": "string",
+				"value": "assert bytes_not_contains: contains:\nb = (len=3 cap=3)\n\t00000000  61 62 63                                          |abc|\n\nsubslice = (len=1 cap=1)\n\t00000000  62                                                |b|\n"
+			}
+		}
+	]
+}
