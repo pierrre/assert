@@ -15,7 +15,7 @@ func SliceNil[S ~[]E, E any](tb testing.TB, s S, opts ...Option) bool {
 		tb.Helper()
 		Fail(
 			tb,
-			fmt.Sprintf("slice_nil[%s]", typeName[E]()),
+			"slice_nil",
 			"not nil:\ns = "+ValueStringer(s),
 			opts...,
 		)
@@ -32,7 +32,7 @@ func SliceNotNil[S ~[]E, E any](tb testing.TB, s S, opts ...Option) bool {
 		tb.Helper()
 		Fail(
 			tb,
-			fmt.Sprintf("slice_not_nil[%s]", typeName[E]()),
+			"slice_not_nil",
 			"nil",
 			opts...,
 		)
@@ -49,7 +49,7 @@ func SliceEmpty[S ~[]E, E any](tb testing.TB, s S, opts ...Option) bool {
 		tb.Helper()
 		Fail(
 			tb,
-			fmt.Sprintf("slice_empty[%s]", typeName[E]()),
+			"slice_empty",
 			fmt.Sprintf("not empty:\nlength = %d\ns = %s", len(s), ValueStringer(s)),
 			opts...,
 		)
@@ -66,7 +66,7 @@ func SliceNotEmpty[S ~[]E, E any](tb testing.TB, s S, opts ...Option) bool {
 		tb.Helper()
 		Fail(
 			tb,
-			fmt.Sprintf("slice_not_empty[%s]", typeName[E]()),
+			"slice_not_empty",
 			"empty",
 			opts...,
 		)
@@ -83,7 +83,7 @@ func SliceLen[S ~[]E, E any](tb testing.TB, s S, l int, opts ...Option) bool {
 		tb.Helper()
 		Fail(
 			tb,
-			fmt.Sprintf("slice_len[%s]", typeName[E]()),
+			"slice_len",
 			fmt.Sprintf("unexpected length:\nexpected = %d\nactual = %d", l, len(s)),
 			opts...,
 		)
@@ -100,7 +100,7 @@ func SliceEqual[S ~[]E, E comparable](tb testing.TB, s1, s2 S, opts ...Option) b
 		tb.Helper()
 		Fail(
 			tb,
-			fmt.Sprintf("slice_equal[%s]", typeName[E]()),
+			"slice_equal",
 			fmt.Sprintf("not equal:\ns1 = %s\ns2 = %s", ValueStringer(s1), ValueStringer(s2)),
 			opts...,
 		)
@@ -117,7 +117,7 @@ func SliceNotEqual[S ~[]E, E comparable](tb testing.TB, s1, s2 S, opts ...Option
 		tb.Helper()
 		Fail(
 			tb,
-			fmt.Sprintf("slice_not_equal[%s]", typeName[E]()),
+			"slice_not_equal",
 			fmt.Sprintf("equal:\ns1 = %s\ns2 = %s", ValueStringer(s1), ValueStringer(s2)),
 			opts...,
 		)
@@ -134,7 +134,7 @@ func SliceContains[S ~[]E, E comparable](tb testing.TB, s S, v E, opts ...Option
 		tb.Helper()
 		Fail(
 			tb,
-			fmt.Sprintf("slice_contains[%s]", typeName[E]()),
+			"slice_contains",
 			fmt.Sprintf("not contains:\ns = %s\nv = %s", ValueStringer(s), ValueStringer(v)),
 			opts...,
 		)
@@ -151,7 +151,7 @@ func SliceNotContains[S ~[]E, E comparable](tb testing.TB, s S, v E, opts ...Opt
 		tb.Helper()
 		Fail(
 			tb,
-			fmt.Sprintf("slice_not_contains[%s]", typeName[E]()),
+			"slice_not_contains",
 			fmt.Sprintf("contains:\ns = %s\nv = %s", ValueStringer(s), ValueStringer(v)),
 			opts...,
 		)
@@ -168,7 +168,7 @@ func SliceContainsAll[S ~[]E, E comparable](tb testing.TB, s1, s2 S, opts ...Opt
 		tb.Helper()
 		Fail(
 			tb,
-			fmt.Sprintf("slice_contains_all[%s]", typeName[E]()),
+			"slice_contains_all",
 			fmt.Sprintf("not contains all:\ns1 = %s\ns2 = %s", ValueStringer(s1), ValueStringer(s2)),
 			opts...,
 		)
@@ -185,7 +185,7 @@ func SliceNotContainsAll[S ~[]E, E comparable](tb testing.TB, s1, s2 S, opts ...
 		tb.Helper()
 		Fail(
 			tb,
-			fmt.Sprintf("slice_not_contains_all[%s]", typeName[E]()),
+			"slice_not_contains_all",
 			fmt.Sprintf("contains all:\ns1 = %s\ns2 = %s", ValueStringer(s1), ValueStringer(s2)),
 			opts...,
 		)

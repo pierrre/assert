@@ -3,7 +3,7 @@
 		{
 			"equal": {
 				"type": "string",
-				"value": "assert map_not_empty[string, string]: empty"
+				"value": "assert map_not_empty: empty"
 			}
 		}
 	]

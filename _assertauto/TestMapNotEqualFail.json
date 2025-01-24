@@ -3,7 +3,7 @@
 		{
 			"equal": {
 				"type": "string",
-				"value": "assert map_not_equal[string, string]: equal:\nm1 = [map[string]string] (len=1) {\n\t\"foo\": (len=3) \"bar\",\n}\nm2 = [map[string]string] (len=1) {\n\t\"foo\": (len=3) \"bar\",\n}"
+				"value": "assert map_not_equal: equal:\nm1 = [map[string]string] (len=1) {\n\t\"foo\": (len=3) \"bar\",\n}\nm2 = [map[string]string] (len=1) {\n\t\"foo\": (len=3) \"bar\",\n}"
 			}
 		}
 	]

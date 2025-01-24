@@ -3,7 +3,7 @@
 		{
 			"equal": {
 				"type": "string",
-				"value": "assertauto: entries remaining: assert slice_empty[github.com/pierrre/assert/assertauto.entry]: not empty:\nlength = 1\ns = [[]assertauto.entry] (len=1 cap=1) {\n\t{\n\t\tName: [string] (len=0) \"\",\n\t\tEqual: [*assertauto.equalEntry] => {\n\t\t\tType: [string] (len=3) \"int\",\n\t\t\tValue: [json.RawMessage]([]uint8) (len=3 cap=8) {\n\t\t\t\t49,\n\t\t\t\t50,\n\t\t\t\t51,\n\t\t\t},\n\t\t},\n\t\tDeepEqual: [*assertauto.deepEqualEntry] <nil>,\n\t\tErrorEqual: [*assertauto.errorEqualEntry] <nil>,\n\t\tAllocsPerRun: [*assertauto.allocsPerRunEntry] <nil>,\n\t},\n}"
+				"value": "assertauto: entries remaining: assert slice_empty: not empty:\nlength = 1\ns = [[]assertauto.entry] (len=1 cap=1) {\n\t{\n\t\tName: [string] (len=0) \"\",\n\t\tEqual: [*assertauto.equalEntry] => {\n\t\t\tType: [string] (len=3) \"int\",\n\t\t\tValue: [json.RawMessage]([]uint8) (len=3 cap=8) {\n\t\t\t\t49,\n\t\t\t\t50,\n\t\t\t\t51,\n\t\t\t},\n\t\t},\n\t\tDeepEqual: [*assertauto.deepEqualEntry] <nil>,\n\t\tErrorEqual: [*assertauto.errorEqualEntry] <nil>,\n\t\tAllocsPerRun: [*assertauto.allocsPerRunEntry] <nil>,\n\t},\n}"
 			}
 		}
 	]

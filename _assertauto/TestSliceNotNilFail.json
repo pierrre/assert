@@ -3,7 +3,7 @@
 		{
 			"equal": {
 				"type": "string",
-				"value": "assert slice_not_nil[int]: nil"
+				"value": "assert slice_not_nil: nil"
 			}
 		}
 	]

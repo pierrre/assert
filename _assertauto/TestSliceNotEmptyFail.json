@@ -3,7 +3,7 @@
 		{
 			"equal": {
 				"type": "string",
-				"value": "assert slice_not_empty[int]: empty"
+				"value": "assert slice_not_empty: empty"
 			}
 		}
 	]

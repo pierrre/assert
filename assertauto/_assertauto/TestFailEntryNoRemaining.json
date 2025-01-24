@@ -3,7 +3,7 @@
 		{
 			"equal": {
 				"type": "string",
-				"value": "assertauto: no entry remaining: assert slice_not_empty[github.com/pierrre/assert/assertauto.entry]: empty"
+				"value": "assertauto: no entry remaining: assert slice_not_empty: empty"
 			}
 		}
 	]

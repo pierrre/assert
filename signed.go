@@ -1,7 +1,6 @@
 package assert
 
 import (
-	"fmt"
 	"testing"
 )
 
@@ -19,7 +18,7 @@ func Positive[T SignedAndFloat](tb testing.TB, v T, opts ...Option) bool {
 		tb.Helper()
 		Fail(
 			tb,
-			fmt.Sprintf("positive[%s]", typeName[T]()),
+			"positive",
 			"not positive:\nv = "+ValueStringer(v),
 			opts...,
 		)
@@ -36,7 +35,7 @@ func Negative[T SignedAndFloat](tb testing.TB, v T, opts ...Option) bool {
 		tb.Helper()
 		Fail(
 			tb,
-			fmt.Sprintf("positive[%s]", typeName[T]()),
+			"positive",
 			"not negative:\nv = "+ValueStringer(v),
 			opts...,
 		)

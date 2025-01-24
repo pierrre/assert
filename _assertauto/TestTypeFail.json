@@ -3,7 +3,7 @@
 		{
 			"equal": {
 				"type": "string",
-				"value": "assert type[int]: assertion failed:\nsource = string\ndestination = int"
+				"value": "assert type: assertion failed:\nsource = string\ndestination = int"
 			}
 		}
 	]

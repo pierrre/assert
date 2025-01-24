@@ -3,7 +3,7 @@
 		{
 			"equal": {
 				"type": "string",
-				"value": "assertauto: deep_equal: type: assert equal[string]: not equal:\nv1 = [string] (len=53) \"*github.com/pierrre/assert/assertauto_test.testStruct\"\nv2 = [string] (len=3) \"int\""
+				"value": "assertauto: deep_equal: type: assert equal: not equal:\nv1 = [string] (len=53) \"*github.com/pierrre/assert/assertauto_test.testStruct\"\nv2 = [string] (len=3) \"int\""
 			}
 		}
 	]

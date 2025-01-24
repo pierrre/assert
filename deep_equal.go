@@ -36,7 +36,7 @@ func DeepEqual[T any](tb testing.TB, v1, v2 T, opts ...Option) bool {
 		tb.Helper()
 		Fail(
 			tb,
-			fmt.Sprintf("deep_equal[%s]", typeName[T]()),
+			"deep_equal",
 			fmt.Sprintf("not equal:\ndiff = %s\nv1 = %s\nv2 = %s", diff, ValueStringer(v1), ValueStringer(v2)),
 			opts...,
 		)
@@ -54,7 +54,7 @@ func NotDeepEqual[T any](tb testing.TB, v1, v2 T, opts ...Option) bool {
 		tb.Helper()
 		Fail(
 			tb,
-			fmt.Sprintf("not_deep_equal[%s]", typeName[T]()),
+			"not_deep_equal",
 			fmt.Sprintf("equal:\nv1 = %s\nv2 = %s", ValueStringer(v1), ValueStringer(v2)),
 			opts...,
 		)

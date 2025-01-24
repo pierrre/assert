@@ -3,7 +3,7 @@
 		{
 			"equal": {
 				"type": "string",
-				"value": "assert chan_not_empty[int]: empty"
+				"value": "assert chan_not_empty: empty"
 			}
 		}
 	]

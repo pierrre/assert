@@ -16,7 +16,7 @@ func Type[T any](tb testing.TB, v any, opts ...Option) (T, bool) {
 		tb.Helper()
 		Fail(
 			tb,
-			fmt.Sprintf("type[%s]", typeName[T]()),
+			"type",
 			fmt.Sprintf("assertion failed:\nsource = %T\ndestination = %s", v, typeName[T]()),
 			opts...,
 		)

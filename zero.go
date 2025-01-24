@@ -1,7 +1,6 @@
 package assert
 
 import (
-	"fmt"
 	"testing"
 )
 
@@ -15,7 +14,7 @@ func Zero[T comparable](tb testing.TB, v T, opts ...Option) bool {
 		tb.Helper()
 		Fail(
 			tb,
-			fmt.Sprintf("zero[%s]", typeName[T]()),
+			"zero",
 			"not zero:\nv = "+ValueStringer(v),
 			opts...,
 		)
@@ -33,7 +32,7 @@ func NotZero[T comparable](tb testing.TB, v T, opts ...Option) bool {
 		tb.Helper()
 		Fail(
 			tb,
-			fmt.Sprintf("not_zero[%s]", typeName[T]()),
+			"not_zero",
 			"zero:\nv = "+ValueStringer(v),
 			opts...,
 		)

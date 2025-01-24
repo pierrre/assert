@@ -3,7 +3,7 @@
 		{
 			"equal": {
 				"type": "string",
-				"value": "assertauto: assert equal[int]: not equal:\nv1 = [int] 456\nv2 = [int] 123"
+				"value": "assertauto: assert equal: not equal:\nv1 = [int] 456\nv2 = [int] 123"
 			}
 		}
 	]

@@ -3,7 +3,7 @@
 		{
 			"equal": {
 				"type": "string",
-				"value": "assert map_len[string, string]: unexpected length:\nexpected = 2\nactual = 1"
+				"value": "assert map_len: unexpected length:\nexpected = 2\nactual = 1"
 			}
 		}
 	]
