@@ -3,7 +3,7 @@
 		{
 			"equal": {
 				"type": "string",
-				"value": "assertauto: allocs_per_run: runs: assert equal[int]: not equal:\nv1 = 10\nv2 = 20"
+				"value": "assertauto: allocs_per_run: runs: assert equal[int]: not equal:\nv1 = [int] 10\nv2 = [int] 20"
 			}
 		}
 	]
