@@ -3,7 +3,7 @@
 		{
 			"equal": {
 				"type": "string",
-				"value": "assert greater[int]: not greater than:\nv1 = 0\nv2 = 123"
+				"value": "assert greater[int]: not greater than:\nv1 = [int] 0\nv2 = [int] 123"
 			}
 		}
 	]
