@@ -6,40 +6,6 @@ import (
 	"testing"
 )
 
-// StringEmpty asserts that s is empty.
-//
-//nolint:thelper // It's called below.
-func StringEmpty(tb testing.TB, s string, opts ...Option) bool {
-	ok := s == ""
-	if !ok {
-		tb.Helper()
-		Fail(
-			tb,
-			"string_empty",
-			fmt.Sprintf("not empty:\ns = %q", s),
-			opts...,
-		)
-	}
-	return ok
-}
-
-// StringNotEmpty asserts that s is not empty.
-//
-//nolint:thelper // It's called below.
-func StringNotEmpty(tb testing.TB, s string, opts ...Option) bool {
-	ok := s != ""
-	if !ok {
-		tb.Helper()
-		Fail(
-			tb,
-			"string_not_empty",
-			"empty",
-			opts...,
-		)
-	}
-	return ok
-}
-
 // StringLen asserts that s has length l.
 //
 //nolint:thelper // It's called below.

@@ -7,28 +7,6 @@ import (
 	"github.com/pierrre/assert/asserttest"
 )
 
-func TestStringEmpty(t *testing.T) {
-	ok := StringEmpty(t, "")
-	True(t, ok)
-}
-
-func TestStringEmptyFail(t *testing.T) {
-	report := asserttest.NewReportAuto(t)
-	ok := StringEmpty(t, "abc", Report(report))
-	False(t, ok)
-}
-
-func TestStringNotEmpty(t *testing.T) {
-	ok := StringNotEmpty(t, "abc")
-	True(t, ok)
-}
-
-func TestStringNotEmptyFail(t *testing.T) {
-	report := asserttest.NewReportAuto(t)
-	ok := StringNotEmpty(t, "", Report(report))
-	False(t, ok)
-}
-
 func TestStringLen(t *testing.T) {
 	ok := StringLen(t, "abc", 3)
 	True(t, ok)
