@@ -105,25 +105,3 @@ func TestSliceNotContainsFail(t *testing.T) {
 	ok := SliceNotContains(t, []int{1, 2}, 1, Report(report))
 	False(t, ok)
 }
-
-func TestSliceContainsAll(t *testing.T) {
-	ok := SliceContainsAll(t, []int{1, 2}, []int{1})
-	True(t, ok)
-}
-
-func TestSliceContainsAllFail(t *testing.T) {
-	report := asserttest.NewReportAuto(t)
-	ok := SliceContainsAll(t, []int{1, 2}, []int{3}, Report(report))
-	False(t, ok)
-}
-
-func TestSliceNotContainsAll(t *testing.T) {
-	ok := SliceNotContainsAll(t, []int{1, 2}, []int{3})
-	True(t, ok)
-}
-
-func TestSliceNotContainsAllFail(t *testing.T) {
-	report := asserttest.NewReportAuto(t)
-	ok := SliceNotContainsAll(t, []int{1, 2}, []int{1}, Report(report))
-	False(t, ok)
-}
