@@ -17,13 +17,9 @@ func Type[T any](tb testing.TB, v any, opts ...Option) (T, bool) {
 		Fail(
 			tb,
 			"type",
-			fmt.Sprintf("assertion failed:\nsource = %T\ndestination = %s", v, typeName[T]()),
+			fmt.Sprintf("assertion failed:\nsource = %T\ndestination = %s", v, reflectutil.TypeFullNameFor[T]()),
 			opts...,
 		)
 	}
 	return vt, ok
-}
-
-func typeName[T any]() string {
-	return reflectutil.TypeFullNameFor[T]()
 }
