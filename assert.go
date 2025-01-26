@@ -19,7 +19,7 @@ import (
 type ReportFunc func(args ...any)
 
 // Fail handles assertion failure.
-// It calls the ReportFunc with the given message.
+// It calls the [ReportFunc] with the given message.
 func Fail(tb testing.TB, name string, msg string, opts ...Option) {
 	tb.Helper()
 	msg = fmt.Sprintf("assert %s: %s", name, msg)
