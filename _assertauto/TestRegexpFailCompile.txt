@@ -1,0 +1,1 @@
+[string] (len=128) "assert regexp_compile: compilation failed:\nexpr = \"\\\\\"\nerr = \"error parsing regexp: trailing backslash at end of expression: ``\""

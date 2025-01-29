@@ -4,17 +4,17 @@
 package assertauto
 
 import (
-	"bytes"
-	"encoding/json"
+	"errors"
 	"fmt"
 	"os"
 	"path/filepath"
 	"strconv"
-	"sync"
+	"strings"
 	"testing"
 
 	"github.com/pierrre/assert"
-	"github.com/pierrre/go-libs/reflectutil"
+	"github.com/pierrre/go-libs/syncutil"
+	"github.com/sergi/go-diff/diffmatchpatch"
 )
 
 const (
@@ -22,6 +22,11 @@ const (
 	directoryDefault = "_assertauto"
 	updateEnvVar     = "ASSERTAUTO_UPDATE"
 	updateDefault    = false
+)
+
+var (
+	ValueStringer  = assert.ValueStringer
+	DiffMatchPatch = diffmatchpatch.New()
 )
 
 var (
@@ -62,357 +67,162 @@ func initUpdateGlobal() bool {
 	return b
 }
 
+func assertNoError(tb testing.TB, err error, opts *options) bool {
+	tb.Helper()
+	if err != nil {
+		assert.Fail(tb, "assertauto", err.Error(), opts.opts...)
+		return false
+	}
+	return true
+}
+
 // Equal asserts that the value is equal to the expected value.
-func Equal[T comparable](tb testing.TB, v T, optfs ...Option) bool {
+func Equal(tb testing.TB, v any, optfs ...Option) bool {
 	tb.Helper()
 	opts := buildOptions(optfs)
-	typeName := getTypeName[T]()
+	err := equal(tb, v, opts)
+	return assertNoError(tb, err, opts)
+}
+
+func equal(tb testing.TB, v any, opts *options) error {
+	tb.Helper()
+	s := ValueStringer(v)
+	if strings.Contains(s, separator) {
+		return errors.New("contains separator")
+	}
 	if opts.update {
-		equalUpdate(tb, v, typeName, opts)
-		return true
+		addValue(tb, s, opts)
+	} else {
+		expected, err := getValue(tb, opts)
+		if err != nil {
+			return fmt.Errorf("get value: %w", err)
+		}
+		if s != expected {
+			diffs := DiffMatchPatch.DiffMain(expected, s, false)
+			diffText := DiffMatchPatch.DiffPrettyText(diffs)
+			return fmt.Errorf("not equal: %s\nactual: %s\n\nexpected: %s", diffText, s, expected)
+		}
 	}
-	e, ok := equalCheck(tb, typeName, opts)
-	if !ok {
-		return false
-	}
-	expected := jsonDecode[T](tb, e.Equal.Value)
-	return assert.Equal(tb, v, expected, append(opts.opts, messageWrap)...)
-}
-
-func equalUpdate(tb testing.TB, v any, typeName string, opts *options) {
-	tb.Helper()
-	addEntry(tb, entry{
-		Equal: &equalEntry{
-			Type:  typeName,
-			Value: jsonEncode(tb, v),
-		},
-	}, opts)
-}
-
-func equalCheck(tb testing.TB, typeName string, opts *options) (entry, bool) {
-	tb.Helper()
-	e, ok := getEntry(tb, opts)
-	if !ok {
-		return e, false
-	}
-	if !assert.NotZero(tb, e.Equal, append(opts.opts, messageWrongEntryType, messageWrapEqual, messageWrap)...) {
-		return e, false
-	}
-	if !assert.Equal(tb, e.Equal.Type, typeName, append(opts.opts, messageWrapType, messageWrapEqual, messageWrap)...) {
-		return e, false
-	}
-	return e, true
-}
-
-// DeepEqual asserts that the value is deep equal to the expected value.
-func DeepEqual[T any](tb testing.TB, v T, optfs ...Option) bool {
-	tb.Helper()
-	opts := buildOptions(optfs)
-	typeName := getTypeName[T]()
-	if opts.update {
-		deepEqualUpdate(tb, v, typeName, opts)
-		return true
-	}
-	e, ok := deepEqualCheck(tb, typeName, opts)
-	if !ok {
-		return false
-	}
-	expected := jsonDecode[T](tb, e.DeepEqual.Value)
-	return assert.DeepEqual(tb, v, expected, append(opts.opts, messageWrap)...)
-}
-
-func deepEqualUpdate(tb testing.TB, v any, typeName string, opts *options) {
-	tb.Helper()
-	addEntry(tb, entry{
-		DeepEqual: &deepEqualEntry{
-			Type:  typeName,
-			Value: jsonEncode(tb, v),
-		},
-	}, opts)
-}
-
-func deepEqualCheck(tb testing.TB, typeName string, opts *options) (entry, bool) {
-	tb.Helper()
-	e, ok := getEntry(tb, opts)
-	if !ok {
-		return e, false
-	}
-	if !assert.NotZero(tb, e.DeepEqual, append(opts.opts, messageWrongEntryType, messageWrapDeepEqual, messageWrap)...) {
-		return e, false
-	}
-	if !assert.Equal(tb, e.DeepEqual.Type, typeName, append(opts.opts, messageWrapType, messageWrapDeepEqual, messageWrap)...) {
-		return e, false
-	}
-	return e, true
-}
-
-// ErrorEqual asserts that the error message is equal to the expected message.
-func ErrorEqual(tb testing.TB, err error, optfs ...Option) bool {
-	tb.Helper()
-	opts := buildOptions(optfs)
-	if opts.update {
-		errorEqualUpdate(tb, err, opts)
-		return true
-	}
-	return errorEqualCheck(tb, err, opts)
-}
-
-func errorEqualUpdate(tb testing.TB, err error, opts *options) {
-	tb.Helper()
-	assert.Error(tb, err, append(opts.opts, messageWrapErrorEqual, messageWrap)...)
-	addEntry(tb, entry{
-		ErrorEqual: &errorEqualEntry{
-			Message: err.Error(),
-		},
-	}, opts)
-}
-
-func errorEqualCheck(tb testing.TB, err error, opts *options) bool {
-	tb.Helper()
-	e, ok := getEntry(tb, opts)
-	if !ok {
-		return false
-	}
-	if !assert.NotZero(tb, e.ErrorEqual, append(opts.opts, messageWrongEntryType, messageWrapErrorEqual, messageWrap)...) {
-		return false
-	}
-	return assert.ErrorEqual(tb, err, e.ErrorEqual.Message, append(opts.opts, messageWrap)...)
+	return nil
 }
 
 // AllocsPerRun asserts that a function allocates a certain number of times per run.
-func AllocsPerRun(tb testing.TB, runs int, f func(), optfs ...Option) (float64, bool) {
-	tb.Helper()
-	opts := buildOptions(optfs)
-	if opts.update {
-		return allocsPerRunUpdate(tb, runs, f, opts), true
-	}
-	return allocsPerRunCheck(tb, runs, f, opts)
-}
-
-func allocsPerRunUpdate(tb testing.TB, runs int, f func(), opts *options) float64 {
+func AllocsPerRun(tb testing.TB, runs int, f func(), optfs ...Option) bool {
 	tb.Helper()
 	allocs := testing.AllocsPerRun(runs, f)
-	addEntry(tb, entry{
-		AllocsPerRun: &allocsPerRunEntry{
-			Runs:   runs,
-			Allocs: allocs,
-		},
-	}, opts)
-	return allocs
+	v := allocsPerRun{
+		Runs:   runs,
+		Allocs: allocs,
+	}
+	return Equal(tb, v, optfs...)
 }
 
-func allocsPerRunCheck(tb testing.TB, runs int, f func(), opts *options) (float64, bool) {
+type allocsPerRun struct {
+	Runs   int
+	Allocs float64
+}
+
+var values = &syncutil.Map[string, []string]{}
+
+func addValue(tb testing.TB, v string, opts *options) {
 	tb.Helper()
-	e, ok := getEntry(tb, opts)
+	testName := tb.Name()
+	vs, ok := values.Load(testName)
 	if !ok {
-		return 0, false
+		setCleanupValues(tb, true, opts)
 	}
-	if !assert.NotZero(tb, e.AllocsPerRun, append(opts.opts, messageWrongEntryType, messageWrapAllocsPerRun, messageWrap)...) {
-		return 0, false
-	}
-	if !assert.Equal(tb, e.AllocsPerRun.Runs, runs, append(opts.opts, messageWrapRuns, messageWrapAllocsPerRun, messageWrap)...) {
-		return 0, false
-	}
-	expected := e.AllocsPerRun.Allocs
-	return expected, assert.AllocsPerRun(tb, runs, f, expected, append(opts.opts, messageWrap)...)
+	vs = append(vs, v)
+	values.Store(testName, vs)
 }
 
-func addEntry(tb testing.TB, e entry, opts *options) {
+func getValue(tb testing.TB, opts *options) (string, error) {
 	tb.Helper()
-	e.Name = opts.name
-	tf := getTestFunction(tb, opts)
-	tf.addEntry(tb, e)
-}
-
-func getEntry(tb testing.TB, opts *options) (entry, bool) {
-	tb.Helper()
-	tf := getTestFunction(tb, opts)
-	e, ok := tf.getEntry(tb, opts)
+	testName := tb.Name()
+	vs, ok := values.Load(testName)
 	if !ok {
-		return entry{}, false
+		var err error
+		vs, err = loadValues(testName, opts)
+		if err != nil {
+			return "", fmt.Errorf("load values: %w", err)
+		}
+		setCleanupValues(tb, false, opts)
 	}
-	if !assert.Equal(tb, e.Name, opts.name, append(opts.opts, messageWrapEntryName, messageWrap)...) {
-		return e, false
+	if len(vs) == 0 {
+		return "", errors.New("no values left")
 	}
-	return e, true
+	v := vs[0]
+	vs = vs[1:]
+	values.Store(testName, vs)
+	return v, nil
 }
 
-var (
-	testFunctionsLock sync.Mutex
-	testFunctions     = make(map[string]*testFunction)
-)
-
-func getTestFunction(tb testing.TB, opts *options) *testFunction {
+func setCleanupValues(tb testing.TB, save bool, opts *options) {
 	tb.Helper()
-	return getTestFunctionWithFile(tb, "", opts)
-}
-
-func getTestFunctionWithFile(tb testing.TB, fp string, opts *options) *testFunction {
-	tb.Helper()
-	testFunctionsLock.Lock()
-	defer testFunctionsLock.Unlock()
-	name := tb.Name()
-	tf, ok := testFunctions[name]
-	if !ok {
-		tf = newTestFunction(tb, fp, opts)
-		testFunctions[name] = tf
-		tb.Cleanup(func() {
-			tb.Helper()
-			deleteTestFunction(name)
-		})
-	}
-	return tf
-}
-
-func deleteTestFunction(name string) {
-	testFunctionsLock.Lock()
-	defer testFunctionsLock.Unlock()
-	delete(testFunctions, name)
-}
-
-type testFunction struct {
-	mu      sync.Mutex
-	update  bool
-	entries []entry
-}
-
-func newTestFunction(tb testing.TB, fp string, opts *options) *testFunction {
-	tb.Helper()
-	if fp == "" {
-		fp = getFilePathGlobal(tb)
-	}
-	tf := &testFunction{
-		update: opts.update,
-	}
-	if !tf.update {
-		tf.load(tb, fp)
-	}
 	tb.Cleanup(func() {
-		tb.Helper()
-		tf.cleanup(tb, fp, opts)
+		err := cleanupValues(tb, save, opts)
+		assertNoError(tb, err, opts)
 	})
-	return tf
 }
 
-func (tf *testFunction) load(tb testing.TB, fp string) {
+func cleanupValues(tb testing.TB, save bool, opts *options) error {
 	tb.Helper()
-	b, err := os.ReadFile(fp)
-	assert.NoError(tb, err, messageWrapLoad, messageWrap)
-	f := jsonDecode[file](tb, b)
-	tf.entries = f.Entries
-}
-
-func (tf *testFunction) save(tb testing.TB, fp string) {
-	tb.Helper()
-	f := &file{
-		Entries: tf.entries,
+	testName := tb.Name()
+	vs, _ := values.LoadAndDelete(testName)
+	if tb.Failed() {
+		return nil
 	}
-	data := jsonEncode(tb, f)
+	if save {
+		return saveValues(testName, vs, opts)
+	}
+	if len(vs) > 0 {
+		return fmt.Errorf("remaining values:\n%s", encodeValues(vs))
+	}
+	return nil
+}
+
+func saveValues(testName string, vs []string, opts *options) error {
+	s := encodeValues(vs)
+	fp := getFilePath(testName, opts)
 	dir := filepath.Dir(fp)
 	err := os.MkdirAll(dir, 0o755)
-	assert.NoError(tb, err, messageWrapSave, messageWrap)
-	err = os.RemoveAll(fp)
-	assert.NoError(tb, err, messageWrapSave, messageWrap)
-	err = os.WriteFile(fp, data, 0o644) //nolint:gosec // We want 644.
-	assert.NoError(tb, err, messageWrapSave, messageWrap)
-}
-
-func (tf *testFunction) addEntry(tb testing.TB, entry entry) {
-	tb.Helper()
-	tf.mu.Lock()
-	defer tf.mu.Unlock()
-	assert.True(tb, tf.update, messageWrapCannotAddEntry, messageWrap)
-	tf.entries = append(tf.entries, entry)
-}
-
-func (tf *testFunction) getEntry(tb testing.TB, opts *options) (entry, bool) {
-	tb.Helper()
-	tf.mu.Lock()
-	defer tf.mu.Unlock()
-	assert.False(tb, tf.update, messageWrapCannotGetEntry, messageWrap)
-	ok := assert.SliceNotEmpty(tb, tf.entries, append(opts.opts, messageWrapNoEntryRemaining, messageWrap)...)
-	if !ok {
-		return entry{}, false
+	if err != nil {
+		return fmt.Errorf("mkdir all: %w", err)
 	}
-	e := tf.entries[0]
-	tf.entries = tf.entries[1:]
-	return e, true
-}
-
-func (tf *testFunction) cleanup(tb testing.TB, fp string, opts *options) {
-	tb.Helper()
-	if opts.update {
-		tf.save(tb, fp)
-	} else if !tb.Failed() {
-		assert.SliceEmpty(tb, tf.entries, append(opts.opts, messageWrapEntriesRemaining, messageWrap)...)
+	err = os.WriteFile(fp, []byte(s), 0o644) //nolint:gosec // We want 644.
+	if err != nil {
+		return fmt.Errorf("write file: %w", err)
 	}
+	return nil
 }
 
-type file struct {
-	Entries []entry `json:"entries"`
+func encodeValues(vs []string) string {
+	return strings.Join(vs, separator)
 }
 
-type entry struct {
-	Name         string             `json:"name,omitempty"`
-	Equal        *equalEntry        `json:"equal,omitempty"`
-	DeepEqual    *deepEqualEntry    `json:"deep_equal,omitempty"`
-	ErrorEqual   *errorEqualEntry   `json:"error_equal,omitempty"`
-	AllocsPerRun *allocsPerRunEntry `json:"allocs_per_run,omitempty"`
+func loadValues(testName string, opts *options) ([]string, error) {
+	fp := getFilePath(testName, opts)
+	b, err := os.ReadFile(fp)
+	if err != nil {
+		return nil, fmt.Errorf("read file: %w", err)
+	}
+	return decodeValues(string(b)), nil
 }
 
-type equalEntry struct {
-	Type  string          `json:"type"`
-	Value json.RawMessage `json:"value"`
+func decodeValues(s string) []string {
+	return strings.Split(s, separator)
 }
 
-type deepEqualEntry struct {
-	Type  string          `json:"type"`
-	Value json.RawMessage `json:"value"`
+func getFilePath(testName string, opts *options) string {
+	// TODO escape test name ?
+	return filepath.Join(opts.directory, testName+".txt")
 }
 
-type errorEqualEntry struct {
-	Message string `json:"message"`
-}
-
-type allocsPerRunEntry struct {
-	Runs   int     `json:"runs"`
-	Allocs float64 `json:"allocs"`
-}
-
-func jsonEncode(tb testing.TB, v any) []byte {
-	tb.Helper()
-	buf := new(bytes.Buffer)
-	enc := json.NewEncoder(buf)
-	enc.SetIndent("", "\t")
-	enc.SetEscapeHTML(false)
-	err := enc.Encode(v)
-	assert.NoError(tb, err, messageWrapJSONEncode, messageWrap)
-	return buf.Bytes()
-}
-
-func jsonDecode[T any](tb testing.TB, data []byte) T {
-	tb.Helper()
-	var v T
-	dec := json.NewDecoder(bytes.NewReader(data))
-	dec.DisallowUnknownFields()
-	err := dec.Decode(&v)
-	assert.NoError(tb, err, messageWrapJSONDecode, messageWrap)
-	return v
-}
-
-func getFilePathGlobal(tb testing.TB) string {
-	tb.Helper()
-	return getFilePath(directoryGlobal, tb.Name())
-}
-
-func getFilePath(dir string, name string) string {
-	return filepath.Join(dir, name+".json")
-}
+const separator = "\n\t========== assertauto ==========\n"
 
 type options struct {
-	update bool
-	name   string
-	opts   []assert.Option
+	directory string
+	update    bool
+	opts      []assert.Option
 }
 
 func buildOptions(opts []Option) *options {
@@ -425,23 +235,20 @@ func buildOptions(opts []Option) *options {
 
 func newOptions() *options {
 	return &options{
-		update: updateGlobal,
+		directory: directoryGlobal,
+		update:    updateGlobal,
 	}
 }
 
-// Option is an option for assertauto.
-type Option func(*options)
+func directory(dir string) Option {
+	return func(o *options) {
+		o.directory = dir
+	}
+}
 
 func update(u bool) Option {
 	return func(o *options) {
 		o.update = u
-	}
-}
-
-// Name returns an [Option] that sets the name of the entry.
-func Name(name string) Option {
-	return func(o *options) {
-		o.name = name
 	}
 }
 
@@ -452,26 +259,5 @@ func AssertOptions(opts ...assert.Option) Option {
 	}
 }
 
-func getTypeName[T any]() string {
-	return reflectutil.TypeFullNameFor[T]()
-}
-
-var (
-	messageWrap                 = assert.MessageWrap("assertauto")
-	messageWrapEqual            = assert.MessageWrap("equal")
-	messageWrapDeepEqual        = assert.MessageWrap("deep_equal")
-	messageWrapErrorEqual       = assert.MessageWrap("error_equal")
-	messageWrapAllocsPerRun     = assert.MessageWrap("allocs_per_run")
-	messageWrongEntryType       = assert.Message("wrong entry type")
-	messageWrapType             = assert.MessageWrap("type")
-	messageWrapRuns             = assert.MessageWrap("runs")
-	messageWrapEntryName        = assert.MessageWrap("entry name")
-	messageWrapCannotAddEntry   = assert.MessageWrap("cannot add entry if update is false")
-	messageWrapCannotGetEntry   = assert.MessageWrap("cannot get entry if update is true")
-	messageWrapNoEntryRemaining = assert.MessageWrap("no entry remaining")
-	messageWrapEntriesRemaining = assert.MessageWrap("entries remaining")
-	messageWrapLoad             = assert.MessageWrap("load")
-	messageWrapSave             = assert.MessageWrap("save")
-	messageWrapJSONEncode       = assert.MessageWrap("json encode")
-	messageWrapJSONDecode       = assert.MessageWrap("json decode")
-)
+// Option is an option for assertauto.
+type Option func(*options)

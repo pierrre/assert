@@ -1,0 +1,11 @@
+[string] (len=6) "aaaaaa"
+	========== assertauto ==========
+[int] 123456
+	========== assertauto ==========
+[float64] 123.456
+	========== assertauto ==========
+[map[string]interface {}] (len=3) {
+	"a": [int] 1,
+	"b": [int] 2,
+	"c": [int] 3,
+}
