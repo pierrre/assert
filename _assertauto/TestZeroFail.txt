@@ -1,0 +1,1 @@
+[string] (len=36) "assert zero: not zero:\nv = [int] 123"

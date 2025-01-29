@@ -1,0 +1,1 @@
+[string] (len=204) "assert assertauto: not equal:\ndiff actual expected\n--- actual\n+++ expected\n@@ -1,1 +1,1 @@\n-[string] (len=3) \"bbb\"\n+[string] (len=3) \"aaa\"\n\nactual: [string] (len=3) \"bbb\"\n\nexpected: [string] (len=3) \"aaa\""

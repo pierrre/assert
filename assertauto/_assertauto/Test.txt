@@ -1,0 +1,9 @@
+<nil>
+	========== assertauto ==========
+[bool] true
+	========== assertauto ==========
+[int] 123456
+	========== assertauto ==========
+[float64] 123.456
+	========== assertauto ==========
+[string] (len=4) "test"
