@@ -1,0 +1,161 @@
+[string] (len=6) "aaaaaa"
+==========================================
+[int] 123456
+==========================================
+[float64] 123.456
+==========================================
+[*pretty.CommonValueWriter] => {
+	UnwrapInterface: [*pretty.UnwrapInterfaceValueWriter] => {
+		ValueWriter: [pretty.ValueWriterFunc](func(*pretty.State, reflect.Value) bool) github.com/pierrre/pretty.(*CommonValueWriter).postUnwrapInterface-fm,
+	},
+	Recursion: [*pretty.RecursionValueWriter] => {
+		ValueWriter: [pretty.ValueWriterFunc](func(*pretty.State, reflect.Value) bool) github.com/pierrre/pretty.(*CommonValueWriter).postRecursion-fm,
+	},
+	MaxDepth: [*pretty.MaxDepthValueWriter] => {
+		ValueWriter: [pretty.ValueWriterFunc](func(*pretty.State, reflect.Value) bool) github.com/pierrre/pretty.(*CommonValueWriter).postMaxDepth-fm,
+		Max: [int] 0,
+	},
+	CanInterface: [*pretty.CanInterfaceValueWriter] => {
+		ValueWriter: [pretty.ValueWriterFunc](func(*pretty.State, reflect.Value) bool) github.com/pierrre/pretty.(*CommonValueWriter).postCanInterface-fm,
+	},
+	TypeAndValue: [*pretty.TypeAndValueWriter] => {
+		Type: [pretty.ValueWriterFunc](func(*pretty.State, reflect.Value) bool) github.com/pierrre/pretty.(*CommonValueWriter).writeType-fm,
+		Value: [pretty.ValueWriterFunc](func(*pretty.State, reflect.Value) bool) github.com/pierrre/pretty.(*CommonValueWriter).postTypeAndValue-fm,
+		ShowKnownTypes: [bool] false,
+		ShowBaseType: [bool] true,
+	},
+	Type: [*pretty.TypeValueWriter] => {
+		Stringer: [func(reflect.Type) string] reflect.Type.String,
+	},
+	ValueWriters: [pretty.ValueWriters]([]pretty.ValueWriter) <nil>,
+	ReflectValue: [*pretty.ReflectValueWriter] => {
+		ValueWriter: [pretty.ValueWriterFunc](func(*pretty.State, reflect.Value) bool) github.com/pierrre/pretty.(*CommonValueWriter).WriteValue-fm,
+	},
+	Time: [*pretty.TimeValueWriter] => {
+		Format: [string] (len=35) "2006-01-02T15:04:05.999999999Z07:00",
+	},
+	Error: [*pretty.ErrorValueWriter] => {
+		Write: [func(*pretty.State, error)] github.com/pierrre/pretty.(*ErrorValueWriter).WriteError-fm,
+	},
+	BytesHexDump: [*pretty.BytesHexDumpValueWriter] => {
+		ShowLen: [bool] true,
+		ShowCap: [bool] false,
+		ShowAddr: [bool] false,
+		MaxLen: [int] 0,
+	},
+	BytesableHexDump: [*pretty.BytesableHexDumpValueWriter] => {
+		ShowLen: [bool] true,
+		ShowCap: [bool] false,
+		ShowAddr: [bool] false,
+		MaxLen: [int] 0,
+	},
+	Stringer: [*pretty.StringerValueWriter] => {
+		ShowLen: [bool] true,
+		Quote: [bool] true,
+		MaxLen: [int] 0,
+	},
+	Iter: [*pretty.IterValueWriter] => {
+		ValueWriter: [pretty.ValueWriterFunc](func(*pretty.State, reflect.Value) bool) github.com/pierrre/pretty.(*CommonValueWriter).WriteValue-fm,
+		ShowKeysInfos: [bool] false,
+		MaxLen: [int] 0,
+	},
+	Kind: [*pretty.KindValueWriter] => {
+		BaseInvalid: [*pretty.InvalidValueWriter] => {},
+		BaseBool: [*pretty.BoolValueWriter] => {},
+		BaseInt: [*pretty.IntValueWriter] => {
+			Base: [int] 10,
+		},
+		BaseUint: [*pretty.UintValueWriter] => {
+			Base: [int] 10,
+		},
+		BaseUintptr: [*pretty.UintptrValueWriter] => {},
+		BaseFloat: [*pretty.FloatValueWriter] => {
+			Format: [uint8] 103,
+			Precision: [int] -1,
+		},
+		BaseComplex: [*pretty.ComplexValueWriter] => {
+			Format: [uint8] 103,
+			Precision: [int] -1,
+		},
+		BaseArray: [*pretty.ArrayValueWriter] => {
+			ValueWriter: [pretty.ValueWriterFunc](func(*pretty.State, reflect.Value) bool) github.com/pierrre/pretty.(*CommonValueWriter).WriteValue-fm,
+			ShowIndexes: [bool] false,
+			MaxLen: [int] 0,
+		},
+		BaseChan: [*pretty.ChanValueWriter] => {
+			ValueWriter: [pretty.ValueWriterFunc](func(*pretty.State, reflect.Value) bool) github.com/pierrre/pretty.(*CommonValueWriter).WriteValue-fm,
+			ShowLen: [bool] true,
+			ShowCap: [bool] false,
+			ShowAddr: [bool] false,
+			ShowElems: [bool] false,
+			ShowIndexes: [bool] false,
+			MaxLen: [int] 0,
+		},
+		BaseFunc: [*pretty.FuncValueWriter] => {
+			ShowAddr: [bool] false,
+		},
+		BaseInterface: [*pretty.InterfaceValueWriter] => {
+			ValueWriter: [pretty.ValueWriterFunc](func(*pretty.State, reflect.Value) bool) github.com/pierrre/pretty.(*CommonValueWriter).WriteValue-fm,
+		},
+		BaseMap: [*pretty.MapValueWriter] => {
+			ValueWriter: [pretty.ValueWriterFunc](func(*pretty.State, reflect.Value) bool) github.com/pierrre/pretty.(*CommonValueWriter).WriteValue-fm,
+			ShowLen: [bool] true,
+			ShowAddr: [bool] false,
+			SortKeys: [bool] true,
+			ShowKeysInfos: [bool] false,
+			MaxLen: [int] 0,
+		},
+		BasePointer: [*pretty.PointerValueWriter] => {
+			ValueWriter: [pretty.ValueWriterFunc](func(*pretty.State, reflect.Value) bool) github.com/pierrre/pretty.(*CommonValueWriter).WriteValue-fm,
+			ShowAddr: [bool] false,
+		},
+		BaseSlice: [*pretty.SliceValueWriter] => {
+			ValueWriter: [pretty.ValueWriterFunc](func(*pretty.State, reflect.Value) bool) github.com/pierrre/pretty.(*CommonValueWriter).WriteValue-fm,
+			ShowLen: [bool] true,
+			ShowCap: [bool] false,
+			ShowAddr: [bool] false,
+			ShowIndexes: [bool] false,
+			MaxLen: [int] 0,
+		},
+		BaseString: [*pretty.StringValueWriter] => {
+			ShowLen: [bool] true,
+			ShowAddr: [bool] false,
+			Quote: [bool] true,
+			MaxLen: [int] 0,
+		},
+		BaseStruct: [*pretty.StructValueWriter] => {
+			ValueWriter: [pretty.ValueWriterFunc](func(*pretty.State, reflect.Value) bool) github.com/pierrre/pretty.(*CommonValueWriter).WriteValue-fm,
+			FieldFilter: [func(reflect.Value, reflect.StructField) bool] <nil>,
+		},
+		BaseUnsafePointer: [*pretty.UnsafePointerValueWriter] => {},
+		ValueWriters: [[27]pretty.ValueWriter] {
+			[pretty.ValueWriterFunc](func(*pretty.State, reflect.Value) bool) github.com/pierrre/pretty.(*KindValueWriter).writeInvalid-fm,
+			[pretty.ValueWriterFunc](func(*pretty.State, reflect.Value) bool) github.com/pierrre/pretty.(*KindValueWriter).writeBool-fm,
+			[pretty.ValueWriterFunc](func(*pretty.State, reflect.Value) bool) github.com/pierrre/pretty.(*KindValueWriter).writeInt-fm,
+			[pretty.ValueWriterFunc](func(*pretty.State, reflect.Value) bool) github.com/pierrre/pretty.(*KindValueWriter).writeInt-fm,
+			[pretty.ValueWriterFunc](func(*pretty.State, reflect.Value) bool) github.com/pierrre/pretty.(*KindValueWriter).writeInt-fm,
+			[pretty.ValueWriterFunc](func(*pretty.State, reflect.Value) bool) github.com/pierrre/pretty.(*KindValueWriter).writeInt-fm,
+			[pretty.ValueWriterFunc](func(*pretty.State, reflect.Value) bool) github.com/pierrre/pretty.(*KindValueWriter).writeInt-fm,
+			[pretty.ValueWriterFunc](func(*pretty.State, reflect.Value) bool) github.com/pierrre/pretty.(*KindValueWriter).writeUint-fm,
+			[pretty.ValueWriterFunc](func(*pretty.State, reflect.Value) bool) github.com/pierrre/pretty.(*KindValueWriter).writeUint-fm,
+			[pretty.ValueWriterFunc](func(*pretty.State, reflect.Value) bool) github.com/pierrre/pretty.(*KindValueWriter).writeUint-fm,
+			[pretty.ValueWriterFunc](func(*pretty.State, reflect.Value) bool) github.com/pierrre/pretty.(*KindValueWriter).writeUint-fm,
+			[pretty.ValueWriterFunc](func(*pretty.State, reflect.Value) bool) github.com/pierrre/pretty.(*KindValueWriter).writeUint-fm,
+			[pretty.ValueWriterFunc](func(*pretty.State, reflect.Value) bool) github.com/pierrre/pretty.(*KindValueWriter).writeUintptr-fm,
+			[pretty.ValueWriterFunc](func(*pretty.State, reflect.Value) bool) github.com/pierrre/pretty.(*KindValueWriter).writeFloat-fm,
+			[pretty.ValueWriterFunc](func(*pretty.State, reflect.Value) bool) github.com/pierrre/pretty.(*KindValueWriter).writeFloat-fm,
+			[pretty.ValueWriterFunc](func(*pretty.State, reflect.Value) bool) github.com/pierrre/pretty.(*KindValueWriter).writeComplex-fm,
+			[pretty.ValueWriterFunc](func(*pretty.State, reflect.Value) bool) github.com/pierrre/pretty.(*KindValueWriter).writeComplex-fm,
+			[pretty.ValueWriterFunc](func(*pretty.State, reflect.Value) bool) github.com/pierrre/pretty.(*KindValueWriter).writeArray-fm,
+			[pretty.ValueWriterFunc](func(*pretty.State, reflect.Value) bool) github.com/pierrre/pretty.(*KindValueWriter).writeChan-fm,
+			[pretty.ValueWriterFunc](func(*pretty.State, reflect.Value) bool) github.com/pierrre/pretty.(*KindValueWriter).writeFunc-fm,
+			[pretty.ValueWriterFunc](func(*pretty.State, reflect.Value) bool) github.com/pierrre/pretty.(*KindValueWriter).writeInterface-fm,
+			[pretty.ValueWriterFunc](func(*pretty.State, reflect.Value) bool) github.com/pierrre/pretty.(*KindValueWriter).writeMap-fm,
+			[pretty.ValueWriterFunc](func(*pretty.State, reflect.Value) bool) github.com/pierrre/pretty.(*KindValueWriter).writePointer-fm,
+			[pretty.ValueWriterFunc](func(*pretty.State, reflect.Value) bool) github.com/pierrre/pretty.(*KindValueWriter).writeSlice-fm,
+			[pretty.ValueWriterFunc](func(*pretty.State, reflect.Value) bool) github.com/pierrre/pretty.(*KindValueWriter).writeString-fm,
+			[pretty.ValueWriterFunc](func(*pretty.State, reflect.Value) bool) github.com/pierrre/pretty.(*KindValueWriter).writeStruct-fm,
+			[pretty.ValueWriterFunc](func(*pretty.State, reflect.Value) bool) github.com/pierrre/pretty.(*KindValueWriter).writeUnsafePointer-fm,
+		},
+	},
+}
