@@ -6,6 +6,7 @@ import (
 
 	"github.com/pierrre/assert"
 	"github.com/pierrre/assert/assertauto"
+	"github.com/pierrre/assert/assertauto2"
 )
 
 // NewReport returns a report function that checks the message and that the report function is called.
@@ -23,6 +24,7 @@ func NewReportAuto(tb testing.TB) assert.ReportFunc {
 	return newReport(tb, func(msg string) {
 		tb.Helper()
 		assertauto.Equal(tb, msg, assertauto.AssertOptions(assert.MessageWrap("report message")))
+		assertauto2.Equal(tb, msg)
 	})
 }
 

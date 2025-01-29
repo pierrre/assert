@@ -1,0 +1,1 @@
+[string] (len=41) "assertauto: error_equal: wrong entry type"

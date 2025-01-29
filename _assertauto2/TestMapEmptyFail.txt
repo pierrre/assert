@@ -1,0 +1,1 @@
+[string] (len=98) "assert map_empty: not empty:\nlength = 1\nm = [map[string]string] (len=1) {\n\t\"foo\": (len=3) \"bar\",\n}"
