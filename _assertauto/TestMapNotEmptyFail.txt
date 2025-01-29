@@ -1,0 +1,1 @@
+[string] (len=27) "assert map_not_empty: empty"

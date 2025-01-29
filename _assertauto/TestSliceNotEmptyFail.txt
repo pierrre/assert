@@ -1,0 +1,1 @@
+[string] (len=29) "assert slice_not_empty: empty"
