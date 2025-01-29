@@ -1,0 +1,1 @@
+[string] (len=8) "custom 1"

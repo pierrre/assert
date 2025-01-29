@@ -1,0 +1,6 @@
+[assertauto.allocsPerRun] {
+	Runs: [int] 100,
+	Allocs: [float64] 1,
+}
+	========== assertauto ==========
+[float64] 1

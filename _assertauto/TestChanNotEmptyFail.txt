@@ -1,0 +1,1 @@
+[string] (len=28) "assert chan_not_empty: empty"

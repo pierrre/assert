@@ -1,0 +1,1 @@
+[string] (len=44) "assert positive: not negative:\nv = [int] 123"

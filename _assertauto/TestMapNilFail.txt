@@ -1,0 +1,1 @@
+[string] (len=59) "assert map_nil: not nil:\nm = [map[string]string] (len=0) {}"
