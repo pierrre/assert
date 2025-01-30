@@ -3,7 +3,7 @@
 		{
 			"equal": {
 				"type": "string",
-				"value": "assert slice_not_contains: contains:\ns = [[]int] (len=2 cap=2) {\n\t1,\n\t2,\n}\nv = [int] 1"
+				"value": "assert slice_not_contains: contains:\ns = [[]int] (len=2) {\n\t1,\n\t2,\n}\nv = [int] 1"
 			}
 		}
 	]
