@@ -7,12 +7,7 @@ import (
 	"github.com/pierrre/assert"
 	. "github.com/pierrre/assert/assertauto"
 	"github.com/pierrre/assert/asserttest"
-	"github.com/pierrre/pretty"
 )
-
-func init() {
-	pretty.DefaultCommonValueWriter.ConfigureTest()
-}
 
 func TestEqual(t *testing.T) {
 	test(t, func(t *testing.T, opts ...Option) { //nolint:thelper // This is not a helper.
