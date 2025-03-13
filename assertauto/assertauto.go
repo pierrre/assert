@@ -10,6 +10,7 @@ import (
 	"path/filepath"
 	"strconv"
 	"strings"
+	"sync"
 	"testing"
 
 	"github.com/pierrre/assert"
@@ -18,48 +19,62 @@ import (
 )
 
 const (
-	directoryEnvVar  = "ASSERTAUTO_DIRECTORY"
-	directoryDefault = "_assertauto"
-	updateEnvVar     = "ASSERTAUTO_UPDATE"
+	directoryEnvVar = "ASSERTAUTO_DIRECTORY"
+	updateEnvVar    = "ASSERTAUTO_UPDATE"
 )
 
 var (
 	DefaultValueStringer = assert.ValueStringer
-	directoryGlobal      = initDirectoryGlobal()
-	updateGlobal         = initUpdateGlobal()
+	DefaultDirectory     = "_assertauto"
+	DefaultUpdate        = false
 )
 
 func init() {
-	if updateGlobal {
-		err := os.RemoveAll(directoryGlobal)
-		if err != nil {
-			panic(err)
-		}
-	}
+	initDefaultDirectory()
+	initDefaultUpdate()
 }
 
-func initDirectoryGlobal() string {
+func initDefaultDirectory() {
 	s, ok := os.LookupEnv(directoryEnvVar)
-	if !ok {
-		return directoryDefault
+	if !ok || s == "" {
+		return
 	}
-	if s == "" {
-		return directoryDefault
-	}
-	return s
+	DefaultDirectory = s
 }
 
-func initUpdateGlobal() bool {
+func initDefaultUpdate() {
 	s, ok := os.LookupEnv(updateEnvVar)
 	if !ok {
-		return false
+		return
 	}
 	b, err := strconv.ParseBool(s)
 	if err != nil {
 		err = fmt.Errorf("parse %s environment variable: %w", updateEnvVar, err)
 		panic(err)
 	}
-	return b
+	DefaultUpdate = b
+}
+
+var (
+	initOnce  sync.Once
+	initError error //nolint:errname // This is not a sentinel error.
+)
+
+func ensureInit() error {
+	initOnce.Do(func() {
+		initError = doInit()
+	})
+	return initError
+}
+
+func doInit() error {
+	if DefaultUpdate {
+		err := os.RemoveAll(DefaultDirectory)
+		if err != nil {
+			return fmt.Errorf("remove directory %q: %w", DefaultDirectory, err)
+		}
+	}
+	return nil
 }
 
 func assertNoError(tb testing.TB, err error, opts *options) bool {
@@ -81,6 +96,10 @@ func Equal(tb testing.TB, v any, optfs ...Option) bool {
 
 func equal(tb testing.TB, v any, opts *options) error {
 	tb.Helper()
+	err := ensureInit()
+	if err != nil {
+		return fmt.Errorf("init: %w", err)
+	}
 	s := opts.valueStringer(v)
 	if strings.Contains(s, separator) {
 		return errors.New("contains separator")
@@ -231,8 +250,8 @@ func buildOptions(testName string, opts []Option) *options {
 func newOptions(testName string) *options {
 	return &options{
 		valueStringer: DefaultValueStringer,
-		filePath:      buildFilePath(directoryGlobal, testName),
-		update:        updateGlobal,
+		filePath:      buildFilePath(DefaultDirectory, testName),
+		update:        DefaultUpdate,
 	}
 }
 
