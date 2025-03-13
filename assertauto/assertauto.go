@@ -10,6 +10,7 @@ import (
 	"path/filepath"
 	"strconv"
 	"strings"
+	"sync"
 	"testing"
 
 	"github.com/pierrre/assert"
@@ -18,48 +19,55 @@ import (
 )
 
 const (
-	directoryEnvVar  = "ASSERTAUTO_DIRECTORY"
-	directoryDefault = "_assertauto"
-	updateEnvVar     = "ASSERTAUTO_UPDATE"
+	directoryEnvVar = "ASSERTAUTO_DIRECTORY"
+	updateEnvVar    = "ASSERTAUTO_UPDATE"
 )
 
 var (
 	DefaultValueStringer = assert.ValueStringer
-	directoryGlobal      = initDirectoryGlobal()
-	updateGlobal         = initUpdateGlobal()
+	DefaultDirectory     = "_assertauto"
+	DefaultUpdate        = false
 )
 
 func init() {
-	if updateGlobal {
-		err := os.RemoveAll(directoryGlobal)
-		if err != nil {
-			panic(err)
-		}
-	}
+	initDefaultDirectory()
+	initDefaultUpdate()
 }
 
-func initDirectoryGlobal() string {
+func initDefaultDirectory() {
 	s, ok := os.LookupEnv(directoryEnvVar)
-	if !ok {
-		return directoryDefault
+	if !ok || s == "" {
+		return
 	}
-	if s == "" {
-		return directoryDefault
-	}
-	return s
+	DefaultDirectory = s
 }
 
-func initUpdateGlobal() bool {
+func initDefaultUpdate() {
 	s, ok := os.LookupEnv(updateEnvVar)
 	if !ok {
-		return false
+		return
 	}
 	b, err := strconv.ParseBool(s)
 	if err != nil {
 		err = fmt.Errorf("parse %s environment variable: %w", updateEnvVar, err)
 		panic(err)
 	}
-	return b
+	DefaultUpdate = b
+}
+
+var initOnce sync.Once
+
+func checkRunInit() {
+	initOnce.Do(runInit)
+}
+
+func runInit() {
+	if DefaultUpdate {
+		err := os.RemoveAll(DefaultDirectory)
+		if err != nil {
+			panic(err)
+		}
+	}
 }
 
 func assertNoError(tb testing.TB, err error, opts *options) bool {
@@ -74,6 +82,7 @@ func assertNoError(tb testing.TB, err error, opts *options) bool {
 // Equal asserts that the value is equal to the expected value.
 func Equal(tb testing.TB, v any, optfs ...Option) bool {
 	tb.Helper()
+	checkRunInit()
 	opts := buildOptions(tb.Name(), optfs)
 	err := equal(tb, v, opts)
 	return assertNoError(tb, err, opts)
@@ -231,8 +240,8 @@ func buildOptions(testName string, opts []Option) *options {
 func newOptions(testName string) *options {
 	return &options{
 		valueStringer: DefaultValueStringer,
-		filePath:      buildFilePath(directoryGlobal, testName),
-		update:        updateGlobal,
+		filePath:      buildFilePath(DefaultDirectory, testName),
+		update:        DefaultUpdate,
 	}
 }
 
