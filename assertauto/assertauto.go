@@ -24,9 +24,12 @@ const (
 )
 
 var (
+	// DefaultValueStringer is the default value stringer.
 	DefaultValueStringer = assert.ValueStringer
-	DefaultDirectory     = "_assertauto"
-	DefaultUpdate        = false
+	// DefaultDirectory is the default directory.
+	DefaultDirectory = "_assertauto"
+	// DefaultUpdate is the default update value.
+	DefaultUpdate = false
 )
 
 func init() {
@@ -195,7 +198,7 @@ func cleanupValues(tb testing.TB, save bool, opts *options) error {
 func saveValues(vs []string, opts *options) error {
 	s := encodeValues(vs)
 	dir := filepath.Dir(opts.filePath)
-	err := os.MkdirAll(dir, 0o755)
+	err := os.MkdirAll(dir, 0o755) //nolint:gosec // We want 755.
 	if err != nil {
 		return fmt.Errorf("create directory: %w", err)
 	}

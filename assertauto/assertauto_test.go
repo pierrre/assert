@@ -107,7 +107,7 @@ func TestErrorCreateDirectory(t *testing.T) {
 func TestErrorWriteFile(t *testing.T) {
 	tmpDir := t.TempDir()
 	fp := filepath.Join(tmpDir, "test.txt")
-	err := os.MkdirAll(fp, 0o755)
+	err := os.MkdirAll(fp, 0o750)
 	assert.NoError(t, err)
 	report := asserttest.NewReportPrefix(t, "assert assertauto: write file:")
 	t.Run("Save", func(t *testing.T) {
