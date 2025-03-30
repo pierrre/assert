@@ -10,9 +10,9 @@ type options struct {
 	report            ReportFunc
 }
 
-func buildOptions(tb testing.TB, opts []Option) *options { //nolint:thelper // It's not a test helper.
+func buildOptions(opts []Option) *options {
 	o := &options{
-		report: tb.Fatal,
+		report: testing.TB.Fatal,
 	}
 	for _, opt := range opts {
 		opt(o)
@@ -80,7 +80,7 @@ func MessageWrapf(format string, args ...any) Option {
 	})
 }
 
-// Report returns an [Option] that sets the report function.
+// Report returns an [Option] that sets the [ReportFunc].
 func Report(f ReportFunc) Option {
 	return func(o *options) {
 		o.report = f

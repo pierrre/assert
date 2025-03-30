@@ -16,19 +16,19 @@ import (
 // ReportFunc is a function that is called when an assertion fails.
 //
 // It is implemented by [testing.TB.Fatal]|[testing.TB.Error]|[testing.TB.Skip]|[testing.TB.Log].
-type ReportFunc func(args ...any)
+type ReportFunc func(tb testing.TB, args ...any)
 
 // Fail handles assertion failure.
 // It calls the [ReportFunc] with the given message.
 func Fail(tb testing.TB, name string, msg string, opts ...Option) {
 	tb.Helper()
 	msg = fmt.Sprintf("assert %s: %s", name, msg)
-	o := buildOptions(tb, opts)
+	o := buildOptions(opts)
 	for _, f := range o.messageTransforms {
 		msg = f(msg)
 	}
 	args := []any{msg}
-	o.report(args...)
+	o.report(tb, args...)
 }
 
 // ValueStringer is a function that returns the string representation of a value.

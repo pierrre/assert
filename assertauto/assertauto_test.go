@@ -119,6 +119,6 @@ func TestErrorWriteFile(t *testing.T) {
 func TestErrorReadFile(t *testing.T) {
 	tmpDir := t.TempDir()
 	fp := filepath.Join(tmpDir, "test.txt")
-	ok := Equal(t, "test", FilePath(fp), Update(false), AssertOptions(assert.Report(func(args ...any) {})))
+	ok := Equal(t, "test", FilePath(fp), Update(false), AssertOptions(assert.Report(func(_ testing.TB, args ...any) {})))
 	assert.False(t, ok)
 }

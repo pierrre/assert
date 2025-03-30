@@ -38,7 +38,7 @@ func NewReportPrefix(tb testing.TB, expectedMsgPrefix string) assert.ReportFunc 
 func newReport(tb testing.TB, checkMsg func(msg string)) assert.ReportFunc {
 	tb.Helper()
 	reportCalled := false
-	report := func(actualArgs ...any) {
+	report := func(tb testing.TB, actualArgs ...any) {
 		tb.Helper()
 		reportCalled = true
 		assert.SliceLen(tb, actualArgs, 1)
@@ -47,7 +47,7 @@ func newReport(tb testing.TB, checkMsg func(msg string)) assert.ReportFunc {
 	}
 	tb.Cleanup(func() {
 		tb.Helper()
-		assert.True(tb, reportCalled, assert.Message("report not called"), assert.Report(tb.Error))
+		assert.True(tb, reportCalled, assert.Message("report not called"), assert.Report(testing.TB.Error))
 	})
 	return report
 }
