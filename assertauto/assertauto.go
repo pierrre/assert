@@ -99,7 +99,11 @@ func Equal(tb testing.TB, v any, optfs ...Option) bool {
 
 func equal(tb testing.TB, v any, opts *options) error {
 	tb.Helper()
-	err := ensureInit()
+	err := validateTestName(tb.Name())
+	if err != nil {
+		return fmt.Errorf("validate test name: %w", err)
+	}
+	err = ensureInit()
 	if err != nil {
 		return fmt.Errorf("init: %w", err)
 	}
@@ -231,6 +235,13 @@ func buildFilePath(dir string, testName string) string {
 }
 
 const separator = "\n\t========== assertauto ==========\n"
+
+func validateTestName(testName string) error {
+	if strings.Contains(testName, "..") {
+		return fmt.Errorf("contains \"..\": %q", testName)
+	}
+	return nil
+}
 
 // Option is an option for assertauto.
 type Option func(*options)

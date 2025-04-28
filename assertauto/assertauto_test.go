@@ -53,6 +53,13 @@ func TestAllocsPerRun(t *testing.T) {
 	Equal(t, allocs)
 }
 
+func TestErrorTestName(t *testing.T) {
+	report := asserttest.NewReportAuto(t)
+	t.Run("../aaa", func(t *testing.T) {
+		Equal(t, "test", AssertOptions(assert.Report(report)))
+	})
+}
+
 func TestErrorContainsSeparator(t *testing.T) {
 	report := asserttest.NewReportAuto(t)
 	ok := Equal(t, Separator, AssertOptions(assert.Report(report)), ValueStringer(func(v any) string {
