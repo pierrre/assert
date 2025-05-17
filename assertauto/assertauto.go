@@ -1,6 +1,14 @@
-// Package assertauto provides helpers to automatically update the expected values of assertions.
+// Package assertauto provides helpers to automatically update the expected values of test assertions.
 //
-// This is highly experimental and not yet ready for public usage.
+// It compares actual values with expected values that are stored in files.
+//
+// Run the tests with the environment variable ASSERTAUTO_UPDATE=true to update the expected values.
+//
+// The values are stored in the "_assertauto" directory relative to the tested package.
+// Each test creates a file with the name of the test and the ".txt" extension.
+// Values of the same tests are stored sequentially in the same file.
+//
+// Values are converted to string using [DefaultValueStringer].
 package assertauto
 
 import (
@@ -83,7 +91,8 @@ func doInit() error {
 func assertNoError(tb testing.TB, err error, opts *options) bool {
 	tb.Helper()
 	if err != nil {
-		assert.Fail(tb, "assertauto", err.Error(), opts.opts...)
+		msg := err.Error() + "\nSee documentation at https://pkg.go.dev/github.com/pierrre/assert/assertauto\nRun the tests with the environment variable ASSERTAUTO_UPDATE=true to updated the expected values."
+		assert.Fail(tb, "assertauto", msg, opts.opts...)
 		return false
 	}
 	return true
