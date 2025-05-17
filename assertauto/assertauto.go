@@ -126,6 +126,13 @@ func equal(tb testing.TB, v any, opts *options) error {
 	return nil
 }
 
+func validateTestName(testName string) error {
+	if strings.Contains(testName, "..") {
+		return fmt.Errorf("contains \"..\": %q", testName)
+	}
+	return nil
+}
+
 // AllocsPerRun asserts that a function allocates a certain number of times per run.
 func AllocsPerRun(tb testing.TB, runs int, f func(), optfs ...Option) (float64, bool) {
 	tb.Helper()
@@ -235,13 +242,6 @@ func buildFilePath(dir string, testName string) string {
 }
 
 const separator = "\n\t========== assertauto ==========\n"
-
-func validateTestName(testName string) error {
-	if strings.Contains(testName, "..") {
-		return fmt.Errorf("contains \"..\": %q", testName)
-	}
-	return nil
-}
 
 // Option is an option for assertauto.
 type Option func(*options)
