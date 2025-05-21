@@ -1,1 +1,1 @@
-[string] (len=256) "assert assertauto: validate test name: contains \"..\": \"TestErrorTestName/../aaa\"\nSee documentation at https://pkg.go.dev/github.com/pierrre/assert/assertauto\nRun the tests with the environment variable ASSERTAUTO_UPDATE=true to updated the expected values."
+[string] (len=255) "assert assertauto: validate test name: contains \"..\": \"TestErrorTestName/../aaa\"\nSee documentation at https://pkg.go.dev/github.com/pierrre/assert/assertauto\nRun the tests with the environment variable ASSERTAUTO_UPDATE=true to update the expected values."
