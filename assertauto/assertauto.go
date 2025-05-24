@@ -214,11 +214,12 @@ func cleanupValues(tb testing.TB, save bool, opts *options) error {
 
 func saveValues(vs []string, opts *options) error {
 	s := encodeValues(vs)
-	err := os.MkdirAll(opts.directory, 0o755) //nolint:gosec // We want 755.
+	fp := buildFilePath(opts.directory, opts.testName)
+	dir := filepath.Dir(fp)
+	err := os.MkdirAll(dir, 0o755) //nolint:gosec // We want 755.
 	if err != nil {
 		return fmt.Errorf("create directory: %w", err)
 	}
-	fp := buildFilePath(opts.directory, opts.testName)
 	err = os.WriteFile(fp, []byte(s), 0o644) //nolint:gosec // We want 644.
 	if err != nil {
 		return fmt.Errorf("write file: %w", err)
