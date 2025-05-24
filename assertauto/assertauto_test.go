@@ -2,7 +2,6 @@ package assertauto_test
 
 import (
 	"os"
-	"path/filepath"
 	"testing"
 
 	"github.com/pierrre/assert"
@@ -20,27 +19,27 @@ func Test(t *testing.T) {
 
 func TestEqual(t *testing.T) {
 	tmpDir := t.TempDir()
-	fp := filepath.Join(tmpDir, "test.txt")
+	testName := t.Name() + "Fake"
 	t.Run("Save", func(t *testing.T) {
-		ok := Equal(t, "test", FilePath(fp), Update(true))
+		ok := Equal(t, "test", Directory(tmpDir), TestName(testName), Update(true))
 		assert.True(t, ok)
 	})
 	t.Run("Load", func(t *testing.T) {
-		ok := Equal(t, "test", FilePath(fp), Update(false))
+		ok := Equal(t, "test", Directory(tmpDir), TestName(testName), Update(false))
 		assert.True(t, ok)
 	})
 }
 
 func TestEqualFail(t *testing.T) {
 	tmpDir := t.TempDir()
-	fp := filepath.Join(tmpDir, "test.txt")
+	testName := t.Name() + "Fake"
 	t.Run("Save", func(t *testing.T) {
-		ok := Equal(t, "aaa", FilePath(fp), Update(true))
+		ok := Equal(t, "aaa", Directory(tmpDir), TestName(testName), Update(true))
 		assert.True(t, ok)
 	})
 	report := asserttest.NewReportAuto(t)
 	t.Run("Load", func(t *testing.T) {
-		ok := Equal(t, "bbb", FilePath(fp), Update(false), AssertOptions(assert.Report(report)))
+		ok := Equal(t, "bbb", Directory(tmpDir), TestName(testName), Update(false), AssertOptions(assert.Report(report)))
 		assert.False(t, ok)
 	})
 }
@@ -70,62 +69,63 @@ func TestErrorContainsSeparator(t *testing.T) {
 
 func TestErrorNoValuesLeft(t *testing.T) {
 	tmpDir := t.TempDir()
-	fp := filepath.Join(tmpDir, "test.txt")
+	testName := t.Name() + "Fake"
 	t.Run("Save", func(t *testing.T) {
-		ok := Equal(t, "test", FilePath(fp), Update(true))
+		ok := Equal(t, "test", Directory(tmpDir), TestName(testName), Update(true))
 		assert.True(t, ok)
 	})
 	report := asserttest.NewReportAuto(t)
 	t.Run("Load", func(t *testing.T) {
-		ok := Equal(t, "test", FilePath(fp), Update(false))
+		ok := Equal(t, "test", Directory(tmpDir), TestName(testName), Update(false))
 		assert.True(t, ok)
-		ok = Equal(t, "test", FilePath(fp), Update(false), AssertOptions(assert.Report(report)))
+		ok = Equal(t, "test", Directory(tmpDir), TestName(testName), Update(false), AssertOptions(assert.Report(report)))
 		assert.False(t, ok)
 	})
 }
 
 func TestErrorRemainingValues(t *testing.T) {
 	tmpDir := t.TempDir()
-	fp := filepath.Join(tmpDir, "test.txt")
+	testName := t.Name() + "Fake"
 	t.Run("Save", func(t *testing.T) {
-		Equal(t, "test", FilePath(fp), Update(true))
-		Equal(t, "test", FilePath(fp), Update(true))
+		Equal(t, "test", Directory(tmpDir), TestName(testName), Update(true))
+		Equal(t, "test", Directory(tmpDir), TestName(testName), Update(true))
 	})
 	report := asserttest.NewReportAuto(t)
 	t.Run("Load", func(t *testing.T) {
-		ok := Equal(t, "test", FilePath(fp), Update(false), AssertOptions(assert.Report(report)))
+		ok := Equal(t, "test", Directory(tmpDir), TestName(testName), Update(false), AssertOptions(assert.Report(report)))
 		assert.True(t, ok)
 	})
 }
 
 func TestErrorCreateDirectory(t *testing.T) {
 	tmpDir := t.TempDir()
-	fp1 := filepath.Join(tmpDir, "test.txt")
-	err := os.WriteFile(fp1, []byte("test"), 0o644) //nolint:gosec // We want 644.
+	testName := t.Name() + "Fake"
+	fp := BuildFilePath(tmpDir, testName)
+	err := os.WriteFile(fp, []byte("test"), 0o644) //nolint:gosec // We want 644.
 	assert.NoError(t, err)
-	fp2 := filepath.Join(fp1, "test.txt")
 	report := asserttest.NewReportPrefix(t, "assert assertauto: create directory:")
 	t.Run("Save", func(t *testing.T) {
-		ok := Equal(t, "test", FilePath(fp2), Update(true), AssertOptions(assert.Report(report)))
+		ok := Equal(t, "test", Directory(fp), Update(true), AssertOptions(assert.Report(report)))
 		assert.True(t, ok)
 	})
 }
 
 func TestErrorWriteFile(t *testing.T) {
 	tmpDir := t.TempDir()
-	fp := filepath.Join(tmpDir, "test.txt")
+	testName := t.Name() + "Fake"
+	fp := BuildFilePath(tmpDir, testName)
 	err := os.MkdirAll(fp, 0o750)
 	assert.NoError(t, err)
 	report := asserttest.NewReportPrefix(t, "assert assertauto: write file:")
 	t.Run("Save", func(t *testing.T) {
-		ok := Equal(t, "test", FilePath(fp), Update(true), AssertOptions(assert.Report(report)))
+		ok := Equal(t, "test", Directory(tmpDir), TestName(testName), Update(true), AssertOptions(assert.Report(report)))
 		assert.True(t, ok)
 	})
 }
 
 func TestErrorReadFile(t *testing.T) {
 	tmpDir := t.TempDir()
-	fp := filepath.Join(tmpDir, "test.txt")
-	ok := Equal(t, "test", FilePath(fp), Update(false), AssertOptions(assert.Report(func(_ testing.TB, args ...any) {})))
+	testName := t.Name() + "Fake"
+	ok := Equal(t, "test", Directory(tmpDir), TestName(testName), Update(false), AssertOptions(assert.Report(func(_ testing.TB, args ...any) {})))
 	assert.False(t, ok)
 }

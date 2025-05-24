@@ -108,7 +108,7 @@ func Equal(tb testing.TB, v any, optfs ...Option) bool {
 
 func equal(tb testing.TB, v any, opts *options) error {
 	tb.Helper()
-	err := validateTestName(tb.Name())
+	err := validateTestName(opts.testName)
 	if err != nil {
 		return fmt.Errorf("validate test name: %w", err)
 	}
@@ -162,19 +162,17 @@ var values = &syncutil.Map[string, []string]{}
 
 func addValue(tb testing.TB, v string, opts *options) {
 	tb.Helper()
-	testName := tb.Name()
-	vs, ok := values.Load(testName)
+	vs, ok := values.Load(opts.testName)
 	if !ok {
 		setCleanupValues(tb, true, opts)
 	}
 	vs = append(vs, v)
-	values.Store(testName, vs)
+	values.Store(opts.testName, vs)
 }
 
 func getValue(tb testing.TB, opts *options) (string, error) {
 	tb.Helper()
-	testName := tb.Name()
-	vs, ok := values.Load(testName)
+	vs, ok := values.Load(opts.testName)
 	if !ok {
 		var err error
 		vs, err = loadValues(opts)
@@ -188,7 +186,7 @@ func getValue(tb testing.TB, opts *options) (string, error) {
 	}
 	v := vs[0]
 	vs = vs[1:]
-	values.Store(testName, vs)
+	values.Store(opts.testName, vs)
 	return v, nil
 }
 
@@ -202,8 +200,7 @@ func setCleanupValues(tb testing.TB, save bool, opts *options) {
 
 func cleanupValues(tb testing.TB, save bool, opts *options) error {
 	tb.Helper()
-	testName := tb.Name()
-	vs, _ := values.LoadAndDelete(testName)
+	vs, _ := values.LoadAndDelete(opts.testName)
 	if !tb.Failed() {
 		if save {
 			return saveValues(vs, opts)
@@ -217,12 +214,12 @@ func cleanupValues(tb testing.TB, save bool, opts *options) error {
 
 func saveValues(vs []string, opts *options) error {
 	s := encodeValues(vs)
-	dir := filepath.Dir(opts.filePath)
-	err := os.MkdirAll(dir, 0o755) //nolint:gosec // We want 755.
+	err := os.MkdirAll(opts.directory, 0o755) //nolint:gosec // We want 755.
 	if err != nil {
 		return fmt.Errorf("create directory: %w", err)
 	}
-	err = os.WriteFile(opts.filePath, []byte(s), 0o644) //nolint:gosec // We want 644.
+	fp := buildFilePath(opts.directory, opts.testName)
+	err = os.WriteFile(fp, []byte(s), 0o644) //nolint:gosec // We want 644.
 	if err != nil {
 		return fmt.Errorf("write file: %w", err)
 	}
@@ -234,7 +231,8 @@ func encodeValues(vs []string) string {
 }
 
 func loadValues(opts *options) ([]string, error) {
-	b, err := os.ReadFile(opts.filePath)
+	fp := buildFilePath(opts.directory, opts.testName)
+	b, err := os.ReadFile(fp) //nolint:gosec // We want to read the file.
 	if err != nil {
 		return nil, fmt.Errorf("read file: %w", err)
 	}
@@ -257,7 +255,8 @@ type Option func(*options)
 
 type options struct {
 	valueStringer func(any) string
-	filePath      string
+	directory     string
+	testName      string
 	update        bool
 	opts          []assert.Option
 }
@@ -273,7 +272,8 @@ func buildOptions(testName string, opts []Option) *options {
 func newOptions(testName string) *options {
 	return &options{
 		valueStringer: DefaultValueStringer,
-		filePath:      buildFilePath(DefaultDirectory, testName),
+		directory:     DefaultDirectory,
+		testName:      testName,
 		update:        DefaultUpdate,
 	}
 }
@@ -285,9 +285,15 @@ func ValueStringer(vs func(any) string) Option {
 	}
 }
 
-func filePath(fp string) Option {
+func directory(d string) Option {
 	return func(o *options) {
-		o.filePath = fp
+		o.directory = d
+	}
+}
+
+func testName(tn string) Option {
+	return func(o *options) {
+		o.testName = tn
 	}
 }
 
