@@ -1,1 +1,1 @@
-[string] (len=235) "assert assertauto: remaining values:\n[string] (len=4) \"test\"\nSee documentation at https://pkg.go.dev/github.com/pierrre/assert/assertauto\nRun the tests with the environment variable ASSERTAUTO_UPDATE=true to update the expected values."
+[string] (len=236) "assert assertauto: remaining values:\n[string] (len=4) \"test\"\n\nSee documentation at https://pkg.go.dev/github.com/pierrre/assert/assertauto\nRun the tests with the environment variable ASSERTAUTO_UPDATE=true to update the expected values."
