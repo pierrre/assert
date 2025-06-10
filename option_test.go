@@ -52,3 +52,7 @@ func TestMessageWrapf(t *testing.T) {
 	report := asserttest.NewReportAuto(t)
 	Fail(t, "test", "message", Report(report), MessageWrapf("custom %d", 1))
 }
+
+func TestReport(t *testing.T) {
+	Fail(t, "test", "message", ReportFatal(), ReportError(), ReportSkip(), ReportLog())
+}

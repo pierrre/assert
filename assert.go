@@ -13,11 +13,6 @@ import (
 	"github.com/pierrre/pretty"
 )
 
-// ReportFunc is a function that is called when an assertion fails.
-//
-// It is implemented by [testing.TB.Fatal]|[testing.TB.Error]|[testing.TB.Skip]|[testing.TB.Log].
-type ReportFunc func(tb testing.TB, args ...any)
-
 // Fail handles assertion failure.
 // It calls the [ReportFunc] with the given message.
 func Fail(tb testing.TB, name string, msg string, opts ...Option) {

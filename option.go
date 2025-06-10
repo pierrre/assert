@@ -80,9 +80,35 @@ func MessageWrapf(format string, args ...any) Option {
 	})
 }
 
+// ReportFunc is a function that is called when an assertion fails.
+//
+// It is implemented by [testing.TB.Fatal]|[testing.TB.Error]|[testing.TB.Skip]|[testing.TB.Log].
+// The default value is [testing.TB.Fatal].
+type ReportFunc func(tb testing.TB, args ...any)
+
 // Report returns an [Option] that sets the [ReportFunc].
 func Report(f ReportFunc) Option {
 	return func(o *options) {
 		o.report = f
 	}
+}
+
+// ReportFatal returns an [Option] that sets the [ReportFunc] to [testing.TB.Fatal].
+func ReportFatal() Option {
+	return Report(testing.TB.Fatal)
+}
+
+// ReportError returns an [Option] that sets the [ReportFunc] to [testing.TB.Error].
+func ReportError() Option {
+	return Report(testing.TB.Error)
+}
+
+// ReportSkip returns an [Option] that sets the [ReportFunc] to [testing.TB.Skip].
+func ReportSkip() Option {
+	return Report(testing.TB.Skip)
+}
+
+// ReportLog returns an [Option] that sets the [ReportFunc] to [testing.TB.Log].
+func ReportLog() Option {
+	return Report(testing.TB.Log)
 }
