@@ -13,8 +13,8 @@ func TestSliceNil(t *testing.T) {
 }
 
 func TestSliceNilFail(t *testing.T) {
-	report := asserttest.NewReportAuto(t)
-	ok := SliceNil(t, []int{}, Report(report))
+	report := asserttest.ReportAuto(t)
+	ok := SliceNil(t, []int{}, report)
 	False(t, ok)
 }
 
@@ -24,8 +24,8 @@ func TestSliceNotNil(t *testing.T) {
 }
 
 func TestSliceNotNilFail(t *testing.T) {
-	report := asserttest.NewReportAuto(t)
-	ok := SliceNotNil(t, []int(nil), Report(report))
+	report := asserttest.ReportAuto(t)
+	ok := SliceNotNil(t, []int(nil), report)
 	False(t, ok)
 }
 
@@ -35,8 +35,8 @@ func TestSliceEmpty(t *testing.T) {
 }
 
 func TestSliceEmptyFail(t *testing.T) {
-	report := asserttest.NewReportAuto(t)
-	ok := SliceEmpty(t, []int{1}, Report(report))
+	report := asserttest.ReportAuto(t)
+	ok := SliceEmpty(t, []int{1}, report)
 	False(t, ok)
 }
 
@@ -46,8 +46,8 @@ func TestSliceNotEmpty(t *testing.T) {
 }
 
 func TestSliceNotEmptyFail(t *testing.T) {
-	report := asserttest.NewReportAuto(t)
-	ok := SliceNotEmpty(t, []int{}, Report(report))
+	report := asserttest.ReportAuto(t)
+	ok := SliceNotEmpty(t, []int{}, report)
 	False(t, ok)
 }
 
@@ -57,8 +57,8 @@ func TestSliceLen(t *testing.T) {
 }
 
 func TestSliceLenFail(t *testing.T) {
-	report := asserttest.NewReportAuto(t)
-	ok := SliceLen(t, []int{1}, 2, Report(report))
+	report := asserttest.ReportAuto(t)
+	ok := SliceLen(t, []int{1}, 2, report)
 	False(t, ok)
 }
 
@@ -68,8 +68,8 @@ func TestSliceEqual(t *testing.T) {
 }
 
 func TestSliceEqualFail(t *testing.T) {
-	report := asserttest.NewReportAuto(t)
-	ok := SliceEqual(t, []int{1}, []int{2}, Report(report))
+	report := asserttest.ReportAuto(t)
+	ok := SliceEqual(t, []int{1}, []int{2}, report)
 	False(t, ok)
 }
 
@@ -79,8 +79,8 @@ func TestSliceNotEqual(t *testing.T) {
 }
 
 func TestSliceNotEqualFail(t *testing.T) {
-	report := asserttest.NewReportAuto(t)
-	ok := SliceNotEqual(t, []int{1}, []int{1}, Report(report))
+	report := asserttest.ReportAuto(t)
+	ok := SliceNotEqual(t, []int{1}, []int{1}, report)
 	False(t, ok)
 }
 
@@ -90,8 +90,8 @@ func TestSliceContains(t *testing.T) {
 }
 
 func TestSliceContainsFail(t *testing.T) {
-	report := asserttest.NewReportAuto(t)
-	ok := SliceContains(t, []int{1, 2}, 3, Report(report))
+	report := asserttest.ReportAuto(t)
+	ok := SliceContains(t, []int{1, 2}, 3, report)
 	False(t, ok)
 }
 
@@ -101,7 +101,7 @@ func TestSliceNotContains(t *testing.T) {
 }
 
 func TestSliceNotContainsFail(t *testing.T) {
-	report := asserttest.NewReportAuto(t)
-	ok := SliceNotContains(t, []int{1, 2}, 1, Report(report))
+	report := asserttest.ReportAuto(t)
+	ok := SliceNotContains(t, []int{1, 2}, 1, report)
 	False(t, ok)
 }

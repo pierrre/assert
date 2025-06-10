@@ -15,8 +15,8 @@ func TestCondition(t *testing.T) {
 }
 
 func TestConditionFail(t *testing.T) {
-	report := asserttest.NewReportAuto(t)
+	report := asserttest.ReportAuto(t)
 	Condition(t, func() bool {
 		return false
-	}, Report(report))
+	}, report)
 }

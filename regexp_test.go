@@ -14,14 +14,14 @@ func TestRegexp(t *testing.T) {
 }
 
 func TestRegexpFailMatch(t *testing.T) {
-	report := asserttest.NewReportAuto(t)
-	ok := RegexpMatch(t, "z", "abc", Report(report))
+	report := asserttest.ReportAuto(t)
+	ok := RegexpMatch(t, "z", "abc", report)
 	False(t, ok)
 }
 
 func TestRegexpFailCompile(t *testing.T) {
-	report := asserttest.NewReportAuto(t)
-	ok := RegexpMatch(t, "\\", "abc", Report(report))
+	report := asserttest.ReportAuto(t)
+	ok := RegexpMatch(t, "\\", "abc", report)
 	False(t, ok)
 }
 
@@ -31,13 +31,13 @@ func TestNotRegexp(t *testing.T) {
 }
 
 func TestNotRegexpFailMatch(t *testing.T) {
-	report := asserttest.NewReportAuto(t)
-	ok := RegexpNotMatch(t, "bc", "abc", Report(report))
+	report := asserttest.ReportAuto(t)
+	ok := RegexpNotMatch(t, "bc", "abc", report)
 	False(t, ok)
 }
 
 func TestNotRegexpFailCompile(t *testing.T) {
-	report := asserttest.NewReportAuto(t)
-	ok := RegexpNotMatch(t, "\\", "abc", Report(report))
+	report := asserttest.ReportAuto(t)
+	ok := RegexpNotMatch(t, "\\", "abc", report)
 	False(t, ok)
 }

@@ -13,8 +13,8 @@ func TestDeepEqual(t *testing.T) {
 }
 
 func TestDeepEqualFail(t *testing.T) {
-	report := asserttest.NewReportAuto(t)
-	ok := DeepEqual(t, 1, 2, Report(report))
+	report := asserttest.ReportAuto(t)
+	ok := DeepEqual(t, 1, 2, report)
 	False(t, ok)
 }
 
@@ -24,7 +24,7 @@ func TestNotDeepEqual(t *testing.T) {
 }
 
 func TestNotDeepEqualFail(t *testing.T) {
-	report := asserttest.NewReportAuto(t)
-	ok := NotDeepEqual(t, 1, 1, Report(report))
+	report := asserttest.ReportAuto(t)
+	ok := NotDeepEqual(t, 1, 1, report)
 	False(t, ok)
 }

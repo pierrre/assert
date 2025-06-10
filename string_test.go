@@ -13,8 +13,8 @@ func TestStringLen(t *testing.T) {
 }
 
 func TestStringLenFail(t *testing.T) {
-	report := asserttest.NewReportAuto(t)
-	ok := StringLen(t, "abc", 4, Report(report))
+	report := asserttest.ReportAuto(t)
+	ok := StringLen(t, "abc", 4, report)
 	False(t, ok)
 }
 
@@ -24,8 +24,8 @@ func TestStringContains(t *testing.T) {
 }
 
 func TestStringContainsFail(t *testing.T) {
-	report := asserttest.NewReportAuto(t)
-	ok := StringContains(t, "abc", "bd", Report(report))
+	report := asserttest.ReportAuto(t)
+	ok := StringContains(t, "abc", "bd", report)
 	False(t, ok)
 }
 
@@ -35,8 +35,8 @@ func TestStringNotContains(t *testing.T) {
 }
 
 func TestStringNotContainsFail(t *testing.T) {
-	report := asserttest.NewReportAuto(t)
-	ok := StringNotContains(t, "abc", "bc", Report(report))
+	report := asserttest.ReportAuto(t)
+	ok := StringNotContains(t, "abc", "bc", report)
 	False(t, ok)
 }
 
@@ -46,8 +46,8 @@ func TestStringHasPrefix(t *testing.T) {
 }
 
 func TestStringHasPrefixFail(t *testing.T) {
-	report := asserttest.NewReportAuto(t)
-	ok := StringHasPrefix(t, "abc", "ac", Report(report))
+	report := asserttest.ReportAuto(t)
+	ok := StringHasPrefix(t, "abc", "ac", report)
 	False(t, ok)
 }
 
@@ -57,8 +57,8 @@ func TestStringHasSuffix(t *testing.T) {
 }
 
 func TestStringHasSuffixFail(t *testing.T) {
-	report := asserttest.NewReportAuto(t)
-	ok := StringHasSuffix(t, "abc", "ac", Report(report))
+	report := asserttest.ReportAuto(t)
+	ok := StringHasSuffix(t, "abc", "ac", report)
 	False(t, ok)
 }
 
@@ -68,7 +68,7 @@ func TestStringEqualFold(t *testing.T) {
 }
 
 func TestStringEqualFoldFail(t *testing.T) {
-	report := asserttest.NewReportAuto(t)
-	ok := StringEqualFold(t, "abc", "ABD", Report(report))
+	report := asserttest.ReportAuto(t)
+	ok := StringEqualFold(t, "abc", "ABD", report)
 	False(t, ok)
 }

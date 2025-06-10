@@ -20,7 +20,7 @@ func TestAllocsPerRunAlloc(t *testing.T) {
 }
 
 func TestAllocsPerRunFail(t *testing.T) {
-	report := asserttest.NewReportAuto(t)
-	ok := AllocsPerRun(t, 10, func() {}, 1, Report(report))
+	report := asserttest.ReportAuto(t)
+	ok := AllocsPerRun(t, 10, func() {}, 1, report)
 	False(t, ok)
 }

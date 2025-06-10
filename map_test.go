@@ -13,8 +13,8 @@ func TestMapNil(t *testing.T) {
 }
 
 func TestMapNilFail(t *testing.T) {
-	report := asserttest.NewReportAuto(t)
-	ok := MapNil(t, map[string]string{}, Report(report))
+	report := asserttest.ReportAuto(t)
+	ok := MapNil(t, map[string]string{}, report)
 	False(t, ok)
 }
 
@@ -24,8 +24,8 @@ func TestMapNotNil(t *testing.T) {
 }
 
 func TestMapNotNilFail(t *testing.T) {
-	report := asserttest.NewReportAuto(t)
-	ok := MapNotNil(t, map[string]string(nil), Report(report))
+	report := asserttest.ReportAuto(t)
+	ok := MapNotNil(t, map[string]string(nil), report)
 	False(t, ok)
 }
 
@@ -35,8 +35,8 @@ func TestMapEmpty(t *testing.T) {
 }
 
 func TestMapEmptyFail(t *testing.T) {
-	report := asserttest.NewReportAuto(t)
-	ok := MapEmpty(t, map[string]string{"foo": "bar"}, Report(report))
+	report := asserttest.ReportAuto(t)
+	ok := MapEmpty(t, map[string]string{"foo": "bar"}, report)
 	False(t, ok)
 }
 
@@ -46,8 +46,8 @@ func TestMapNotEmpty(t *testing.T) {
 }
 
 func TestMapNotEmptyFail(t *testing.T) {
-	report := asserttest.NewReportAuto(t)
-	ok := MapNotEmpty(t, map[string]string{}, Report(report))
+	report := asserttest.ReportAuto(t)
+	ok := MapNotEmpty(t, map[string]string{}, report)
 	False(t, ok)
 }
 
@@ -57,8 +57,8 @@ func TestMapLen(t *testing.T) {
 }
 
 func TestMapLenFail(t *testing.T) {
-	report := asserttest.NewReportAuto(t)
-	ok := MapLen(t, map[string]string{"foo": "bar"}, 2, Report(report))
+	report := asserttest.ReportAuto(t)
+	ok := MapLen(t, map[string]string{"foo": "bar"}, 2, report)
 	False(t, ok)
 }
 
@@ -68,8 +68,8 @@ func TestMapEqual(t *testing.T) {
 }
 
 func TestMapEqualFail(t *testing.T) {
-	report := asserttest.NewReportAuto(t)
-	ok := MapEqual(t, map[string]string{"foo": "bar"}, map[string]string{}, Report(report))
+	report := asserttest.ReportAuto(t)
+	ok := MapEqual(t, map[string]string{"foo": "bar"}, map[string]string{}, report)
 	False(t, ok)
 }
 
@@ -79,7 +79,7 @@ func TestMapNotEqual(t *testing.T) {
 }
 
 func TestMapNotEqualFail(t *testing.T) {
-	report := asserttest.NewReportAuto(t)
-	ok := MapNotEqual(t, map[string]string{"foo": "bar"}, map[string]string{"foo": "bar"}, Report(report))
+	report := asserttest.ReportAuto(t)
+	ok := MapNotEqual(t, map[string]string{"foo": "bar"}, map[string]string{"foo": "bar"}, report)
 	False(t, ok)
 }

@@ -37,9 +37,9 @@ func TestEqualFail(t *testing.T) {
 		ok := Equal(t, "aaa", Directory(tmpDir), TestName(testName), Update(true))
 		assert.True(t, ok)
 	})
-	report := asserttest.NewReportAuto(t)
+	report := asserttest.ReportAuto(t)
 	t.Run("Load", func(t *testing.T) {
-		ok := Equal(t, "bbb", Directory(tmpDir), TestName(testName), Update(false), AssertOptions(assert.Report(report)))
+		ok := Equal(t, "bbb", Directory(tmpDir), TestName(testName), Update(false), AssertOptions(report))
 		assert.False(t, ok)
 	})
 }
@@ -53,15 +53,15 @@ func TestAllocsPerRun(t *testing.T) {
 }
 
 func TestErrorTestName(t *testing.T) {
-	report := asserttest.NewReportAuto(t)
+	report := asserttest.ReportAuto(t)
 	t.Run("../aaa", func(t *testing.T) {
-		Equal(t, "test", AssertOptions(assert.Report(report)))
+		Equal(t, "test", AssertOptions(report))
 	})
 }
 
 func TestErrorContainsSeparator(t *testing.T) {
-	report := asserttest.NewReportAuto(t)
-	ok := Equal(t, Separator, AssertOptions(assert.Report(report)), ValueStringer(func(v any) string {
+	report := asserttest.ReportAuto(t)
+	ok := Equal(t, Separator, AssertOptions(report), ValueStringer(func(v any) string {
 		return "test" + Separator + "test"
 	}))
 	assert.False(t, ok)
@@ -74,11 +74,11 @@ func TestErrorNoValuesLeft(t *testing.T) {
 		ok := Equal(t, "test", Directory(tmpDir), TestName(testName), Update(true))
 		assert.True(t, ok)
 	})
-	report := asserttest.NewReportAuto(t)
+	report := asserttest.ReportAuto(t)
 	t.Run("Load", func(t *testing.T) {
 		ok := Equal(t, "test", Directory(tmpDir), TestName(testName), Update(false))
 		assert.True(t, ok)
-		ok = Equal(t, "test", Directory(tmpDir), TestName(testName), Update(false), AssertOptions(assert.Report(report)))
+		ok = Equal(t, "test", Directory(tmpDir), TestName(testName), Update(false), AssertOptions(report))
 		assert.False(t, ok)
 	})
 }
@@ -90,9 +90,9 @@ func TestErrorRemainingValues(t *testing.T) {
 		Equal(t, "test", Directory(tmpDir), TestName(testName), Update(true))
 		Equal(t, "test", Directory(tmpDir), TestName(testName), Update(true))
 	})
-	report := asserttest.NewReportAuto(t)
+	report := asserttest.ReportAuto(t)
 	t.Run("Load", func(t *testing.T) {
-		ok := Equal(t, "test", Directory(tmpDir), TestName(testName), Update(false), AssertOptions(assert.Report(report)))
+		ok := Equal(t, "test", Directory(tmpDir), TestName(testName), Update(false), AssertOptions(report))
 		assert.True(t, ok)
 	})
 }
@@ -103,9 +103,9 @@ func TestErrorCreateDirectory(t *testing.T) {
 	fp := BuildFilePath(tmpDir, testName)
 	err := os.WriteFile(fp, []byte("test"), 0o644) //nolint:gosec // We want 644.
 	assert.NoError(t, err)
-	report := asserttest.NewReportPrefix(t, "assert assertauto: create directory:")
+	report := asserttest.ReportPrefix(t, "assert assertauto: create directory:")
 	t.Run("Save", func(t *testing.T) {
-		ok := Equal(t, "test", Directory(fp), Update(true), AssertOptions(assert.Report(report)))
+		ok := Equal(t, "test", Directory(fp), Update(true), AssertOptions(report))
 		assert.True(t, ok)
 	})
 }
@@ -116,9 +116,9 @@ func TestErrorWriteFile(t *testing.T) {
 	fp := BuildFilePath(tmpDir, testName)
 	err := os.MkdirAll(fp, 0o750)
 	assert.NoError(t, err)
-	report := asserttest.NewReportPrefix(t, "assert assertauto: write file:")
+	report := asserttest.ReportPrefix(t, "assert assertauto: write file:")
 	t.Run("Save", func(t *testing.T) {
-		ok := Equal(t, "test", Directory(tmpDir), TestName(testName), Update(true), AssertOptions(assert.Report(report)))
+		ok := Equal(t, "test", Directory(tmpDir), TestName(testName), Update(true), AssertOptions(report))
 		assert.True(t, ok)
 	})
 }

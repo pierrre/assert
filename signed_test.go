@@ -13,14 +13,14 @@ func TestPositive(t *testing.T) {
 }
 
 func TestPositiveFailNegative(t *testing.T) {
-	report := asserttest.NewReportAuto(t)
-	ok := Positive(t, -123, Report(report))
+	report := asserttest.ReportAuto(t)
+	ok := Positive(t, -123, report)
 	False(t, ok)
 }
 
 func TestPositiveFailZero(t *testing.T) {
-	report := asserttest.NewReportAuto(t)
-	ok := Positive(t, 0, Report(report))
+	report := asserttest.ReportAuto(t)
+	ok := Positive(t, 0, report)
 	False(t, ok)
 }
 
@@ -30,13 +30,13 @@ func TestNegative(t *testing.T) {
 }
 
 func TestNegativeFailPositive(t *testing.T) {
-	report := asserttest.NewReportAuto(t)
-	ok := Negative(t, 123, Report(report))
+	report := asserttest.ReportAuto(t)
+	ok := Negative(t, 123, report)
 	False(t, ok)
 }
 
 func TestNegativeFailZero(t *testing.T) {
-	report := asserttest.NewReportAuto(t)
-	ok := Negative(t, 0, Report(report))
+	report := asserttest.ReportAuto(t)
+	ok := Negative(t, 0, report)
 	False(t, ok)
 }

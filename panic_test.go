@@ -17,8 +17,8 @@ func TestPanics(t *testing.T) {
 }
 
 func TestPanicsFail(t *testing.T) {
-	report := asserttest.NewReportAuto(t)
-	_, ok := Panics(t, func() {}, Report(report))
+	report := asserttest.ReportAuto(t)
+	_, ok := Panics(t, func() {}, report)
 	False(t, ok)
 }
 
@@ -28,9 +28,9 @@ func TestNotPanics(t *testing.T) {
 }
 
 func TestNotPanicsFail(t *testing.T) {
-	report := asserttest.NewReportPrefix(t, "assert not_panics: panic:\npanic = [string] (len=4) \"test\"\nstack = ")
+	report := asserttest.ReportPrefix(t, "assert not_panics: panic:\npanic = [string] (len=4) \"test\"\nstack = ")
 	ok := NotPanics(t, func() {
 		panic("test")
-	}, Report(report))
+	}, report)
 	False(t, ok)
 }

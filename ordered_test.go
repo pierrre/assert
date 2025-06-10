@@ -13,8 +13,8 @@ func TestGreater(t *testing.T) {
 }
 
 func TestGreaterFail(t *testing.T) {
-	report := asserttest.NewReportAuto(t)
-	ok := Greater(t, 0, 123, Report(report))
+	report := asserttest.ReportAuto(t)
+	ok := Greater(t, 0, 123, report)
 	False(t, ok)
 }
 
@@ -24,8 +24,8 @@ func TestGreaterOrEqual(t *testing.T) {
 }
 
 func TestGreaterOrEqualFail(t *testing.T) {
-	report := asserttest.NewReportAuto(t)
-	ok := GreaterOrEqual(t, 0, 123, Report(report))
+	report := asserttest.ReportAuto(t)
+	ok := GreaterOrEqual(t, 0, 123, report)
 	False(t, ok)
 }
 
@@ -35,8 +35,8 @@ func TestLess(t *testing.T) {
 }
 
 func TestLessFail(t *testing.T) {
-	report := asserttest.NewReportAuto(t)
-	ok := Less(t, 123, 0, Report(report))
+	report := asserttest.ReportAuto(t)
+	ok := Less(t, 123, 0, report)
 	False(t, ok)
 }
 
@@ -46,7 +46,7 @@ func TestLessOrEqual(t *testing.T) {
 }
 
 func TestLessOrEqualFail(t *testing.T) {
-	report := asserttest.NewReportAuto(t)
-	ok := LessOrEqual(t, 123, 0, Report(report))
+	report := asserttest.ReportAuto(t)
+	ok := LessOrEqual(t, 123, 0, report)
 	False(t, ok)
 }

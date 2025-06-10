@@ -14,8 +14,8 @@ func TestOptionAllocs(t *testing.T) {
 }
 
 func TestLazy(t *testing.T) {
-	report := asserttest.NewReportAuto(t)
-	Fail(t, "test", "message", Report(report), Lazy(func() Option {
+	report := asserttest.ReportAuto(t)
+	Fail(t, "test", "message", report, Lazy(func() Option {
 		return Message("custom")
 	}))
 }
@@ -29,28 +29,28 @@ func TestLazyAllocs(t *testing.T) {
 }
 
 func TestOptions(t *testing.T) {
-	report := asserttest.NewReportAuto(t)
-	Fail(t, "test", "message", Options(Report(report), Message("custom")))
+	report := asserttest.ReportAuto(t)
+	Fail(t, "test", "message", Options(report, Message("custom")))
 }
 
 func TestMessage(t *testing.T) {
-	report := asserttest.NewReportAuto(t)
-	Fail(t, "test", "message", Report(report), Message("custom"))
+	report := asserttest.ReportAuto(t)
+	Fail(t, "test", "message", report, Message("custom"))
 }
 
 func TestMessagef(t *testing.T) {
-	report := asserttest.NewReportAuto(t)
-	Fail(t, "test", "message", Report(report), Messagef("custom %d", 1))
+	report := asserttest.ReportAuto(t)
+	Fail(t, "test", "message", report, Messagef("custom %d", 1))
 }
 
 func TestMessageWrap(t *testing.T) {
-	report := asserttest.NewReportAuto(t)
-	Fail(t, "test", "message", Report(report), MessageWrap("custom"))
+	report := asserttest.ReportAuto(t)
+	Fail(t, "test", "message", report, MessageWrap("custom"))
 }
 
 func TestMessageWrapf(t *testing.T) {
-	report := asserttest.NewReportAuto(t)
-	Fail(t, "test", "message", Report(report), MessageWrapf("custom %d", 1))
+	report := asserttest.ReportAuto(t)
+	Fail(t, "test", "message", report, MessageWrapf("custom %d", 1))
 }
 
 func TestReport(t *testing.T) {

@@ -13,8 +13,8 @@ func TestBytesEqual(t *testing.T) {
 }
 
 func TestBytesEqualFail(t *testing.T) {
-	report := asserttest.NewReportAuto(t)
-	ok := BytesEqual(t, []byte("abc"), []byte("abd"), Report(report))
+	report := asserttest.ReportAuto(t)
+	ok := BytesEqual(t, []byte("abc"), []byte("abd"), report)
 	False(t, ok)
 }
 
@@ -24,8 +24,8 @@ func TestBytesNotEqual(t *testing.T) {
 }
 
 func TestBytesNotEqualFail(t *testing.T) {
-	report := asserttest.NewReportAuto(t)
-	ok := BytesNotEqual(t, []byte("abc"), []byte("abc"), Report(report))
+	report := asserttest.ReportAuto(t)
+	ok := BytesNotEqual(t, []byte("abc"), []byte("abc"), report)
 	False(t, ok)
 }
 
@@ -35,8 +35,8 @@ func TestBytesContains(t *testing.T) {
 }
 
 func TestBytesContainsFail(t *testing.T) {
-	report := asserttest.NewReportAuto(t)
-	ok := BytesContains(t, []byte("abc"), []byte("d"), Report(report))
+	report := asserttest.ReportAuto(t)
+	ok := BytesContains(t, []byte("abc"), []byte("d"), report)
 	False(t, ok)
 }
 
@@ -46,7 +46,7 @@ func TestBytesNotContains(t *testing.T) {
 }
 
 func TestBytesNotContainsFail(t *testing.T) {
-	report := asserttest.NewReportAuto(t)
-	ok := BytesNotContains(t, []byte("abc"), []byte("b"), Report(report))
+	report := asserttest.ReportAuto(t)
+	ok := BytesNotContains(t, []byte("abc"), []byte("b"), report)
 	False(t, ok)
 }

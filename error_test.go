@@ -17,8 +17,8 @@ func TestError(t *testing.T) {
 }
 
 func TestErrorFail(t *testing.T) {
-	report := asserttest.NewReportAuto(t)
-	ok := Error(t, nil, Report(report))
+	report := asserttest.ReportAuto(t)
+	ok := Error(t, nil, report)
 	False(t, ok)
 }
 
@@ -28,8 +28,8 @@ func TestNoError(t *testing.T) {
 }
 
 func TestNoErrorFail(t *testing.T) {
-	report := asserttest.NewReportAuto(t)
-	ok := NoError(t, errors.New("error"), Report(report))
+	report := asserttest.ReportAuto(t)
+	ok := NoError(t, errors.New("error"), report)
 	False(t, ok)
 }
 
@@ -39,14 +39,14 @@ func TestErrorIs(t *testing.T) {
 }
 
 func TestErrorIsFail(t *testing.T) {
-	report := asserttest.NewReportAuto(t)
-	ok := ErrorIs(t, errors.New("error"), io.EOF, Report(report))
+	report := asserttest.ReportAuto(t)
+	ok := ErrorIs(t, errors.New("error"), io.EOF, report)
 	False(t, ok)
 }
 
 func TestErrorIsFailNil(t *testing.T) {
-	report := asserttest.NewReportAuto(t)
-	ok := ErrorIs(t, nil, io.EOF, Report(report))
+	report := asserttest.ReportAuto(t)
+	ok := ErrorIs(t, nil, io.EOF, report)
 	False(t, ok)
 }
 
@@ -56,8 +56,8 @@ func TestErrorNotIs(t *testing.T) {
 }
 
 func TestErrorNotIsFail(t *testing.T) {
-	report := asserttest.NewReportAuto(t)
-	ok := ErrorNotIs(t, io.EOF, io.EOF, Report(report))
+	report := asserttest.ReportAuto(t)
+	ok := ErrorNotIs(t, io.EOF, io.EOF, report)
 	False(t, ok)
 }
 
@@ -69,8 +69,8 @@ func TestErrorAs(t *testing.T) {
 
 func TestErrorAsFail(t *testing.T) {
 	var timeParseError *time.ParseError
-	report := asserttest.NewReportAuto(t)
-	ok := ErrorAs(t, errors.New("error"), &timeParseError, Report(report))
+	report := asserttest.ReportAuto(t)
+	ok := ErrorAs(t, errors.New("error"), &timeParseError, report)
 	False(t, ok)
 }
 
@@ -80,14 +80,14 @@ func TestErrorEqual(t *testing.T) {
 }
 
 func TestErrorEqualFail(t *testing.T) {
-	report := asserttest.NewReportAuto(t)
-	ok := ErrorEqual(t, errors.New("error"), "zzz", Report(report))
+	report := asserttest.ReportAuto(t)
+	ok := ErrorEqual(t, errors.New("error"), "zzz", report)
 	False(t, ok)
 }
 
 func TestErrorEqualFailNil(t *testing.T) {
-	report := asserttest.NewReportAuto(t)
-	ok := ErrorEqual(t, nil, "zzz", Report(report))
+	report := asserttest.ReportAuto(t)
+	ok := ErrorEqual(t, nil, "zzz", report)
 	False(t, ok)
 }
 
@@ -97,13 +97,13 @@ func TestErrorContains(t *testing.T) {
 }
 
 func TestErrorContainsFail(t *testing.T) {
-	report := asserttest.NewReportAuto(t)
-	ok := ErrorContains(t, errors.New("error"), "zzz", Report(report))
+	report := asserttest.ReportAuto(t)
+	ok := ErrorContains(t, errors.New("error"), "zzz", report)
 	False(t, ok)
 }
 
 func TestErrorContainsFailNil(t *testing.T) {
-	report := asserttest.NewReportAuto(t)
-	ok := ErrorContains(t, nil, "zzz", Report(report))
+	report := asserttest.ReportAuto(t)
+	ok := ErrorContains(t, nil, "zzz", report)
 	False(t, ok)
 }
