@@ -158,7 +158,7 @@ type allocsPerRun struct {
 	Allocs float64
 }
 
-var values = &syncutil.Map[string, []string]{}
+var values syncutil.Map[string, []string]
 
 func addValue(tb testing.TB, v string, opts *options) {
 	tb.Helper()
