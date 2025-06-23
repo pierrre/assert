@@ -307,6 +307,6 @@ func update(u bool) Option {
 // AssertOptions returns an [Option] that sets the assert options.
 func AssertOptions(opts ...assert.Option) Option {
 	return func(o *options) {
-		o.opts = opts
+		o.opts = append(o.opts, opts...)
 	}
 }
