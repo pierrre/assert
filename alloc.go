@@ -7,7 +7,7 @@ import (
 
 // AllocsPerRun asserts that a function allocates a certain number of times per run.
 //
-//nolint:thelper // aaaa
+//nolint:thelper // It's called below.
 func AllocsPerRun(tb testing.TB, runs int, f func(), allocs float64, opts ...Option) bool {
 	a := testing.AllocsPerRun(runs, f)
 	ok := a == allocs
