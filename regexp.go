@@ -57,7 +57,7 @@ func getRegexp[RS RegexpString](tb testing.TB, rs RS, opts ...Option) *regexp.Re
 	if ok {
 		return r
 	}
-	s := any(rs).(string) //nolint:forcetypeassert // We know it's a string.
+	s, _ := any(rs).(string)
 	r, err := regexp.Compile(s)
 	if err != nil {
 		Fail(
