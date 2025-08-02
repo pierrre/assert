@@ -15,6 +15,7 @@ func Condition(tb testing.TB, f func() bool, opts ...Option) bool {
 			tb,
 			"condition",
 			"failed",
+			1,
 			opts...,
 		)
 	}

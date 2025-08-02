@@ -26,6 +26,7 @@ func RegexpMatch[RS RegexpString](tb testing.TB, rs RS, s string, opts ...Option
 			tb,
 			"regexp_match",
 			fmt.Sprintf("no match:\nrs = %q\ns = %q", r, s),
+			1,
 			opts...,
 		)
 	}
@@ -45,6 +46,7 @@ func RegexpNotMatch[RS RegexpString](tb testing.TB, rs RS, s string, opts ...Opt
 			tb,
 			"regexp_not_match",
 			fmt.Sprintf("match:\nrs = %q\ns = %q", r, s),
+			1,
 			opts...,
 		)
 	}
@@ -64,6 +66,7 @@ func getRegexp[RS RegexpString](tb testing.TB, rs RS, opts ...Option) *regexp.Re
 			tb,
 			"regexp_compile",
 			fmt.Sprintf("compilation failed:\nexpr = %q\nerr = %s", s, ErrorStringer(err)),
+			1,
 			opts...,
 		)
 		return nil

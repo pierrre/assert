@@ -7,20 +7,37 @@
 package assert
 
 import (
+	"bytes"
 	"fmt"
+	"strings"
 	"testing"
 
+	"github.com/pierrre/go-libs/runtimeutil"
 	"github.com/pierrre/pretty"
 )
 
+// DefaultShowStack is the default value for [ShowStack] option.
+var DefaultShowStack = true
+
 // Fail handles assertion failure.
 // It calls the [ReportFunc] with the given message.
-func Fail(tb testing.TB, name string, msg string, opts ...Option) {
+func Fail(tb testing.TB, name string, msg string, stackSkip int, opts ...Option) {
 	tb.Helper()
 	msg = fmt.Sprintf("assert %s: %s", name, msg)
 	o := buildOptions(opts)
 	for _, f := range o.messageTransforms {
 		msg = f(msg)
+	}
+	if o.showStack {
+		buf := new(bytes.Buffer)
+		_, _ = buf.WriteString("\n\nStack trace:\n")
+		for f := range runtimeutil.GetCallersFrames(runtimeutil.GetCallers(stackSkip + 1)) {
+			if strings.HasPrefix(f.Function, "testing.") {
+				break
+			}
+			_, _ = runtimeutil.WriteFrame(buf, f)
+		}
+		msg += buf.String()
 	}
 	args := []any{msg}
 	o.report(tb, args...)

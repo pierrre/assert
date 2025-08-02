@@ -9,6 +9,10 @@ import (
 	"github.com/pierrre/assert/asserttest"
 )
 
+func init() {
+	assert.DefaultShowStack = false
+}
+
 func Test(t *testing.T) {
 	Equal(t, nil)
 	Equal(t, true)

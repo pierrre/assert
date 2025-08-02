@@ -38,6 +38,7 @@ func DeepEqual[T any](tb testing.TB, v1, v2 T, opts ...Option) bool {
 			tb,
 			"deep_equal",
 			fmt.Sprintf("not equal:\ndiff = %s\nv1 = %s\nv2 = %s", diff, ValueStringer(v1), ValueStringer(v2)),
+			1,
 			opts...,
 		)
 	}
@@ -56,6 +57,7 @@ func NotDeepEqual[T any](tb testing.TB, v1, v2 T, opts ...Option) bool {
 			tb,
 			"not_deep_equal",
 			fmt.Sprintf("equal:\nv1 = %s\nv2 = %s", ValueStringer(v1), ValueStringer(v2)),
+			1,
 			opts...,
 		)
 	}

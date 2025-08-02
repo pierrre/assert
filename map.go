@@ -17,6 +17,7 @@ func MapNil[M ~map[K]V, K comparable, V any](tb testing.TB, m M, opts ...Option)
 			tb,
 			"map_nil",
 			"not nil:\nm = "+ValueStringer(m),
+			1,
 			opts...,
 		)
 	}
@@ -34,6 +35,7 @@ func MapNotNil[M ~map[K]V, K comparable, V any](tb testing.TB, m M, opts ...Opti
 			tb,
 			"map_not_nil",
 			"nil",
+			1,
 			opts...,
 		)
 	}
@@ -51,6 +53,7 @@ func MapEmpty[M ~map[K]V, K comparable, V any](tb testing.TB, m M, opts ...Optio
 			tb,
 			"map_empty",
 			fmt.Sprintf("not empty:\nlength = %d\nm = %s", len(m), ValueStringer(m)),
+			1,
 			opts...,
 		)
 	}
@@ -68,6 +71,7 @@ func MapNotEmpty[M ~map[K]V, K comparable, V any](tb testing.TB, m M, opts ...Op
 			tb,
 			"map_not_empty",
 			"empty",
+			1,
 			opts...,
 		)
 	}
@@ -85,6 +89,7 @@ func MapLen[M ~map[K]V, K comparable, V any](tb testing.TB, m M, l int, opts ...
 			tb,
 			"map_len",
 			fmt.Sprintf("unexpected length:\nexpected = %d\nactual = %d", l, len(m)),
+			1,
 			opts...,
 		)
 	}
@@ -102,6 +107,7 @@ func MapEqual[M1, M2 ~map[K]V, K, V comparable](tb testing.TB, m1 M1, m2 M2, opt
 			tb,
 			"map_equal",
 			fmt.Sprintf("not equal:\nm1 = %s\nm2 = %s", ValueStringer(m1), ValueStringer(m2)),
+			1,
 			opts...,
 		)
 	}
@@ -119,6 +125,7 @@ func MapNotEqual[M1, M2 ~map[K]V, K, V comparable](tb testing.TB, m1 M1, m2 M2, 
 			tb,
 			"map_not_equal",
 			fmt.Sprintf("equal:\nm1 = %s\nm2 = %s", ValueStringer(m1), ValueStringer(m2)),
+			1,
 			opts...,
 		)
 	}

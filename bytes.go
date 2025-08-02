@@ -18,6 +18,7 @@ func BytesEqual(tb testing.TB, b1, b2 []byte, opts ...Option) bool {
 			tb,
 			"bytes_equal",
 			fmt.Sprintf("not equal:\nb1 = %s\nb2 = %s", ValueStringer(b1), ValueStringer(b2)),
+			1,
 			opts...,
 		)
 	}
@@ -36,6 +37,7 @@ func BytesNotEqual(tb testing.TB, b1, b2 []byte, opts ...Option) bool {
 			tb,
 			"bytes_not_equal",
 			fmt.Sprintf("equal:\nb1 = %s\nb2 = %s", ValueStringer(b1), ValueStringer(b2)),
+			1,
 			opts...,
 		)
 	}
@@ -54,6 +56,7 @@ func BytesContains(tb testing.TB, b, subslice []byte, opts ...Option) bool {
 			tb,
 			"bytes_contains",
 			fmt.Sprintf("not contains:\nb = %s\nsubslice = %s", ValueStringer(b), ValueStringer(subslice)),
+			1,
 			opts...,
 		)
 	}
@@ -72,6 +75,7 @@ func BytesNotContains(tb testing.TB, b, subslice []byte, opts ...Option) bool {
 			tb,
 			"bytes_not_contains",
 			fmt.Sprintf("contains:\nb = %s\nsubslice = %s", ValueStringer(b), ValueStringer(subslice)),
+			1,
 			opts...,
 		)
 	}

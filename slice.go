@@ -17,6 +17,7 @@ func SliceNil[S ~[]E, E any](tb testing.TB, s S, opts ...Option) bool {
 			tb,
 			"slice_nil",
 			"not nil:\ns = "+ValueStringer(s),
+			1,
 			opts...,
 		)
 	}
@@ -34,6 +35,7 @@ func SliceNotNil[S ~[]E, E any](tb testing.TB, s S, opts ...Option) bool {
 			tb,
 			"slice_not_nil",
 			"nil",
+			1,
 			opts...,
 		)
 	}
@@ -51,6 +53,7 @@ func SliceEmpty[S ~[]E, E any](tb testing.TB, s S, opts ...Option) bool {
 			tb,
 			"slice_empty",
 			fmt.Sprintf("not empty:\nlength = %d\ns = %s", len(s), ValueStringer(s)),
+			1,
 			opts...,
 		)
 	}
@@ -68,6 +71,7 @@ func SliceNotEmpty[S ~[]E, E any](tb testing.TB, s S, opts ...Option) bool {
 			tb,
 			"slice_not_empty",
 			"empty",
+			1,
 			opts...,
 		)
 	}
@@ -85,6 +89,7 @@ func SliceLen[S ~[]E, E any](tb testing.TB, s S, l int, opts ...Option) bool {
 			tb,
 			"slice_len",
 			fmt.Sprintf("unexpected length:\nexpected = %d\nactual = %d", l, len(s)),
+			1,
 			opts...,
 		)
 	}
@@ -102,6 +107,7 @@ func SliceEqual[S ~[]E, E comparable](tb testing.TB, s1, s2 S, opts ...Option) b
 			tb,
 			"slice_equal",
 			fmt.Sprintf("not equal:\ns1 = %s\ns2 = %s", ValueStringer(s1), ValueStringer(s2)),
+			1,
 			opts...,
 		)
 	}
@@ -119,6 +125,7 @@ func SliceNotEqual[S ~[]E, E comparable](tb testing.TB, s1, s2 S, opts ...Option
 			tb,
 			"slice_not_equal",
 			fmt.Sprintf("equal:\ns1 = %s\ns2 = %s", ValueStringer(s1), ValueStringer(s2)),
+			1,
 			opts...,
 		)
 	}
@@ -136,6 +143,7 @@ func SliceContains[S ~[]E, E comparable](tb testing.TB, s S, v E, opts ...Option
 			tb,
 			"slice_contains",
 			fmt.Sprintf("not contains:\ns = %s\nv = %s", ValueStringer(s), ValueStringer(v)),
+			1,
 			opts...,
 		)
 	}
@@ -153,6 +161,7 @@ func SliceNotContains[S ~[]E, E comparable](tb testing.TB, s S, v E, opts ...Opt
 			tb,
 			"slice_not_contains",
 			fmt.Sprintf("contains:\ns = %s\nv = %s", ValueStringer(s), ValueStringer(v)),
+			1,
 			opts...,
 		)
 	}

@@ -17,6 +17,7 @@ func Greater[T cmp.Ordered](tb testing.TB, v1, v2 T, opts ...Option) bool {
 			tb,
 			"greater",
 			fmt.Sprintf("not greater than:\nv1 = %s\nv2 = %s", ValueStringer(v1), ValueStringer(v2)),
+			1,
 			opts...,
 		)
 	}
@@ -34,6 +35,7 @@ func GreaterOrEqual[T cmp.Ordered](tb testing.TB, v1, v2 T, opts ...Option) bool
 			tb,
 			"greater_or_equal",
 			fmt.Sprintf("not greater than or equal to:\nv1 = %s\nv2 = %s", ValueStringer(v1), ValueStringer(v2)),
+			1,
 			opts...,
 		)
 	}
@@ -51,6 +53,7 @@ func Less[T cmp.Ordered](tb testing.TB, v1, v2 T, opts ...Option) bool {
 			tb,
 			"less",
 			fmt.Sprintf("not less than:\nv1 = %s\nv2 = %s", ValueStringer(v1), ValueStringer(v2)),
+			1,
 			opts...,
 		)
 	}
@@ -68,6 +71,7 @@ func LessOrEqual[T cmp.Ordered](tb testing.TB, v1, v2 T, opts ...Option) bool {
 			tb,
 			"less_or_equal",
 			fmt.Sprintf("not less than or equal to:\nv1 = %s\nv2 = %s", ValueStringer(v1), ValueStringer(v2)),
+			1,
 			opts...,
 		)
 	}

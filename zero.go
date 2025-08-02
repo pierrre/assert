@@ -16,6 +16,7 @@ func Zero[T comparable](tb testing.TB, v T, opts ...Option) bool {
 			tb,
 			"zero",
 			"not zero:\nv = "+ValueStringer(v),
+			1,
 			opts...,
 		)
 	}
@@ -34,6 +35,7 @@ func NotZero[T comparable](tb testing.TB, v T, opts ...Option) bool {
 			tb,
 			"not_zero",
 			"zero:\nv = "+ValueStringer(v),
+			1,
 			opts...,
 		)
 	}

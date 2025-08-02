@@ -28,6 +28,7 @@ func Error(tb testing.TB, err error, opts ...Option) bool {
 			tb,
 			"error",
 			"no error",
+			1,
 			opts...,
 		)
 	}
@@ -45,6 +46,7 @@ func NoError(tb testing.TB, err error, opts ...Option) bool {
 			tb,
 			"no_error",
 			"error: "+ErrorStringer(err),
+			1,
 			opts...,
 		)
 	}
@@ -62,6 +64,7 @@ func ErrorIs(tb testing.TB, err, target error, opts ...Option) bool {
 			tb,
 			"error_is",
 			fmt.Sprintf("no match:\nerr = %s\ntarget = %s", ErrorStringer(err), ErrorStringer(target)),
+			1,
 			opts...,
 		)
 	}
@@ -79,6 +82,7 @@ func ErrorNotIs(tb testing.TB, err, target error, opts ...Option) bool {
 			tb,
 			"error_not_is",
 			fmt.Sprintf("match:\nerr = %s\ntarget = %s", ErrorStringer(err), ErrorStringer(target)),
+			1,
 			opts...,
 		)
 	}
@@ -96,6 +100,7 @@ func ErrorAs(tb testing.TB, err error, target any, opts ...Option) bool {
 			tb,
 			"error_as",
 			fmt.Sprintf("no match:\nerr = %s\ntarget = %T", ErrorStringer(err), target),
+			1,
 			opts...,
 		)
 	}
@@ -115,6 +120,7 @@ func ErrorEqual(tb testing.TB, err error, message string, opts ...Option) bool {
 			tb,
 			"error_equal",
 			fmt.Sprintf("not equal:\nerr = %s\nmessage = %q", ErrorStringer(err), message),
+			1,
 			opts...,
 		)
 	}
@@ -134,6 +140,7 @@ func ErrorContains(tb testing.TB, err error, substr string, opts ...Option) bool
 			tb,
 			"error_contains",
 			fmt.Sprintf("not contains:\nerr = %s\nsubstr = %q", ErrorStringer(err), substr),
+			1,
 			opts...,
 		)
 	}

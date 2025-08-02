@@ -18,6 +18,7 @@ func ChanEmpty[T any](tb testing.TB, c chan T, opts ...Option) bool {
 			tb,
 			"chan_empty",
 			fmt.Sprintf("not empty:\nlength = %d", len(c)),
+			1,
 			opts...,
 		)
 	}
@@ -35,6 +36,7 @@ func ChanNotEmpty[T any](tb testing.TB, c chan T, opts ...Option) bool {
 			tb,
 			"chan_not_empty",
 			"empty",
+			1,
 			opts...,
 		)
 	}
@@ -52,6 +54,7 @@ func ChanLen[T any](tb testing.TB, c chan T, l int, opts ...Option) bool {
 			tb,
 			"chan_len",
 			fmt.Sprintf("unexpected length:\nexpected = %d\nactual = %d", l, len(c)),
+			1,
 			opts...,
 		)
 	}

@@ -7,12 +7,14 @@ import (
 
 type options struct {
 	messageTransforms []func(msg string) string
+	showStack         bool
 	report            ReportFunc
 }
 
 func buildOptions(opts []Option) *options {
 	o := &options{
-		report: testing.TB.Fatal,
+		report:    testing.TB.Fatal,
+		showStack: DefaultShowStack,
 	}
 	for _, opt := range opts {
 		opt(o)
@@ -78,6 +80,13 @@ func MessageWrapf(format string, args ...any) Option {
 	return MessageTransform(func(wrappedMsg string) string {
 		return fmt.Sprintf(format, args...) + ": " + wrappedMsg
 	})
+}
+
+// ShowStack returns an [Option] that sets whether to show the stack trace on failure.
+func ShowStack(show bool) Option {
+	return func(o *options) {
+		o.showStack = show
+	}
 }
 
 // ReportFunc is a function that is called when an assertion fails.

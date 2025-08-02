@@ -92,7 +92,7 @@ func assertNoError(tb testing.TB, err error, opts *options) bool {
 	tb.Helper()
 	if err != nil {
 		msg := err.Error() + "\n\nSee documentation at https://pkg.go.dev/github.com/pierrre/assert/assertauto\nRun the tests with the environment variable ASSERTAUTO_UPDATE=true to update the expected values."
-		assert.Fail(tb, "assertauto", msg, opts.opts...)
+		assert.Fail(tb, "assertauto", msg, 1, opts.opts...)
 		return false
 	}
 	return true

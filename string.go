@@ -17,6 +17,7 @@ func StringLen(tb testing.TB, s string, l int, opts ...Option) bool {
 			tb,
 			"string_len",
 			fmt.Sprintf("unexpected length:\nexpected = %d\nactual = %d", l, len(s)),
+			1,
 			opts...,
 		)
 	}
@@ -34,6 +35,7 @@ func StringContains(tb testing.TB, s, substr string, opts ...Option) bool {
 			tb,
 			"string_contains",
 			fmt.Sprintf("not contains:\ns = %q\nsubstr = %q", s, substr),
+			1,
 			opts...,
 		)
 	}
@@ -51,6 +53,7 @@ func StringNotContains(tb testing.TB, s, substr string, opts ...Option) bool {
 			tb,
 			"string_not_contains",
 			fmt.Sprintf("contains:\ns = %q\nsubstr = %q", s, substr),
+			1,
 			opts...,
 		)
 	}
@@ -68,6 +71,7 @@ func StringHasPrefix(tb testing.TB, s, prefix string, opts ...Option) bool {
 			tb,
 			"string_has_prefix",
 			fmt.Sprintf("no prefix:\ns = %q\nprefix = %q", s, prefix),
+			1,
 			opts...,
 		)
 	}
@@ -85,6 +89,7 @@ func StringHasSuffix(tb testing.TB, s, suffix string, opts ...Option) bool {
 			tb,
 			"string_has_suffix",
 			fmt.Sprintf("no suffix:\ns = %q\nsuffix = %q", s, suffix),
+			1,
 			opts...,
 		)
 	}
@@ -102,6 +107,7 @@ func StringEqualFold(tb testing.TB, s1, s2 string, opts ...Option) bool {
 			tb,
 			"string_equal_fold",
 			fmt.Sprintf("not equal fold:\ns1 = %q\ns2 = %q", s1, s2),
+			1,
 			opts...,
 		)
 	}

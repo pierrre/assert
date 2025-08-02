@@ -21,6 +21,7 @@ func Panics(tb testing.TB, f func(), opts ...Option) (rec any, ok bool) {
 				tb,
 				"panics",
 				"no panic",
+				1,
 				opts...,
 			)
 		}
@@ -43,6 +44,7 @@ func NotPanics(tb testing.TB, f func(), opts ...Option) (ok bool) {
 				tb,
 				"not_panics",
 				fmt.Sprintf("panic:\npanic = %s\nstack = %s", ValueStringer(rec), st),
+				1,
 				opts...,
 			)
 		}

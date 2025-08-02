@@ -17,6 +17,7 @@ func AllocsPerRun(tb testing.TB, runs int, f func(), allocs float64, opts ...Opt
 			tb,
 			"allocs_per_run",
 			fmt.Sprintf("unexpected allocs:\nexpected = %g\nactual = %g", allocs, a),
+			1,
 			opts...,
 		)
 	}

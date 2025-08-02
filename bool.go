@@ -15,6 +15,7 @@ func True(tb testing.TB, v bool, opts ...Option) bool {
 			tb,
 			"true",
 			"not true",
+			1,
 			opts...,
 		)
 	}
@@ -32,6 +33,7 @@ func False(tb testing.TB, v bool, opts ...Option) bool {
 			tb,
 			"false",
 			"not false",
+			1,
 			opts...,
 		)
 	}

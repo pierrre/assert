@@ -20,6 +20,7 @@ func Positive[T SignedAndFloat](tb testing.TB, v T, opts ...Option) bool {
 			tb,
 			"positive",
 			"not positive:\nv = "+ValueStringer(v),
+			1,
 			opts...,
 		)
 	}
@@ -37,6 +38,7 @@ func Negative[T SignedAndFloat](tb testing.TB, v T, opts ...Option) bool {
 			tb,
 			"positive",
 			"not negative:\nv = "+ValueStringer(v),
+			1,
 			opts...,
 		)
 	}
