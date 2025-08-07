@@ -7,11 +7,11 @@
 package assert
 
 import (
-	"bytes"
 	"fmt"
 	"strings"
 	"testing"
 
+	"github.com/pierrre/go-libs/bufpool"
 	"github.com/pierrre/go-libs/runtimeutil"
 	"github.com/pierrre/pretty"
 )
@@ -39,7 +39,8 @@ func Fail(tb testing.TB, name string, msg string, stackSkip int, opts ...Option)
 		msg = f(msg)
 	}
 	if o.showStack {
-		buf := new(bytes.Buffer)
+		buf := bufPool.Get()
+		_, _ = buf.WriteString(msg)
 		_, _ = buf.WriteString("\n\nStack trace:\n")
 		for f := range runtimeutil.GetCallersFrames(runtimeutil.GetCallers(stackSkip + 1)) {
 			if strings.HasPrefix(f.Function, "testing.") {
@@ -47,8 +48,13 @@ func Fail(tb testing.TB, name string, msg string, stackSkip int, opts ...Option)
 			}
 			_, _ = runtimeutil.WriteFrame(buf, f)
 		}
-		msg += buf.String()
+		msg = buf.String()
+		bufPool.Put(buf)
 	}
 	args := []any{msg}
 	o.report(tb, args...)
+}
+
+var bufPool = &bufpool.Pool{
+	MaxCap: -1,
 }
