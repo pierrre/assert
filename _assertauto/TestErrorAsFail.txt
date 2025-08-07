@@ -1,1 +1,1 @@
-[string] (len=67) "assert error_as: no match:\nerr = \"error\"\ntarget = **time.ParseError"
+[string] (len=104) "assert error_as: no match:\nerr = [*errors.errorString] {\n\tError(): \"error\",\n}\ntarget = **time.ParseError"

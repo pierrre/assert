@@ -65,7 +65,7 @@ func getRegexp[RS RegexpString](tb testing.TB, rs RS, opts ...Option) *regexp.Re
 		Fail(
 			tb,
 			"regexp_compile",
-			fmt.Sprintf("compilation failed:\nexpr = %q\nerr = %s", s, ErrorStringer(err)),
+			fmt.Sprintf("compilation failed:\nexpr = %q\nerr = %q", s, err),
 			1,
 			opts...,
 		)

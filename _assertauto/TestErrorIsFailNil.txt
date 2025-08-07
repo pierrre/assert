@@ -1,1 +1,1 @@
-[string] (len=53) "assert error_is: no match:\nerr = <nil>\ntarget = \"EOF\""
+[string] (len=90) "assert error_is: no match:\nerr = <nil>\ntarget = [*errors.errorString] {\n\tError(): \"EOF\",\n}"

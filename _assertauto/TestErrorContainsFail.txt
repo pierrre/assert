@@ -1,1 +1,1 @@
-[string] (len=65) "assert error_contains: not contains:\nerr = \"error\"\nsubstr = \"zzz\""
+[string] (len=102) "assert error_contains: not contains:\nerr = [*errors.errorString] {\n\tError(): \"error\",\n}\nsubstr = \"zzz\""

@@ -1,1 +1,1 @@
-[string] (len=31) "assert no_error: error: \"error\""
+[string] (len=68) "assert no_error: error: [*errors.errorString] {\n\tError(): \"error\",\n}"

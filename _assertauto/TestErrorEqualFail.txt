@@ -1,1 +1,1 @@
-[string] (len=60) "assert error_equal: not equal:\nerr = \"error\"\nmessage = \"zzz\""
+[string] (len=97) "assert error_equal: not equal:\nerr = [*errors.errorString] {\n\tError(): \"error\",\n}\nmessage = \"zzz\""

@@ -7,16 +7,6 @@ import (
 	"testing"
 )
 
-// ErrorStringer is a function that returns a string representation of an error.
-//
-// It can be customized to provide a better error message.
-var ErrorStringer func(error) string = func(err error) string {
-	if err == nil {
-		return "<nil>"
-	}
-	return fmt.Sprintf("%q", err)
-}
-
 // Error asserts that err is not nil.
 //
 //nolint:thelper // It's called below.
@@ -45,7 +35,7 @@ func NoError(tb testing.TB, err error, opts ...Option) bool {
 		Fail(
 			tb,
 			"no_error",
-			"error: "+ErrorStringer(err),
+			"error: "+ValueStringer(err),
 			1,
 			opts...,
 		)
@@ -63,7 +53,7 @@ func ErrorIs(tb testing.TB, err, target error, opts ...Option) bool {
 		Fail(
 			tb,
 			"error_is",
-			fmt.Sprintf("no match:\nerr = %s\ntarget = %s", ErrorStringer(err), ErrorStringer(target)),
+			fmt.Sprintf("no match:\nerr = %s\ntarget = %s", ValueStringer(err), ValueStringer(target)),
 			1,
 			opts...,
 		)
@@ -81,7 +71,7 @@ func ErrorNotIs(tb testing.TB, err, target error, opts ...Option) bool {
 		Fail(
 			tb,
 			"error_not_is",
-			fmt.Sprintf("match:\nerr = %s\ntarget = %s", ErrorStringer(err), ErrorStringer(target)),
+			fmt.Sprintf("match:\nerr = %s\ntarget = %s", ValueStringer(err), ValueStringer(target)),
 			1,
 			opts...,
 		)
@@ -99,7 +89,7 @@ func ErrorAs(tb testing.TB, err error, target any, opts ...Option) bool {
 		Fail(
 			tb,
 			"error_as",
-			fmt.Sprintf("no match:\nerr = %s\ntarget = %T", ErrorStringer(err), target),
+			fmt.Sprintf("no match:\nerr = %s\ntarget = %T", ValueStringer(err), target),
 			1,
 			opts...,
 		)
@@ -119,7 +109,7 @@ func ErrorEqual(tb testing.TB, err error, message string, opts ...Option) bool {
 		Fail(
 			tb,
 			"error_equal",
-			fmt.Sprintf("not equal:\nerr = %s\nmessage = %q", ErrorStringer(err), message),
+			fmt.Sprintf("not equal:\nerr = %s\nmessage = %q", ValueStringer(err), message),
 			1,
 			opts...,
 		)
@@ -139,7 +129,7 @@ func ErrorContains(tb testing.TB, err error, substr string, opts ...Option) bool
 		Fail(
 			tb,
 			"error_contains",
-			fmt.Sprintf("not contains:\nerr = %s\nsubstr = %q", ErrorStringer(err), substr),
+			fmt.Sprintf("not contains:\nerr = %s\nsubstr = %q", ValueStringer(err), substr),
 			1,
 			opts...,
 		)

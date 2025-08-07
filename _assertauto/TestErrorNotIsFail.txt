@@ -1,1 +1,1 @@
-[string] (len=54) "assert error_not_is: match:\nerr = \"EOF\"\ntarget = \"EOF\""
+[string] (len=128) "assert error_not_is: match:\nerr = [*errors.errorString] {\n\tError(): \"EOF\",\n}\ntarget = [*errors.errorString] {\n\tError(): \"EOF\",\n}"
