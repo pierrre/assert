@@ -13,7 +13,7 @@ type options struct {
 
 func buildOptions(opts []Option) *options {
 	o := &options{
-		report:    testing.TB.Fatal,
+		report:    DefaultReport,
 		showStack: DefaultShowStack,
 	}
 	for _, opt := range opts {
@@ -83,6 +83,7 @@ func MessageWrapf(format string, args ...any) Option {
 }
 
 // ShowStack returns an [Option] that sets whether to show the stack trace on failure.
+// The default value is [DefaultShowStack].
 func ShowStack(show bool) Option {
 	return func(o *options) {
 		o.showStack = show
@@ -92,10 +93,11 @@ func ShowStack(show bool) Option {
 // ReportFunc is a function that is called when an assertion fails.
 //
 // It is implemented by [testing.TB.Fatal]|[testing.TB.Error]|[testing.TB.Skip]|[testing.TB.Log].
-// The default value is [testing.TB.Fatal].
+// The default value is [DefaultReport].
 type ReportFunc func(tb testing.TB, args ...any)
 
 // Report returns an [Option] that sets the [ReportFunc].
+// The default value is [DefaultReport].
 func Report(f ReportFunc) Option {
 	return func(o *options) {
 		o.report = f

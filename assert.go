@@ -16,8 +16,18 @@ import (
 	"github.com/pierrre/pretty"
 )
 
-// DefaultShowStack is the default value for [ShowStack] option.
+// DefaultShowStack is the default value used to show stack traces on assertion failures, see [ShowStack] option.
 var DefaultShowStack = true
+
+// DefaultReport is the default [ReportFunc] used for assertion failures, see [Report] option.
+var DefaultReport = testing.TB.Fatal
+
+// ValueStringer is a function that returns the string representation of a value.
+//
+// It can be customized to provide a better string representation.
+//
+// By default it uses [pretty.String].
+var ValueStringer func(any) string = pretty.String
 
 // Fail handles assertion failure.
 // It calls the [ReportFunc] with the given message.
@@ -42,10 +52,3 @@ func Fail(tb testing.TB, name string, msg string, stackSkip int, opts ...Option)
 	args := []any{msg}
 	o.report(tb, args...)
 }
-
-// ValueStringer is a function that returns the string representation of a value.
-//
-// It can be customized to provide a better string representation.
-//
-// By default it uses [pretty.String].
-var ValueStringer func(any) string = pretty.String
