@@ -81,3 +81,79 @@ func BytesNotContains(tb testing.TB, b, subslice []byte, opts ...Option) bool {
 	}
 	return ok
 }
+
+// BytesHasPrefix asserts that b begins with prefix.
+// It uses [bytes.HasPrefix] to check if b begins with prefix.
+//
+//nolint:thelper // It's called below.
+func BytesHasPrefix(tb testing.TB, b, prefix []byte, opts ...Option) bool {
+	ok := bytes.HasPrefix(b, prefix)
+	if !ok {
+		tb.Helper()
+		Fail(
+			tb,
+			"bytes_has_prefix",
+			fmt.Sprintf("no prefix:\nb = %s\nprefix = %s", ValueStringer(b), ValueStringer(prefix)),
+			1,
+			opts...,
+		)
+	}
+	return ok
+}
+
+// BytesNotHasPrefix asserts that b does not begin with prefix.
+// It uses [bytes.HasPrefix] to check if b begins with prefix.
+//
+//nolint:thelper // It's called below.
+func BytesNotHasPrefix(tb testing.TB, b, prefix []byte, opts ...Option) bool {
+	ok := !bytes.HasPrefix(b, prefix)
+	if !ok {
+		tb.Helper()
+		Fail(
+			tb,
+			"bytes_not_has_prefix",
+			fmt.Sprintf("has prefix:\nb = %s\nprefix = %s", ValueStringer(b), ValueStringer(prefix)),
+			1,
+			opts...,
+		)
+	}
+	return ok
+}
+
+// BytesHasSuffix asserts that b ends with suffix.
+// It uses [bytes.HasSuffix] to check if b ends with suffix.
+//
+//nolint:thelper // It's called below.
+func BytesHasSuffix(tb testing.TB, b, suffix []byte, opts ...Option) bool {
+	ok := bytes.HasSuffix(b, suffix)
+	if !ok {
+		tb.Helper()
+		Fail(
+			tb,
+			"bytes_has_suffix",
+			fmt.Sprintf("no suffix:\nb = %s\nsuffix = %s", ValueStringer(b), ValueStringer(suffix)),
+			1,
+			opts...,
+		)
+	}
+	return ok
+}
+
+// BytesNotHasSuffix asserts that b does not end with suffix.
+// It uses [bytes.HasSuffix] to check if b ends with suffix.
+//
+//nolint:thelper // It's called below.
+func BytesNotHasSuffix(tb testing.TB, b, suffix []byte, opts ...Option) bool {
+	ok := !bytes.HasSuffix(b, suffix)
+	if !ok {
+		tb.Helper()
+		Fail(
+			tb,
+			"bytes_not_has_suffix",
+			fmt.Sprintf("has suffix:\nb = %s\nsuffix = %s", ValueStringer(b), ValueStringer(suffix)),
+			1,
+			opts...,
+		)
+	}
+	return ok
+}

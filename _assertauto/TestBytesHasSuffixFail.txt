@@ -1,0 +1,1 @@
+[string] (len=219) "assert bytes_has_suffix: no suffix:\nb = [[]uint8] (len=3)\n\t00000000  61 62 63                                          |abc|\n\nsuffix = [[]uint8] (len=2)\n\t00000000  61 63                                             |ac|\n"

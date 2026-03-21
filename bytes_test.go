@@ -50,3 +50,47 @@ func TestBytesNotContainsFail(t *testing.T) {
 	ok := BytesNotContains(t, []byte("abc"), []byte("b"), report)
 	False(t, ok)
 }
+
+func TestBytesHasPrefix(t *testing.T) {
+	ok := BytesHasPrefix(t, []byte("abc"), []byte("ab"))
+	True(t, ok)
+}
+
+func TestBytesHasPrefixFail(t *testing.T) {
+	report := asserttest.ReportAuto(t)
+	ok := BytesHasPrefix(t, []byte("abc"), []byte("ac"), report)
+	False(t, ok)
+}
+
+func TestBytesNotHasPrefix(t *testing.T) {
+	ok := BytesNotHasPrefix(t, []byte("abc"), []byte("ac"))
+	True(t, ok)
+}
+
+func TestBytesNotHasPrefixFail(t *testing.T) {
+	report := asserttest.ReportAuto(t)
+	ok := BytesNotHasPrefix(t, []byte("abc"), []byte("ab"), report)
+	False(t, ok)
+}
+
+func TestBytesHasSuffix(t *testing.T) {
+	ok := BytesHasSuffix(t, []byte("abc"), []byte("bc"))
+	True(t, ok)
+}
+
+func TestBytesHasSuffixFail(t *testing.T) {
+	report := asserttest.ReportAuto(t)
+	ok := BytesHasSuffix(t, []byte("abc"), []byte("ac"), report)
+	False(t, ok)
+}
+
+func TestBytesNotHasSuffix(t *testing.T) {
+	ok := BytesNotHasSuffix(t, []byte("abc"), []byte("ac"))
+	True(t, ok)
+}
+
+func TestBytesNotHasSuffixFail(t *testing.T) {
+	report := asserttest.ReportAuto(t)
+	ok := BytesNotHasSuffix(t, []byte("abc"), []byte("bc"), report)
+	False(t, ok)
+}
