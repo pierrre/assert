@@ -97,6 +97,24 @@ func ErrorAs(tb testing.TB, err error, target any, opts ...Option) bool {
 	return ok
 }
 
+// ErrorAsType asserts that [errors.AsType] returns true and returns the error of type E.
+//
+//nolint:thelper // It's called below.
+func ErrorAsType[E error](tb testing.TB, err error, opts ...Option) (E, bool) {
+	e, ok := errors.AsType[E](err)
+	if !ok {
+		tb.Helper()
+		Fail(
+			tb,
+			"error_as_type",
+			fmt.Sprintf("no match:\nerr = %s\ntype = %T", ValueStringer(err), *new(E)),
+			1,
+			opts...,
+		)
+	}
+	return e, ok
+}
+
 // ErrorEqual asserts that the result of [error.Error] is equal to message.
 func ErrorEqual(tb testing.TB, err error, message string, opts ...Option) bool {
 	tb.Helper()

@@ -74,6 +74,18 @@ func TestErrorAsFail(t *testing.T) {
 	False(t, ok)
 }
 
+func TestErrorAsType(t *testing.T) {
+	err, ok := ErrorAsType[error](t, errors.New("error"))
+	True(t, ok)
+	Error(t, err)
+}
+
+func TestErrorAsTypeFail(t *testing.T) {
+	report := asserttest.ReportAuto(t)
+	_, ok := ErrorAsType[*time.ParseError](t, errors.New("error"), report)
+	False(t, ok)
+}
+
 func TestErrorEqual(t *testing.T) {
 	ok := ErrorEqual(t, errors.New("error"), "error")
 	True(t, ok)
