@@ -31,7 +31,7 @@ The report message can be customized:
 assert.Equal(t, value, 1, assert.MessageWrap("test"))
 ```
 
-## Why ?
+## Why?
 
 This assertion library is an experiment to see if it is possible to do better than `github.com/stretchr/testify`, by using generics.
 
@@ -48,7 +48,7 @@ func getValue() int64 {
 }
 ```
 
-Surprinsingly, this test fails with this error:
+Surprisingly, this test fails with this error:
 
 ```text
 Error: Not equal:
@@ -56,7 +56,7 @@ expected: int(1)
 actual  : int64(1)
 ```
 
-This issue is caused by the types, which are no identical (the `1` constant is an `int` and not an `int64`), and it's possible to fix it:
+This issue is caused by the types, which are not identical (the `1` constant is an `int` and not an `int64`), and it's possible to fix it:
 
 Convert the value to `int64`:
 
@@ -93,24 +93,24 @@ assert.Equal(t, 1, value)
 
 The constant `1` is automatically converted to the type of the `value` variable without using reflection.
 
-However, this approchach has a limitation: it requires to write a different assertion function for each "kind" (map, slice, etc...)
+However, this approach has a limitation: it requires writing a different assertion function for each "kind" (map, slice, etc...).
 
 ## Customization
 
 The default behavior can be customized:
 
-- [`DeepEqualer`](https://pkg.go.dev/github.com/pierrre/assert#DeepEqualer) allows to customize how values are compared with [`DeepEqual()`](https://pkg.go.dev/github.com/pierrre/assert#DeepEqual).
-- [`ValueStringer`](https://pkg.go.dev/github.com/pierrre/assert#ValueStringer) allows to customize how values are printed.
-- [`ErrorStringer`](https://pkg.go.dev/github.com/pierrre/assert#ErrorStringer) allows to customize how errors are printed.
+- [`DeepEqualer`](https://pkg.go.dev/github.com/pierrre/assert#DeepEqualer) allows customizing how values are compared with [`DeepEqual()`](https://pkg.go.dev/github.com/pierrre/assert#DeepEqual).
+- [`ValueStringer`](https://pkg.go.dev/github.com/pierrre/assert#ValueStringer) allows customizing how values are printed.
+- [`ErrorStringer`](https://pkg.go.dev/github.com/pierrre/assert#ErrorStringer) allows customizing how errors are printed.
 
 ## FAQ
 
-### Why not use `github.com/stretchr/testify` ?
+### Why not use `github.com/stretchr/testify`?
 
 I think it's a great library, but I wanted to [try something different](#why-).
 I also wanted to try generics, and to see if it was possible to make an assertion library without reflection.
 
-### Where are `Nil()` and `NotNil()` ?
+### Where are `Nil()` and `NotNil()`?
 
 - For slices use [SliceNil()](https://pkg.go.dev/github.com/pierrre/assert#SliceNil) and [SliceNotNil()](https://pkg.go.dev/github.com/pierrre/assert#SliceNotNil)
 - For maps use [MapNil()](https://pkg.go.dev/github.com/pierrre/assert#MapNil) and [MapNotNil()](https://pkg.go.dev/github.com/pierrre/assert#MapNotNil)

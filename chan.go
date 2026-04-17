@@ -5,7 +5,7 @@ import (
 	"testing"
 )
 
-// TODO: find a way to support receive/send only chans. (more functions or use type parameters ?)
+// TODO: find a way to support receive/send only chans (more functions or use type parameters?).
 
 // ChanEmpty asserts that c is empty.
 //

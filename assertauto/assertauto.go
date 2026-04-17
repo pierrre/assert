@@ -245,7 +245,7 @@ func decodeValues(s string) []string {
 }
 
 func buildFilePath(dir string, testName string) string {
-	// TODO escape weird characters from test name ?
+	// TODO: escape weird characters from test name?
 	return filepath.Join(dir, testName+".txt")
 }
 

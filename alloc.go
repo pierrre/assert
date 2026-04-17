@@ -10,7 +10,7 @@ import (
 // AllocsPerRun asserts that a function allocates a certain number of times per run.
 //
 // If the race detector is enabled, this function does nothing and returns true.
-// It prevents the tests from failing due to the increased number of allocations.
+// This prevents tests from failing due to the increased number of allocations.
 //
 //nolint:thelper // It's called below.
 func AllocsPerRun(tb testing.TB, runs int, f func(), allocs float64, opts ...Option) bool {

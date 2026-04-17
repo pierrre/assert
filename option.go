@@ -45,7 +45,7 @@ func Options(opts ...Option) Option {
 
 // MessageTransform returns an [Option] that adds a message transform function.
 // The function is called before the [ReportFunc].
-// If several function are added, they're called in order.
+// If several functions are added, they are called in order.
 func MessageTransform(f func(msg string) string) Option {
 	return func(o *options) {
 		o.messageTransforms = append(o.messageTransforms, f)

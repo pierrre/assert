@@ -3,7 +3,7 @@
 // Assertion functions return a boolean value indicating whether the assertion succeeded.
 //
 // By default, assertion failures are reported using testing.TB.Fatal.
-// It can be customized with the Report() option.
+// This can be customized with the Report() option.
 package assert
 
 import (
@@ -16,17 +16,17 @@ import (
 	"github.com/pierrre/pretty"
 )
 
-// DefaultShowStack is the default value used to show stack traces on assertion failures, see [ShowStack] option.
+// DefaultShowStack is the default value used to show stack traces on assertion failures. See the [ShowStack] option.
 var DefaultShowStack = true
 
-// DefaultReport is the default [ReportFunc] used for assertion failures, see [Report] option.
+// DefaultReport is the default [ReportFunc] used for assertion failures. See the [Report] option.
 var DefaultReport = testing.TB.Fatal
 
 // ValueStringer is a function that returns the string representation of a value.
 //
-// It can be customized to provide a better string representation.
+// This can be customized to provide a better string representation.
 //
-// By default it uses [pretty.String].
+// By default, it uses [pretty.String].
 var ValueStringer func(any) string = pretty.String
 
 // Fail handles assertion failure.
