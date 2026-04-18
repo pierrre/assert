@@ -11,7 +11,7 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/pierrre/go-libs/bufpool"
+	"github.com/pierrre/go-libs/bytesutil"
 	"github.com/pierrre/go-libs/runtimeutil"
 	"github.com/pierrre/pretty"
 )
@@ -39,22 +39,22 @@ func Fail(tb testing.TB, name string, msg string, stackSkip int, opts ...Option)
 		msg = f(msg)
 	}
 	if o.showStack {
-		buf := bufPool.Get()
-		_, _ = buf.WriteString(msg)
-		_, _ = buf.WriteString("\n\nStack trace:\n")
+		bw := bytesWriterPool.Get()
+		bw.AppendString(msg)
+		bw.AppendString("\n\nStack trace:\n")
 		for f := range runtimeutil.GetCallersFrames(runtimeutil.GetCallers(stackSkip + 1)) {
 			if strings.HasPrefix(f.Function, "testing.") {
 				break
 			}
-			_, _ = runtimeutil.WriteFrame(buf, f)
+			_, _ = runtimeutil.WriteFrame(bw, f)
 		}
-		msg = buf.String()
-		bufPool.Put(buf)
+		msg = bw.String()
+		bytesWriterPool.Put(bw)
 	}
 	args := []any{msg}
 	o.report(tb, args...)
 }
 
-var bufPool = &bufpool.Pool{
+var bytesWriterPool = &bytesutil.WriterPool{
 	MaxCap: -1,
 }
