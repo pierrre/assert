@@ -4,6 +4,6 @@ go 1.26.0
 
 require (
 	github.com/pierrre/compare v1.4.15
-	github.com/pierrre/go-libs v0.30.8
+	github.com/pierrre/go-libs v0.30.9
 	github.com/pierrre/pretty v0.23.3
 )
