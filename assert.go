@@ -8,6 +8,7 @@ package assert
 
 import (
 	"fmt"
+	"runtime"
 	"strings"
 	"testing"
 
@@ -42,12 +43,15 @@ func Fail(tb testing.TB, name string, msg string, stackSkip int, opts ...Option)
 		bw := bytesWriterPool.Get()
 		bw.AppendString(msg)
 		bw.AppendString("\n\nStack trace:\n")
-		for f := range runtimeutil.GetCallersFrames(runtimeutil.GetCallers(stackSkip + 1)) {
-			if strings.HasPrefix(f.Function, "testing.") {
-				break
-			}
-			*bw = runtimeutil.AppendFrame(*bw, f)
-		}
+		fs := runtimeutil.GetCallersFrames(runtimeutil.GetCallers(stackSkip + 1))
+		*bw = runtimeutil.AppendFrames(*bw, func(yield func(runtime.Frame) bool) {
+			fs(func(f runtime.Frame) bool {
+				if strings.HasPrefix(f.Function, "testing.") {
+					return false
+				}
+				return yield(f)
+			})
+		})
 		msg = bw.String()
 		bytesWriterPool.Put(bw)
 	}
