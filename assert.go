@@ -46,7 +46,7 @@ func Fail(tb testing.TB, name string, msg string, stackSkip int, opts ...Option)
 			if strings.HasPrefix(f.Function, "testing.") {
 				break
 			}
-			_, _ = runtimeutil.WriteFrame(bw, f)
+			*bw = runtimeutil.AppendFrame(*bw, f)
 		}
 		msg = bw.String()
 		bytesWriterPool.Put(bw)
