@@ -44,13 +44,12 @@ func Fail(tb testing.TB, name string, msg string, stackSkip int, opts ...Option)
 		bw.AppendString(msg)
 		bw.AppendString("\n\nStack trace:\n")
 		fs := runtimeutil.GetCallersFrames(runtimeutil.GetCallers(stackSkip + 1))
-		*bw = runtimeutil.AppendFrames(*bw, func(yield func(runtime.Frame) bool) {
-			fs(func(f runtime.Frame) bool {
-				if strings.HasPrefix(f.Function, "testing.") {
-					return false
-				}
-				return yield(f)
-			})
+		fs(func(f runtime.Frame) bool {
+			if strings.HasPrefix(f.Function, "testing.") {
+				return false
+			}
+			*bw = runtimeutil.AppendFrame(*bw, f)
+			return true
 		})
 		msg = bw.String()
 		bytesWriterPool.Put(bw)
