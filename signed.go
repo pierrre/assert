@@ -36,7 +36,7 @@ func Negative[T Signed](tb testing.TB, v T, opts ...Option) bool {
 		tb.Helper()
 		Fail(
 			tb,
-			"positive",
+			"negative",
 			"not negative:\nv = "+ValueStringer(v),
 			1,
 			opts...,
