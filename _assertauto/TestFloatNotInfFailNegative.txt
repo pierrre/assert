@@ -1,0 +1,1 @@
+[string] (len=50) "assert float_not_inf: infinite:\nf = [float64] -Inf"

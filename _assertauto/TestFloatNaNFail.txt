@@ -1,0 +1,1 @@
+[string] (len=48) "assert float_nan: not NaN:\nf = [float64] 123.456"
