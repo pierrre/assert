@@ -72,7 +72,7 @@ require.EqualValues(t, 1, value)
 
 But the internal implementation is not simple: it requires [heavy usage of reflection](https://github.com/stretchr/testify/blob/master/assert/assertion_compare.go), and the code is [quite complex](https://github.com/stretchr/testify/blob/master/assert/assertions.go).
 
-What if we could simply use the `==` operator ?
+What if we could simply use the `==` operator?
 This is the solution chosen by this library.
 It uses generics to do the comparison, and it works with any comparable type:
 
