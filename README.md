@@ -100,8 +100,7 @@ However, this approach has a limitation: it requires writing a different asserti
 The default behavior can be customized:
 
 - [`DeepEqualer`](https://pkg.go.dev/github.com/pierrre/assert#DeepEqualer) allows customizing how values are compared with [`DeepEqual()`](https://pkg.go.dev/github.com/pierrre/assert#DeepEqual).
-- [`ValueStringer`](https://pkg.go.dev/github.com/pierrre/assert#ValueStringer) allows customizing how values are printed.
-- [`ErrorStringer`](https://pkg.go.dev/github.com/pierrre/assert#ErrorStringer) allows customizing how errors are printed.
+- [`ValueStringer`](https://pkg.go.dev/github.com/pierrre/assert#ValueStringer) allows customizing how values (including errors) are printed.
 
 ## FAQ
 

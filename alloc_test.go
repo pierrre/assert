@@ -5,6 +5,7 @@ import (
 
 	. "github.com/pierrre/assert"
 	"github.com/pierrre/assert/asserttest"
+	"github.com/pierrre/go-libs/raceutil"
 )
 
 func TestAllocsPerRun(t *testing.T) {
@@ -20,6 +21,9 @@ func TestAllocsPerRunAlloc(t *testing.T) {
 }
 
 func TestAllocsPerRunFail(t *testing.T) {
+	if raceutil.Enabled {
+		t.Skip("allocs are not measured under -race")
+	}
 	report := asserttest.ReportAuto(t)
 	ok := AllocsPerRun(t, 10, func() {}, 1, report)
 	False(t, ok)

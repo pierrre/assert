@@ -41,3 +41,15 @@ func TestNotRegexpFailCompile(t *testing.T) {
 	ok := RegexpNotMatch(t, "\\", "abc", report)
 	False(t, ok)
 }
+
+func TestRegexpFailNil(t *testing.T) {
+	report := asserttest.ReportAuto(t)
+	ok := RegexpMatch(t, (*regexp.Regexp)(nil), "abc", report)
+	False(t, ok)
+}
+
+func TestNotRegexpFailNil(t *testing.T) {
+	report := asserttest.ReportAuto(t)
+	ok := RegexpNotMatch(t, (*regexp.Regexp)(nil), "abc", report)
+	False(t, ok)
+}

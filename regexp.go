@@ -57,6 +57,16 @@ func getRegexp[RS RegexpString](tb testing.TB, rs RS, opts ...Option) *regexp.Re
 	tb.Helper()
 	r, ok := any(rs).(*regexp.Regexp)
 	if ok {
+		if r == nil {
+			Fail(
+				tb,
+				"regexp_nil",
+				"nil regexp",
+				1,
+				opts...,
+			)
+			return nil
+		}
 		return r
 	}
 	s, _ := any(rs).(string)

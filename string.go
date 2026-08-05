@@ -78,6 +78,24 @@ func StringHasPrefix(tb testing.TB, s, prefix string, opts ...Option) bool {
 	return ok
 }
 
+// StringNotHasPrefix asserts that s does not begin with prefix.
+//
+//nolint:thelper // It's called below.
+func StringNotHasPrefix(tb testing.TB, s, prefix string, opts ...Option) bool {
+	ok := !strings.HasPrefix(s, prefix)
+	if !ok {
+		tb.Helper()
+		Fail(
+			tb,
+			"string_not_has_prefix",
+			fmt.Sprintf("has prefix:\ns = %q\nprefix = %q", s, prefix),
+			1,
+			opts...,
+		)
+	}
+	return ok
+}
+
 // StringHasSuffix asserts that s ends with suffix.
 //
 //nolint:thelper // It's called below.
@@ -89,6 +107,24 @@ func StringHasSuffix(tb testing.TB, s, suffix string, opts ...Option) bool {
 			tb,
 			"string_has_suffix",
 			fmt.Sprintf("no suffix:\ns = %q\nsuffix = %q", s, suffix),
+			1,
+			opts...,
+		)
+	}
+	return ok
+}
+
+// StringNotHasSuffix asserts that s does not end with suffix.
+//
+//nolint:thelper // It's called below.
+func StringNotHasSuffix(tb testing.TB, s, suffix string, opts ...Option) bool {
+	ok := !strings.HasSuffix(s, suffix)
+	if !ok {
+		tb.Helper()
+		Fail(
+			tb,
+			"string_not_has_suffix",
+			fmt.Sprintf("has suffix:\ns = %q\nsuffix = %q", s, suffix),
 			1,
 			opts...,
 		)

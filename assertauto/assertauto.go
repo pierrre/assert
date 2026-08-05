@@ -23,6 +23,7 @@ import (
 
 	"github.com/pierrre/assert"
 	diff "github.com/pierrre/assert/assertauto/internal"
+	"github.com/pierrre/go-libs/raceutil"
 	"github.com/pierrre/go-libs/syncutil"
 )
 
@@ -143,8 +144,14 @@ func validateTestName(testName string) error {
 }
 
 // AllocsPerRun asserts that a function allocates a certain number of times per run.
+//
+// If the race detector is enabled, this function skips the test with [testing.TB.Skip]
+// because [testing.AllocsPerRun] reports inaccurate allocations under -race.
 func AllocsPerRun(tb testing.TB, runs int, f func(), optfs ...Option) (float64, bool) {
 	tb.Helper()
+	if raceutil.Enabled {
+		tb.Skip("allocs are not measured under -race")
+	}
 	allocs := testing.AllocsPerRun(runs, f)
 	v := allocsPerRun{
 		Runs:   runs,

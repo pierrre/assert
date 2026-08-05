@@ -51,6 +51,17 @@ func TestStringHasPrefixFail(t *testing.T) {
 	False(t, ok)
 }
 
+func TestStringNotHasPrefix(t *testing.T) {
+	ok := StringNotHasPrefix(t, "abc", "ac")
+	True(t, ok)
+}
+
+func TestStringNotHasPrefixFail(t *testing.T) {
+	report := asserttest.ReportAuto(t)
+	ok := StringNotHasPrefix(t, "abc", "ab", report)
+	False(t, ok)
+}
+
 func TestStringHasSuffix(t *testing.T) {
 	ok := StringHasSuffix(t, "abc", "bc")
 	True(t, ok)
@@ -59,6 +70,17 @@ func TestStringHasSuffix(t *testing.T) {
 func TestStringHasSuffixFail(t *testing.T) {
 	report := asserttest.ReportAuto(t)
 	ok := StringHasSuffix(t, "abc", "ac", report)
+	False(t, ok)
+}
+
+func TestStringNotHasSuffix(t *testing.T) {
+	ok := StringNotHasSuffix(t, "abc", "ac")
+	True(t, ok)
+}
+
+func TestStringNotHasSuffixFail(t *testing.T) {
+	report := asserttest.ReportAuto(t)
+	ok := StringNotHasSuffix(t, "abc", "bc", report)
 	False(t, ok)
 }
 
