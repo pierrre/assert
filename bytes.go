@@ -93,7 +93,7 @@ func BytesHasPrefix(tb testing.TB, b, prefix []byte, opts ...Option) bool {
 		Fail(
 			tb,
 			"bytes_has_prefix",
-			fmt.Sprintf("no prefix:\nb = %s\nprefix = %s", ValueStringer(b), ValueStringer(prefix)),
+			fmt.Sprintf("not has prefix:\nb = %s\nprefix = %s", ValueStringer(b), ValueStringer(prefix)),
 			1,
 			opts...,
 		)
@@ -131,7 +131,7 @@ func BytesHasSuffix(tb testing.TB, b, suffix []byte, opts ...Option) bool {
 		Fail(
 			tb,
 			"bytes_has_suffix",
-			fmt.Sprintf("no suffix:\nb = %s\nsuffix = %s", ValueStringer(b), ValueStringer(suffix)),
+			fmt.Sprintf("not has suffix:\nb = %s\nsuffix = %s", ValueStringer(b), ValueStringer(suffix)),
 			1,
 			opts...,
 		)
@@ -151,6 +151,44 @@ func BytesNotHasSuffix(tb testing.TB, b, suffix []byte, opts ...Option) bool {
 			tb,
 			"bytes_not_has_suffix",
 			fmt.Sprintf("has suffix:\nb = %s\nsuffix = %s", ValueStringer(b), ValueStringer(suffix)),
+			1,
+			opts...,
+		)
+	}
+	return ok
+}
+
+// BytesEqualFold asserts that b1 and b2 are equal, ignoring case.
+// It uses [bytes.EqualFold] to compare the two byte slices.
+//
+//nolint:thelper // It's called below.
+func BytesEqualFold(tb testing.TB, b1, b2 []byte, opts ...Option) bool {
+	ok := bytes.EqualFold(b1, b2)
+	if !ok {
+		tb.Helper()
+		Fail(
+			tb,
+			"bytes_equal_fold",
+			fmt.Sprintf("not equal fold:\nb1 = %s\nb2 = %s", ValueStringer(b1), ValueStringer(b2)),
+			1,
+			opts...,
+		)
+	}
+	return ok
+}
+
+// BytesNotEqualFold asserts that b1 and b2 are not equal, ignoring case.
+// It uses [bytes.EqualFold] to compare the two byte slices.
+//
+//nolint:thelper // It's called below.
+func BytesNotEqualFold(tb testing.TB, b1, b2 []byte, opts ...Option) bool {
+	ok := !bytes.EqualFold(b1, b2)
+	if !ok {
+		tb.Helper()
+		Fail(
+			tb,
+			"bytes_not_equal_fold",
+			fmt.Sprintf("equal fold:\nb1 = %s\nb2 = %s", ValueStringer(b1), ValueStringer(b2)),
 			1,
 			opts...,
 		)

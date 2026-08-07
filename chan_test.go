@@ -49,3 +49,29 @@ func TestChanLenFail(t *testing.T) {
 	ok := ChanLen(t, c, 2, report)
 	False(t, ok)
 }
+
+func TestChanNil(t *testing.T) {
+	var c chan int
+	ok := ChanNil(t, c)
+	True(t, ok)
+}
+
+func TestChanNilFail(t *testing.T) {
+	c := make(chan int)
+	report := asserttest.ReportAuto(t)
+	ok := ChanNil(t, c, report)
+	False(t, ok)
+}
+
+func TestChanNotNil(t *testing.T) {
+	c := make(chan int)
+	ok := ChanNotNil(t, c)
+	True(t, ok)
+}
+
+func TestChanNotNilFail(t *testing.T) {
+	var c chan int
+	report := asserttest.ReportAuto(t)
+	ok := ChanNotNil(t, c, report)
+	False(t, ok)
+}

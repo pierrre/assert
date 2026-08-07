@@ -1,0 +1,1 @@
+[string] (len=222) "assert bytes_equal_fold: not equal fold:\nb1 = [[]uint8] (len=3)\n\t00000000  61 62 63                                          |abc|\n\nb2 = [[]uint8] (len=3)\n\t00000000  61 62 64                                          |abd|\n"

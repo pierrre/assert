@@ -94,3 +94,25 @@ func TestBytesNotHasSuffixFail(t *testing.T) {
 	ok := BytesNotHasSuffix(t, []byte("abc"), []byte("bc"), report)
 	False(t, ok)
 }
+
+func TestBytesEqualFold(t *testing.T) {
+	ok := BytesEqualFold(t, []byte("abc"), []byte("ABC"))
+	True(t, ok)
+}
+
+func TestBytesEqualFoldFail(t *testing.T) {
+	report := asserttest.ReportAuto(t)
+	ok := BytesEqualFold(t, []byte("abc"), []byte("abd"), report)
+	False(t, ok)
+}
+
+func TestBytesNotEqualFold(t *testing.T) {
+	ok := BytesNotEqualFold(t, []byte("abc"), []byte("ABD"))
+	True(t, ok)
+}
+
+func TestBytesNotEqualFoldFail(t *testing.T) {
+	report := asserttest.ReportAuto(t)
+	ok := BytesNotEqualFold(t, []byte("abc"), []byte("ABC"), report)
+	False(t, ok)
+}

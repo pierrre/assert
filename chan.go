@@ -7,6 +7,42 @@ import (
 
 // TODO: find a way to support receive/send only chans (more functions or use type parameters?).
 
+// ChanNil asserts that c is nil.
+//
+//nolint:thelper // It's called below.
+func ChanNil[T any](tb testing.TB, c chan T, opts ...Option) bool {
+	ok := c == nil
+	if !ok {
+		tb.Helper()
+		Fail(
+			tb,
+			"chan_nil",
+			"not nil:\nc = "+ValueStringer(c),
+			1,
+			opts...,
+		)
+	}
+	return ok
+}
+
+// ChanNotNil asserts that c is not nil.
+//
+//nolint:thelper // It's called below.
+func ChanNotNil[T any](tb testing.TB, c chan T, opts ...Option) bool {
+	ok := c != nil
+	if !ok {
+		tb.Helper()
+		Fail(
+			tb,
+			"chan_not_nil",
+			"nil",
+			1,
+			opts...,
+		)
+	}
+	return ok
+}
+
 // ChanEmpty asserts that c is empty.
 //
 //nolint:thelper // It's called below.
