@@ -18,3 +18,14 @@ func TestTypeFail(t *testing.T) {
 	_, ok := Type[int](t, "123", report)
 	False(t, ok)
 }
+
+func TestNotType(t *testing.T) {
+	ok := NotType[int](t, "123")
+	True(t, ok)
+}
+
+func TestNotTypeFail(t *testing.T) {
+	report := asserttest.ReportAuto(t)
+	ok := NotType[int](t, 123, report)
+	False(t, ok)
+}

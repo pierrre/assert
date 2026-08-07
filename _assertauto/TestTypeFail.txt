@@ -1,1 +1,1 @@
-[string] (len=64) "assert type: assertion failed:\nsource = string\ndestination = int"
+[string] (len=80) "assert type: assertion failed:\nsource = [string] (len=3) \"123\"\ndestination = int"
