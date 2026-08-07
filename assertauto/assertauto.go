@@ -68,14 +68,20 @@ func initDefaultUpdate() {
 }
 
 var (
-	initOnce  sync.Once
+	initDone  bool
 	initError error //nolint:errname // This is not a sentinel error.
+	initMu    sync.Mutex
 )
 
 func ensureInit() error {
-	initOnce.Do(func() {
+	initMu.Lock()
+	defer initMu.Unlock()
+	if !initDone {
 		initError = doInit()
-	})
+		if initError == nil {
+			initDone = true
+		}
+	}
 	return initError
 }
 
@@ -208,13 +214,11 @@ func setCleanupValues(tb testing.TB, save bool, opts *options) {
 func cleanupValues(tb testing.TB, save bool, opts *options) error {
 	tb.Helper()
 	vs, _ := values.LoadAndDelete(opts.testName)
-	if !tb.Failed() {
-		if save {
-			return saveValues(vs, opts)
-		}
-		if len(vs) > 0 {
-			return fmt.Errorf("remaining values:\n%s", encodeValues(vs))
-		}
+	if save {
+		return saveValues(vs, opts)
+	}
+	if len(vs) > 0 {
+		return fmt.Errorf("remaining values:\n%s", encodeValues(vs))
 	}
 	return nil
 }
@@ -248,7 +252,11 @@ func loadValues(opts *options) ([]string, error) {
 }
 
 func decodeValues(s string) []string {
-	return strings.Split(s, separator)
+	var res []string
+	if s != "" {
+		res = strings.Split(s, separator)
+	}
+	return res
 }
 
 func buildFilePath(dir string, testName string) string {
