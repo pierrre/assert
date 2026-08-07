@@ -92,7 +92,7 @@ func ShowStack(show bool) Option {
 
 // ReportFunc is a function that is called when an assertion fails.
 //
-// It is implemented by [testing.TB.Fatal]|[testing.TB.Error]|[testing.TB.Skip]|[testing.TB.Log].
+// It can be set to method expressions such as [testing.TB.Fatal], [testing.TB.Error], [testing.TB.Skip], or [testing.TB.Log].
 // The default value is [DefaultReport].
 type ReportFunc func(tb testing.TB, args ...any)
 

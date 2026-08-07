@@ -18,9 +18,15 @@ import (
 )
 
 // DefaultShowStack is the default value used to show stack traces on assertion failures. See the [ShowStack] option.
+//
+// This variable must not be modified concurrently with running tests.
+// Set it only in [init] or [TestMain].
 var DefaultShowStack = true
 
 // DefaultReport is the default [ReportFunc] used for assertion failures. See the [Report] option.
+//
+// This variable must not be modified concurrently with running tests.
+// Set it only in [init] or [TestMain].
 var DefaultReport = testing.TB.Fatal
 
 // ValueStringer is a function that returns the string representation of a value.
@@ -28,6 +34,9 @@ var DefaultReport = testing.TB.Fatal
 // This can be customized to provide a better string representation.
 //
 // By default, it uses [pretty.String].
+//
+// This variable must not be nil, and must not be modified concurrently
+// with running tests. Set it only in [init] or [TestMain].
 var ValueStringer func(any) string = pretty.String
 
 // Fail handles assertion failure.
@@ -41,6 +50,7 @@ func Fail(tb testing.TB, name string, msg string, stackSkip int, opts ...Option)
 	}
 	if o.showStack {
 		bw := bytesWriterPool.Get()
+		defer bytesWriterPool.Put(bw)
 		bw.AppendString(msg)
 		bw.AppendString("\n\nStack trace:\n")
 		fs := runtimeutil.GetCallersFrames(runtimeutil.GetCallers(stackSkip + 1))
@@ -52,7 +62,6 @@ func Fail(tb testing.TB, name string, msg string, stackSkip int, opts ...Option)
 			return true
 		})
 		msg = bw.String()
-		bytesWriterPool.Put(bw)
 	}
 	args := []any{msg}
 	o.report(tb, args...)

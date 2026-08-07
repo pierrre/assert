@@ -22,7 +22,7 @@ By default, assertions fail with `Fatal()`.
 It can be changed with the `Report()` option:
 
 ```go
-assert.Equal(t, value, 1, assert.Report(t.Error))
+assert.Equal(t, value, 1, assert.ReportError())
 ```
 
 The report message can be customized:
