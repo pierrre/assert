@@ -16,7 +16,7 @@ func StringLen(tb testing.TB, s string, l int, opts ...Option) bool {
 		Fail(
 			tb,
 			"string_len",
-			fmt.Sprintf("unexpected length:\nexpected = %d\nactual = %d", l, len(s)),
+			fmt.Sprintf("unexpected length:\nexpected = %d\nactual = %d\ns = %s", l, len(s), ValueStringer(s)),
 			1,
 			opts...,
 		)

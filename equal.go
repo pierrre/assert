@@ -7,6 +7,9 @@ import (
 
 // Equal asserts that v1 == v2.
 //
+// For floating-point values, note that NaN != NaN, so [Equal] will always fail when comparing NaN to itself.
+// Use [FloatNaN] or [FloatNotNaN] instead.
+//
 //nolint:thelper // It's called below.
 func Equal[T comparable](tb testing.TB, v1, v2 T, opts ...Option) bool {
 	ok := v1 == v2

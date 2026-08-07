@@ -12,6 +12,9 @@ import (
 // This can be customized to provide a better comparison.
 //
 // By default, it uses [compare.DefaultComparator].
+//
+// This variable must not be nil, and must not be modified concurrently with running tests.
+// Set it only in [init] or [TestMain].
 var DeepEqualer = NewDeepEqualerWithComparator(compare.DefaultComparator)
 
 // NewDeepEqualerWithComparator creates a new [DeepEqualer] with a custom [compare.Comparator].

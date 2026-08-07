@@ -1,1 +1,1 @@
-[string] (len=61) "assert string_len: unexpected length:\nexpected = 4\nactual = 3"
+[string] (len=88) "assert string_len: unexpected length:\nexpected = 4\nactual = 3\ns = [string] (len=3) \"abc\""

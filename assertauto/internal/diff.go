@@ -1,4 +1,5 @@
 // Package diff is a copy of https://pkg.go.dev/internal/diff.
+// It is vendored here because internal/ packages cannot be imported from outside the standard library.
 //
 // Copyright 2022 The Go Authors. All rights reserved.
 // Use of this source code is governed by a BSD-style
