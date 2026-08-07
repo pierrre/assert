@@ -1,1 +1,1 @@
-[string] (len=65) "assert string_not_has_prefix: has prefix:\ns = \"abc\"\nprefix = \"ab\""
+[string] (len=82) "assert string_not_has_prefix: has prefix:\ns = [string] (len=3) \"abc\"\nprefix = \"ab\""

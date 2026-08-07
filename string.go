@@ -34,7 +34,7 @@ func StringContains(tb testing.TB, s, substr string, opts ...Option) bool {
 		Fail(
 			tb,
 			"string_contains",
-			fmt.Sprintf("not contains:\ns = %q\nsubstr = %q", s, substr),
+			fmt.Sprintf("not contains:\ns = %s\nsubstr = %q", ValueStringer(s), substr),
 			1,
 			opts...,
 		)
@@ -52,7 +52,7 @@ func StringNotContains(tb testing.TB, s, substr string, opts ...Option) bool {
 		Fail(
 			tb,
 			"string_not_contains",
-			fmt.Sprintf("contains:\ns = %q\nsubstr = %q", s, substr),
+			fmt.Sprintf("contains:\ns = %s\nsubstr = %q", ValueStringer(s), substr),
 			1,
 			opts...,
 		)
@@ -70,7 +70,7 @@ func StringHasPrefix(tb testing.TB, s, prefix string, opts ...Option) bool {
 		Fail(
 			tb,
 			"string_has_prefix",
-			fmt.Sprintf("no prefix:\ns = %q\nprefix = %q", s, prefix),
+			fmt.Sprintf("not has prefix:\ns = %s\nprefix = %q", ValueStringer(s), prefix),
 			1,
 			opts...,
 		)
@@ -88,7 +88,7 @@ func StringNotHasPrefix(tb testing.TB, s, prefix string, opts ...Option) bool {
 		Fail(
 			tb,
 			"string_not_has_prefix",
-			fmt.Sprintf("has prefix:\ns = %q\nprefix = %q", s, prefix),
+			fmt.Sprintf("has prefix:\ns = %s\nprefix = %q", ValueStringer(s), prefix),
 			1,
 			opts...,
 		)
@@ -106,7 +106,7 @@ func StringHasSuffix(tb testing.TB, s, suffix string, opts ...Option) bool {
 		Fail(
 			tb,
 			"string_has_suffix",
-			fmt.Sprintf("no suffix:\ns = %q\nsuffix = %q", s, suffix),
+			fmt.Sprintf("not has suffix:\ns = %s\nsuffix = %q", ValueStringer(s), suffix),
 			1,
 			opts...,
 		)
@@ -124,7 +124,7 @@ func StringNotHasSuffix(tb testing.TB, s, suffix string, opts ...Option) bool {
 		Fail(
 			tb,
 			"string_not_has_suffix",
-			fmt.Sprintf("has suffix:\ns = %q\nsuffix = %q", s, suffix),
+			fmt.Sprintf("has suffix:\ns = %s\nsuffix = %q", ValueStringer(s), suffix),
 			1,
 			opts...,
 		)
@@ -142,7 +142,7 @@ func StringEqualFold(tb testing.TB, s1, s2 string, opts ...Option) bool {
 		Fail(
 			tb,
 			"string_equal_fold",
-			fmt.Sprintf("not equal fold:\ns1 = %q\ns2 = %q", s1, s2),
+			fmt.Sprintf("not equal fold:\ns1 = %s\ns2 = %s", ValueStringer(s1), ValueStringer(s2)),
 			1,
 			opts...,
 		)

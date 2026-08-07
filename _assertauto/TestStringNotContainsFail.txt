@@ -1,1 +1,1 @@
-[string] (len=61) "assert string_not_contains: contains:\ns = \"abc\"\nsubstr = \"bc\""
+[string] (len=78) "assert string_not_contains: contains:\ns = [string] (len=3) \"abc\"\nsubstr = \"bc\""

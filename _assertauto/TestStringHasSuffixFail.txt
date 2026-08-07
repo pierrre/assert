@@ -1,1 +1,1 @@
-[string] (len=60) "assert string_has_suffix: no suffix:\ns = \"abc\"\nsuffix = \"ac\""
+[string] (len=82) "assert string_has_suffix: not has suffix:\ns = [string] (len=3) \"abc\"\nsuffix = \"ac\""
