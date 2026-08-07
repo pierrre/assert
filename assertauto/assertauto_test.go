@@ -58,7 +58,7 @@ func TestAllocsPerRun(t *testing.T) {
 
 func TestErrorTestName(t *testing.T) {
 	report := asserttest.ReportAuto(t)
-	t.Run("../aaa", func(t *testing.T) {
+	t.Run("../../aaa", func(t *testing.T) {
 		Equal(t, "test", AssertOptions(report))
 	})
 }

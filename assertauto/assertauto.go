@@ -56,6 +56,10 @@ func initDefaultDirectory() {
 	if !ok || s == "" {
 		return
 	}
+	err := validateLocalPath(s)
+	if err != nil {
+		panic(fmt.Errorf("invalid %s environment variable: %w", directoryEnvVar, err))
+	}
 	DefaultDirectory = s
 }
 
@@ -92,7 +96,11 @@ func ensureInit() error {
 
 func doInit() error {
 	if DefaultUpdate {
-		err := os.RemoveAll(DefaultDirectory)
+		err := validateLocalPath(DefaultDirectory)
+		if err != nil {
+			return fmt.Errorf("invalid directory %q: %w", DefaultDirectory, err)
+		}
+		err = os.RemoveAll(DefaultDirectory)
 		if err != nil {
 			return fmt.Errorf("remove directory %q: %w", DefaultDirectory, err)
 		}
@@ -151,8 +159,12 @@ func equal(tb testing.TB, v any, opts *options) error {
 }
 
 func validateTestName(testName string) error {
-	if strings.Contains(testName, "..") {
-		return fmt.Errorf("contains \"..\": %q", testName)
+	return validateLocalPath(testName)
+}
+
+func validateLocalPath(path string) error {
+	if !filepath.IsLocal(path) {
+		return fmt.Errorf("path %q is not local", path)
 	}
 	return nil
 }
