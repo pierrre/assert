@@ -9,6 +9,11 @@
 // Values of the same tests are stored sequentially in the same file.
 //
 // Values are converted to string using [DefaultValueStringer].
+//
+// Concurrency: functions in this package must not be called concurrently with the same test name.
+// Values for a given test name are stored sequentially in a single file, and their order is significant: each call consumes the next expected value (in read mode) or appends the next actual value (in update mode).
+// Concurrent calls sharing a test name make that order non-deterministic, causing flaky results: in update mode the file content varies between runs, and in read mode a call may be matched against the wrong expected value.
+// By default the test name is [testing.TB.Name], so concurrent calls must use distinct subtests (e.g. via [testing.T.Run]) rather than sharing a single [testing.TB] across goroutines.
 package assertauto
 
 import (
@@ -106,6 +111,9 @@ func assertNoError(tb testing.TB, err error, opts *options) bool {
 }
 
 // Equal asserts that the value is equal to the expected value.
+//
+// It must not be called concurrently with the same test name.
+// See the package documentation for details.
 func Equal(tb testing.TB, v any, optfs ...Option) bool {
 	tb.Helper()
 	opts := buildOptions(tb.Name(), optfs)
@@ -153,6 +161,9 @@ func validateTestName(testName string) error {
 //
 // If the race detector is enabled, this function skips the test with [testing.TB.Skip]
 // because [testing.AllocsPerRun] reports inaccurate allocations under -race.
+//
+// It must not be called concurrently with the same test name.
+// See the package documentation for details.
 func AllocsPerRun(tb testing.TB, runs int, f func(), optfs ...Option) (float64, bool) {
 	tb.Helper()
 	if raceutil.Enabled {
