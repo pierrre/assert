@@ -8,6 +8,10 @@
 // Each test creates a file with the name of the test and the ".txt" extension.
 // Values of the same tests are stored sequentially in the same file.
 //
+// The directory can be changed with the environment variable ASSERTAUTO_DIRECTORY.
+// It must be a local path (see [filepath.IsLocal]).
+// When ASSERTAUTO_UPDATE=true, this directory is removed at startup.
+//
 // Values are converted to string using [DefaultValueStringer].
 //
 // Concurrency: functions in this package must not be called concurrently with the same test name.
@@ -41,8 +45,12 @@ var (
 	// DefaultValueStringer is the default value stringer.
 	DefaultValueStringer = assert.ValueStringer
 	// DefaultDirectory is the default directory.
+	// It can be set with the environment variable ASSERTAUTO_DIRECTORY.
+	// It must be a local path (see [filepath.IsLocal]).
 	DefaultDirectory = "_assertauto"
 	// DefaultUpdate is the default update value.
+	// It can be set with the environment variable ASSERTAUTO_UPDATE.
+	// If the value is not a valid boolean, it panics during init().
 	DefaultUpdate = false
 )
 
