@@ -81,6 +81,9 @@ func ErrorNotIs(tb testing.TB, err, target error, opts ...Option) bool {
 
 // ErrorAs asserts that [errors.As] returns true.
 //
+// target must be a non-nil pointer to a type that implements error,
+// or to any interface type.
+//
 //nolint:thelper // It's called below.
 func ErrorAs(tb testing.TB, err error, target any, opts ...Option) bool {
 	ok := errors.As(err, target)
@@ -89,7 +92,7 @@ func ErrorAs(tb testing.TB, err error, target any, opts ...Option) bool {
 		Fail(
 			tb,
 			"error_as",
-			fmt.Sprintf("no match:\nerr = %s\ntarget = %T", ValueStringer(err), target),
+			fmt.Sprintf("no match:\nerr = %s\ntarget = %s", ValueStringer(err), ValueStringer(target)),
 			1,
 			opts...,
 		)
