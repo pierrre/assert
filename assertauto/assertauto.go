@@ -193,8 +193,7 @@ func validateLocalPath(path string) error {
 
 // AllocsPerRun asserts that a function allocates a certain number of times per run.
 //
-// If the race detector is enabled, this function skips the test with [testing.TB.Skip]
-// because [testing.AllocsPerRun] reports inaccurate allocations under -race.
+// If the race detector is enabled, this function skips the test with [testing.TB.Skip] because [testing.AllocsPerRun] reports inaccurate allocations under -race.
 //
 // It must not be called concurrently with the same test name.
 // See the package documentation for details.

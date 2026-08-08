@@ -81,8 +81,7 @@ func ErrorNotIs(tb testing.TB, err, target error, opts ...Option) bool {
 
 // ErrorAs asserts that [errors.As] returns true.
 //
-// target must be a non-nil pointer to a type that implements error,
-// or to any interface type.
+// target must be a non-nil pointer to a type that implements error, or to any interface type.
 //
 //nolint:thelper // It's called below.
 func ErrorAs(tb testing.TB, err error, target any, opts ...Option) bool {
