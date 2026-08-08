@@ -133,3 +133,37 @@ func TestErrorReadFile(t *testing.T) {
 	ok := Equal(t, "test", Directory(tmpDir), TestName(testName), Update(false), AssertOptions(assert.Report(func(_ testing.TB, args ...any) {})))
 	assert.False(t, ok)
 }
+
+func TestValidateLocalPath(t *testing.T) {
+	for _, tc := range []struct {
+		path    string
+		wantErr bool
+	}{
+		{path: "", wantErr: true},
+		{path: ".", wantErr: true},
+		{path: "./", wantErr: true},
+		{path: "foo/..", wantErr: true},
+		{path: "foo/../bar/..", wantErr: true},
+		{path: "a/./b/../..", wantErr: true},
+		{path: "..", wantErr: true},
+		{path: "../", wantErr: true},
+		{path: "../foo", wantErr: true},
+		{path: "/etc", wantErr: true},
+		{path: "/", wantErr: true},
+		{path: "_assertauto", wantErr: false},
+		{path: "foo", wantErr: false},
+		{path: "foo/bar", wantErr: false},
+		{path: "a/b/c.txt", wantErr: false},
+		{path: "foo/../bar", wantErr: false},
+		{path: "foo//bar", wantErr: false},
+	} {
+		t.Run(tc.path, func(t *testing.T) {
+			err := ValidateLocalPath(tc.path)
+			if tc.wantErr {
+				assert.Error(t, err)
+			} else {
+				assert.NoError(t, err)
+			}
+		})
+	}
+}

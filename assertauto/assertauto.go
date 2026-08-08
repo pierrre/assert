@@ -185,6 +185,9 @@ func validateLocalPath(path string) error {
 	if !filepath.IsLocal(path) {
 		return fmt.Errorf("path %q is not local", path)
 	}
+	if filepath.Clean(path) == "." {
+		return fmt.Errorf("path %q resolves to current directory", path)
+	}
 	return nil
 }
 
