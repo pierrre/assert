@@ -18,7 +18,7 @@ func Equal[T comparable](tb testing.TB, v1, v2 T, opts ...Option) bool {
 		Fail(
 			tb,
 			"equal",
-			fmt.Sprintf("not equal:\nv1 = %s\nv2 = %s", ValueStringer(v1), ValueStringer(v2)),
+			fmt.Sprintf("not equal:\nv1 = %s\nv2 = %s", ValueStringer.Load()(v1), ValueStringer.Load()(v2)),
 			1,
 			opts...,
 		)
@@ -36,7 +36,7 @@ func NotEqual[T comparable](tb testing.TB, v1, v2 T, opts ...Option) bool {
 		Fail(
 			tb,
 			"not_equal",
-			fmt.Sprintf("equal:\nv1 = %s\nv2 = %s", ValueStringer(v1), ValueStringer(v2)),
+			fmt.Sprintf("equal:\nv1 = %s\nv2 = %s", ValueStringer.Load()(v1), ValueStringer.Load()(v2)),
 			1,
 			opts...,
 		)

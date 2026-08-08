@@ -19,7 +19,7 @@ func Positive[T SignedNumber](tb testing.TB, v T, opts ...Option) bool {
 		Fail(
 			tb,
 			"positive",
-			"not positive:\nv = "+ValueStringer(v),
+			"not positive:\nv = "+ValueStringer.Load()(v),
 			1,
 			opts...,
 		)
@@ -37,7 +37,7 @@ func Negative[T SignedNumber](tb testing.TB, v T, opts ...Option) bool {
 		Fail(
 			tb,
 			"negative",
-			"not negative:\nv = "+ValueStringer(v),
+			"not negative:\nv = "+ValueStringer.Load()(v),
 			1,
 			opts...,
 		)

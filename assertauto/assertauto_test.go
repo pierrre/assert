@@ -10,7 +10,7 @@ import (
 )
 
 func init() {
-	assert.DefaultShowStack = false
+	assert.DefaultShowStack.Store(false)
 }
 
 func Test(t *testing.T) {

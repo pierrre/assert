@@ -5,17 +5,17 @@ import (
 	"testing"
 
 	"github.com/pierrre/compare"
+	"github.com/pierrre/go-libs/syncutil/atomicutil"
 )
 
 // DeepEqualer is a function that checks if two values are deeply equal.
 //
-// This can be customized to provide a better comparison.
-//
 // By default, it uses [compare.DefaultComparator].
-//
-// This variable must not be nil, and must not be modified concurrently with running tests.
-// Set it only in [init] or [TestMain].
-var DeepEqualer = NewDeepEqualerWithComparator(compare.DefaultComparator)
+var DeepEqualer atomicutil.Value[func(v1, v2 any) (string, bool)]
+
+func init() {
+	DeepEqualer.Store(NewDeepEqualerWithComparator(compare.DefaultComparator.Load()))
+}
 
 // NewDeepEqualerWithComparator creates a new [DeepEqualer] with a custom [compare.Comparator].
 func NewDeepEqualerWithComparator(cr *compare.Comparator) func(v1, v2 any) (string, bool) {
@@ -33,14 +33,14 @@ func NewDeepEqualerWithComparator(cr *compare.Comparator) func(v1, v2 any) (stri
 //
 //nolint:thelper // It's called below.
 func DeepEqual[T any](tb testing.TB, v1, v2 T, opts ...Option) bool {
-	diff, equal := DeepEqualer(v1, v2)
+	diff, equal := DeepEqualer.Load()(v1, v2)
 	ok := equal
 	if !ok {
 		tb.Helper()
 		Fail(
 			tb,
 			"deep_equal",
-			fmt.Sprintf("not equal:\ndiff = %s\nv1 = %s\nv2 = %s", diff, ValueStringer(v1), ValueStringer(v2)),
+			fmt.Sprintf("not equal:\ndiff = %s\nv1 = %s\nv2 = %s", diff, ValueStringer.Load()(v1), ValueStringer.Load()(v2)),
 			1,
 			opts...,
 		)
@@ -52,14 +52,14 @@ func DeepEqual[T any](tb testing.TB, v1, v2 T, opts ...Option) bool {
 //
 //nolint:thelper // It's called below.
 func NotDeepEqual[T any](tb testing.TB, v1, v2 T, opts ...Option) bool {
-	_, equal := DeepEqualer(v1, v2)
+	_, equal := DeepEqualer.Load()(v1, v2)
 	ok := !equal
 	if !ok {
 		tb.Helper()
 		Fail(
 			tb,
 			"not_deep_equal",
-			fmt.Sprintf("equal:\nv1 = %s\nv2 = %s", ValueStringer(v1), ValueStringer(v2)),
+			fmt.Sprintf("equal:\nv1 = %s\nv2 = %s", ValueStringer.Load()(v1), ValueStringer.Load()(v2)),
 			1,
 			opts...,
 		)

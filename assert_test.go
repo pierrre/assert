@@ -5,5 +5,5 @@ import (
 )
 
 func init() {
-	DefaultShowStack = false
+	DefaultShowStack.Store(false)
 }

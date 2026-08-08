@@ -13,8 +13,8 @@ type options struct {
 
 func buildOptions(opts []Option) *options {
 	o := &options{
-		report:    DefaultReport,
-		showStack: DefaultShowStack,
+		report:    DefaultReport.Load(),
+		showStack: DefaultShowStack.Load(),
 	}
 	for _, opt := range opts {
 		opt(o)

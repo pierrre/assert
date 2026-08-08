@@ -28,12 +28,14 @@ import (
 	"strconv"
 	"strings"
 	"sync"
+	"sync/atomic"
 	"testing"
 
 	"github.com/pierrre/assert"
 	diff "github.com/pierrre/assert/assertauto/internal"
 	"github.com/pierrre/go-libs/raceutil"
 	"github.com/pierrre/go-libs/syncutil"
+	"github.com/pierrre/go-libs/syncutil/atomicutil"
 )
 
 const (
@@ -43,18 +45,26 @@ const (
 
 var (
 	// DefaultValueStringer is the default value stringer.
-	DefaultValueStringer = assert.ValueStringer
+	//
+	// By default it uses [assert.ValueStringer].
+	DefaultValueStringer atomicutil.Value[func(any) string]
 	// DefaultDirectory is the default directory.
 	// It can be set with the environment variable ASSERTAUTO_DIRECTORY.
 	// It must be a local path (see [filepath.IsLocal]).
-	DefaultDirectory = "_assertauto"
+	//
+	// By default it is "_assertauto".
+	DefaultDirectory atomicutil.Value[string]
 	// DefaultUpdate is the default update value.
 	// It can be set with the environment variable ASSERTAUTO_UPDATE.
 	// If the value is not a valid boolean, it panics during init().
-	DefaultUpdate = false
+	//
+	// By default it is false.
+	DefaultUpdate atomic.Bool
 )
 
 func init() {
+	DefaultValueStringer.Store(assert.ValueStringer.Load())
+	DefaultDirectory.Store("_assertauto")
 	initDefaultDirectory()
 	initDefaultUpdate()
 }
@@ -68,7 +78,7 @@ func initDefaultDirectory() {
 	if err != nil {
 		panic(fmt.Errorf("invalid %s environment variable: %w", directoryEnvVar, err))
 	}
-	DefaultDirectory = s
+	DefaultDirectory.Store(s)
 }
 
 func initDefaultUpdate() {
@@ -81,7 +91,7 @@ func initDefaultUpdate() {
 		err = fmt.Errorf("parse %s environment variable: %w", updateEnvVar, err)
 		panic(err)
 	}
-	DefaultUpdate = b
+	DefaultUpdate.Store(b)
 }
 
 var (
@@ -103,14 +113,15 @@ func ensureInit() error {
 }
 
 func doInit() error {
-	if DefaultUpdate {
-		err := validateLocalPath(DefaultDirectory)
+	if DefaultUpdate.Load() {
+		dir := DefaultDirectory.Load()
+		err := validateLocalPath(dir)
 		if err != nil {
-			return fmt.Errorf("invalid directory %q: %w", DefaultDirectory, err)
+			return fmt.Errorf("invalid directory %q: %w", dir, err)
 		}
-		err = os.RemoveAll(DefaultDirectory)
+		err = os.RemoveAll(dir)
 		if err != nil {
-			return fmt.Errorf("remove directory %q: %w", DefaultDirectory, err)
+			return fmt.Errorf("remove directory %q: %w", dir, err)
 		}
 	}
 	return nil
@@ -318,10 +329,10 @@ func buildOptions(testName string, opts []Option) *options {
 
 func newOptions(testName string) *options {
 	return &options{
-		valueStringer: DefaultValueStringer,
-		directory:     DefaultDirectory,
+		valueStringer: DefaultValueStringer.Load(),
+		directory:     DefaultDirectory.Load(),
 		testName:      testName,
-		update:        DefaultUpdate,
+		update:        DefaultUpdate.Load(),
 	}
 }
 

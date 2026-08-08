@@ -10,34 +10,41 @@ import (
 	"fmt"
 	"runtime"
 	"strings"
+	"sync/atomic"
 	"testing"
 
 	"github.com/pierrre/go-libs/bytesutil"
 	"github.com/pierrre/go-libs/runtimeutil"
+	"github.com/pierrre/go-libs/syncutil/atomicutil"
 	"github.com/pierrre/pretty"
 )
 
 // DefaultShowStack is the default value used to show stack traces on assertion failures. See the [ShowStack] option.
 //
-// This variable must not be modified concurrently with running tests.
-// Set it only in [init] or [TestMain].
-var DefaultShowStack = true
+// By default it is true.
+var DefaultShowStack atomic.Bool
+
+func init() {
+	DefaultShowStack.Store(true)
+}
 
 // DefaultReport is the default [ReportFunc] used for assertion failures. See the [Report] option.
 //
-// This variable must not be modified concurrently with running tests.
-// Set it only in [init] or [TestMain].
-var DefaultReport = testing.TB.Fatal
+// By default it uses [testing.TB.Fatal].
+var DefaultReport atomicutil.Value[ReportFunc]
+
+func init() {
+	DefaultReport.Store(ReportFunc(testing.TB.Fatal))
+}
 
 // ValueStringer is a function that returns the string representation of a value.
 //
-// This can be customized to provide a better string representation.
-//
 // By default, it uses [pretty.String].
-//
-// This variable must not be nil, and must not be modified concurrently
-// with running tests. Set it only in [init] or [TestMain].
-var ValueStringer func(any) string = pretty.String
+var ValueStringer atomicutil.Value[func(any) string]
+
+func init() {
+	ValueStringer.Store(pretty.String)
+}
 
 // Fail handles assertion failure.
 // It calls the [ReportFunc] with the given message.

@@ -23,7 +23,7 @@ func FloatInf[T Float](tb testing.TB, f T, sign int, opts ...Option) bool {
 		Fail(
 			tb,
 			"float_inf",
-			"not infinite:\nf = "+ValueStringer(f),
+			"not infinite:\nf = "+ValueStringer.Load()(f),
 			1,
 			opts...,
 		)
@@ -44,7 +44,7 @@ func FloatNotInf[T Float](tb testing.TB, f T, sign int, opts ...Option) bool {
 		Fail(
 			tb,
 			"float_not_inf",
-			"infinite:\nf = "+ValueStringer(f),
+			"infinite:\nf = "+ValueStringer.Load()(f),
 			1,
 			opts...,
 		)
@@ -62,7 +62,7 @@ func FloatNaN[T Float](tb testing.TB, f T, opts ...Option) bool {
 		Fail(
 			tb,
 			"float_nan",
-			"not NaN:\nf = "+ValueStringer(f),
+			"not NaN:\nf = "+ValueStringer.Load()(f),
 			1,
 			opts...,
 		)
@@ -80,7 +80,7 @@ func FloatNotNaN[T Float](tb testing.TB, f T, opts ...Option) bool {
 		Fail(
 			tb,
 			"float_not_nan",
-			"NaN:\nf = "+ValueStringer(f),
+			"NaN:\nf = "+ValueStringer.Load()(f),
 			1,
 			opts...,
 		)

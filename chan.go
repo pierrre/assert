@@ -17,7 +17,7 @@ func ChanNil[T any](tb testing.TB, c chan T, opts ...Option) bool {
 		Fail(
 			tb,
 			"chan_nil",
-			"not nil:\nc = "+ValueStringer(c),
+			"not nil:\nc = "+ValueStringer.Load()(c),
 			1,
 			opts...,
 		)

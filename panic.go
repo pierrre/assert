@@ -45,7 +45,7 @@ func NotPanics(tb testing.TB, f func(), opts ...Option) (ok bool) {
 			Fail(
 				tb,
 				"not_panics",
-				fmt.Sprintf("panic:\npanic = %s\nstack = %s", ValueStringer(rec), st),
+				fmt.Sprintf("panic:\npanic = %s\nstack = %s", ValueStringer.Load()(rec), st),
 				2,
 				append(opts, ShowStack(false))...,
 			)
