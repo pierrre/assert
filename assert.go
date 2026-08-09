@@ -75,5 +75,5 @@ func Fail(tb testing.TB, name string, msg string, stackSkip int, opts ...Option)
 }
 
 var bytesWriterPool = &bytesutil.WriterPool{
-	MaxCap: -1,
+	MaxCap: 1 << 20,
 }
