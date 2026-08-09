@@ -1,0 +1,1 @@
+[string] (len=55) "assert chan_send_nil: not nil:\nc = [chan<- int] (len=0)"
