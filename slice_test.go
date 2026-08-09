@@ -73,6 +73,17 @@ func TestSliceEqualFail(t *testing.T) {
 	False(t, ok)
 }
 
+func TestSliceElementsMatch(t *testing.T) {
+	ok := SliceElementsMatch(t, []int{1, 2, 1}, []int{2, 1, 1})
+	True(t, ok)
+}
+
+func TestSliceElementsMatchFail(t *testing.T) {
+	report := asserttest.ReportAuto(t)
+	ok := SliceElementsMatch(t, []int{1}, []int{2}, report)
+	False(t, ok)
+}
+
 func TestSliceNotEqual(t *testing.T) {
 	ok := SliceNotEqual(t, []int{1}, []int{2})
 	True(t, ok)

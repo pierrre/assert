@@ -117,6 +117,49 @@ func SliceEqual[S ~[]E, E comparable](tb testing.TB, s1, s2 S, opts ...Option) b
 	return ok
 }
 
+// SliceElementsMatch asserts that s1 and s2 contain the same elements, regardless of order.
+//
+//nolint:thelper // It's called below.
+func SliceElementsMatch[S ~[]E, E comparable](tb testing.TB, s1, s2 S, opts ...Option) bool {
+	ok := sliceElementsMatch(s1, s2)
+	if !ok {
+		tb.Helper()
+		vs := ValueStringer.Load()
+		Fail(
+			tb,
+			"slice_elements_match",
+			fmt.Sprintf("not elements match:\ns1 = %s\ns2 = %s", vs(s1), vs(s2)),
+			1,
+			opts...,
+		)
+	}
+	return ok
+}
+
+func sliceElementsMatch[S ~[]E, E comparable](s1, s2 S) bool {
+	if len(s1) != len(s2) {
+		return false
+	}
+	used := make([]bool, len(s2))
+	for _, v1 := range s1 {
+		found := false
+		for i, v2 := range s2 {
+			if used[i] {
+				continue
+			}
+			if v1 == v2 {
+				used[i] = true
+				found = true
+				break
+			}
+		}
+		if !found {
+			return false
+		}
+	}
+	return true
+}
+
 // SliceNotEqual asserts that s1 and s2 are not equal.
 //
 //nolint:thelper // It's called below.
