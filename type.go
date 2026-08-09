@@ -14,10 +14,11 @@ func Type[T any](tb testing.TB, v any, opts ...Option) (T, bool) {
 	vt, ok := v.(T)
 	if !ok {
 		tb.Helper()
+		vs := ValueStringer.Load()
 		Fail(
 			tb,
 			"type",
-			fmt.Sprintf("assertion failed:\nsource = %s\ndestination = %s", ValueStringer.Load()(v), reflectutil.TypeFullNameFor[T]()),
+			fmt.Sprintf("assertion failed:\nsource = %s\ndestination = %s", vs(v), reflectutil.TypeFullNameFor[T]()),
 			1,
 			opts...,
 		)
@@ -32,10 +33,11 @@ func NotType[T any](tb testing.TB, v any, opts ...Option) bool {
 	_, ok := v.(T)
 	if ok {
 		tb.Helper()
+		vs := ValueStringer.Load()
 		Fail(
 			tb,
 			"not_type",
-			fmt.Sprintf("assertion failed:\nsource = %s\ntype = %s", ValueStringer.Load()(v), reflectutil.TypeFullNameFor[T]()),
+			fmt.Sprintf("assertion failed:\nsource = %s\ntype = %s", vs(v), reflectutil.TypeFullNameFor[T]()),
 			1,
 			opts...,
 		)

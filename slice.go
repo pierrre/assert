@@ -13,10 +13,11 @@ func SliceNil[S ~[]E, E any](tb testing.TB, s S, opts ...Option) bool {
 	ok := s == nil
 	if !ok {
 		tb.Helper()
+		vs := ValueStringer.Load()
 		Fail(
 			tb,
 			"slice_nil",
-			"not nil:\ns = "+ValueStringer.Load()(s),
+			"not nil:\ns = "+vs(s),
 			1,
 			opts...,
 		)
@@ -49,10 +50,11 @@ func SliceEmpty[S ~[]E, E any](tb testing.TB, s S, opts ...Option) bool {
 	ok := len(s) == 0
 	if !ok {
 		tb.Helper()
+		vs := ValueStringer.Load()
 		Fail(
 			tb,
 			"slice_empty",
-			fmt.Sprintf("not empty:\nlength = %d\ns = %s", len(s), ValueStringer.Load()(s)),
+			fmt.Sprintf("not empty:\nlength = %d\ns = %s", len(s), vs(s)),
 			1,
 			opts...,
 		)
@@ -103,10 +105,11 @@ func SliceEqual[S ~[]E, E comparable](tb testing.TB, s1, s2 S, opts ...Option) b
 	ok := slices.Equal(s1, s2)
 	if !ok {
 		tb.Helper()
+		vs := ValueStringer.Load()
 		Fail(
 			tb,
 			"slice_equal",
-			fmt.Sprintf("not equal:\ns1 = %s\ns2 = %s", ValueStringer.Load()(s1), ValueStringer.Load()(s2)),
+			fmt.Sprintf("not equal:\ns1 = %s\ns2 = %s", vs(s1), vs(s2)),
 			1,
 			opts...,
 		)
@@ -121,10 +124,11 @@ func SliceNotEqual[S ~[]E, E comparable](tb testing.TB, s1, s2 S, opts ...Option
 	ok := !slices.Equal(s1, s2)
 	if !ok {
 		tb.Helper()
+		vs := ValueStringer.Load()
 		Fail(
 			tb,
 			"slice_not_equal",
-			fmt.Sprintf("equal:\ns1 = %s\ns2 = %s", ValueStringer.Load()(s1), ValueStringer.Load()(s2)),
+			fmt.Sprintf("equal:\ns1 = %s\ns2 = %s", vs(s1), vs(s2)),
 			1,
 			opts...,
 		)
@@ -139,10 +143,11 @@ func SliceContains[S ~[]E, E comparable](tb testing.TB, s S, v E, opts ...Option
 	ok := slices.Contains(s, v)
 	if !ok {
 		tb.Helper()
+		vs := ValueStringer.Load()
 		Fail(
 			tb,
 			"slice_contains",
-			fmt.Sprintf("not contains:\ns = %s\nv = %s", ValueStringer.Load()(s), ValueStringer.Load()(v)),
+			fmt.Sprintf("not contains:\ns = %s\nv = %s", vs(s), vs(v)),
 			1,
 			opts...,
 		)
@@ -157,10 +162,11 @@ func SliceNotContains[S ~[]E, E comparable](tb testing.TB, s S, v E, opts ...Opt
 	ok := !slices.Contains(s, v)
 	if !ok {
 		tb.Helper()
+		vs := ValueStringer.Load()
 		Fail(
 			tb,
 			"slice_not_contains",
-			fmt.Sprintf("contains:\ns = %s\nv = %s", ValueStringer.Load()(s), ValueStringer.Load()(v)),
+			fmt.Sprintf("contains:\ns = %s\nv = %s", vs(s), vs(v)),
 			1,
 			opts...,
 		)

@@ -13,10 +13,11 @@ func MapNil[M ~map[K]V, K comparable, V any](tb testing.TB, m M, opts ...Option)
 	ok := m == nil
 	if !ok {
 		tb.Helper()
+		vs := ValueStringer.Load()
 		Fail(
 			tb,
 			"map_nil",
-			"not nil:\nm = "+ValueStringer.Load()(m),
+			"not nil:\nm = "+vs(m),
 			1,
 			opts...,
 		)
@@ -49,10 +50,11 @@ func MapEmpty[M ~map[K]V, K comparable, V any](tb testing.TB, m M, opts ...Optio
 	ok := len(m) == 0
 	if !ok {
 		tb.Helper()
+		vs := ValueStringer.Load()
 		Fail(
 			tb,
 			"map_empty",
-			fmt.Sprintf("not empty:\nlength = %d\nm = %s", len(m), ValueStringer.Load()(m)),
+			fmt.Sprintf("not empty:\nlength = %d\nm = %s", len(m), vs(m)),
 			1,
 			opts...,
 		)
@@ -103,10 +105,11 @@ func MapEqual[M1, M2 ~map[K]V, K, V comparable](tb testing.TB, m1 M1, m2 M2, opt
 	ok := maps.Equal(m1, m2)
 	if !ok {
 		tb.Helper()
+		vs := ValueStringer.Load()
 		Fail(
 			tb,
 			"map_equal",
-			fmt.Sprintf("not equal:\nm1 = %s\nm2 = %s", ValueStringer.Load()(m1), ValueStringer.Load()(m2)),
+			fmt.Sprintf("not equal:\nm1 = %s\nm2 = %s", vs(m1), vs(m2)),
 			1,
 			opts...,
 		)
@@ -121,10 +124,11 @@ func MapNotEqual[M1, M2 ~map[K]V, K, V comparable](tb testing.TB, m1 M1, m2 M2, 
 	ok := !maps.Equal(m1, m2)
 	if !ok {
 		tb.Helper()
+		vs := ValueStringer.Load()
 		Fail(
 			tb,
 			"map_not_equal",
-			fmt.Sprintf("equal:\nm1 = %s\nm2 = %s", ValueStringer.Load()(m1), ValueStringer.Load()(m2)),
+			fmt.Sprintf("equal:\nm1 = %s\nm2 = %s", vs(m1), vs(m2)),
 			1,
 			opts...,
 		)

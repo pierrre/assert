@@ -42,10 +42,11 @@ func NotPanics(tb testing.TB, f func(), opts ...Option) (ok bool) {
 		if rec != nil {
 			ok = false
 			st := string(debug.Stack())
+			vs := ValueStringer.Load()
 			Fail(
 				tb,
 				"not_panics",
-				fmt.Sprintf("panic:\npanic = %s\nstack = %s", ValueStringer.Load()(rec), st),
+				fmt.Sprintf("panic:\npanic = %s\nstack = %s", vs(rec), st),
 				2,
 				append(opts, ShowStack(false))...,
 			)
