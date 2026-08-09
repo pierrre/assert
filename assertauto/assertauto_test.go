@@ -2,6 +2,9 @@ package assertauto_test
 
 import (
 	"os"
+	"strconv"
+	"strings"
+	"sync"
 	"testing"
 
 	"github.com/pierrre/assert"
@@ -166,4 +169,53 @@ func TestValidateLocalPath(t *testing.T) {
 			}
 		})
 	}
+}
+
+func TestConcurrentSameTestName(t *testing.T) {
+	tmpDir := t.TempDir()
+	testName := t.Name() + "Fake"
+	const n = 32
+	str := func(v any) string {
+		s, _ := v.(string)
+		return s
+	}
+	t.Run("Update", func(t *testing.T) {
+		var wg sync.WaitGroup
+		for i := range n {
+			wg.Go(func() {
+				ok := Equal(t, strconv.Itoa(i), Directory(tmpDir), TestName(testName), Update(true), ValueStringer(str))
+				assert.True(t, ok)
+			})
+		}
+		wg.Wait()
+	})
+	t.Run("VerifyUpdate", func(t *testing.T) {
+		fp := BuildFilePath(tmpDir, testName)
+		b, err := os.ReadFile(fp)
+		assert.NoError(t, err)
+		vs := strings.Split(string(b), Separator)
+		assert.Equal(t, n, len(vs))
+		seen := make(map[string]struct{}, n)
+		for _, v := range vs {
+			seen[v] = struct{}{}
+		}
+		assert.Equal(t, n, len(seen))
+	})
+	t.Run("Read", func(t *testing.T) {
+		readName := testName + "Read"
+		xs := make([]string, n)
+		for i := range xs {
+			xs[i] = "x"
+		}
+		err := os.WriteFile(BuildFilePath(tmpDir, readName), []byte(strings.Join(xs, Separator)), 0o644) //nolint:gosec // We want 644.
+		assert.NoError(t, err)
+		var wg sync.WaitGroup
+		for range n {
+			wg.Go(func() {
+				ok := Equal(t, "x", Directory(tmpDir), TestName(readName), Update(false), ValueStringer(str))
+				assert.True(t, ok)
+			})
+		}
+		wg.Wait()
+	})
 }

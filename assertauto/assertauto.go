@@ -14,10 +14,11 @@
 //
 // Values are converted to string using [DefaultValueStringer].
 //
-// Concurrency: functions in this package must not be called concurrently with the same test name.
-// Values for a given test name are stored sequentially in a single file, and their order is significant: each call consumes the next expected value (in read mode) or appends the next actual value (in update mode).
-// Concurrent calls sharing a test name make that order non-deterministic, causing flaky results: in update mode the file content varies between runs, and in read mode a call may be matched against the wrong expected value.
-// By default the test name is [testing.TB.Name], so concurrent calls must use distinct subtests (e.g. via [testing.T.Run]) rather than sharing a single [testing.TB] across goroutines.
+// Concurrency: functions in this package are safe for concurrent use.
+// Calls sharing a test name are serialized with a per-test-name mutex, so concurrent access does not corrupt the stored values.
+// The order of the values for a shared test name is still non-deterministic under concurrency: in update mode the file content may vary between runs, and in read mode a call may consume any of the remaining expected values.
+// For deterministic ordering, use distinct subtests (e.g. via [testing.T.Run]) rather than sharing a single test name across goroutines.
+// By default the test name is [testing.TB.Name].
 package assertauto
 
 import (
@@ -139,7 +140,7 @@ func assertNoError(tb testing.TB, err error, opts *options) bool {
 
 // Equal asserts that the value is equal to the expected value.
 //
-// It must not be called concurrently with the same test name.
+// It is safe to call concurrently, including with the same test name.
 // See the package documentation for details.
 func Equal(tb testing.TB, v any, optfs ...Option) bool {
 	tb.Helper()
@@ -162,6 +163,8 @@ func equal(tb testing.TB, v any, opts *options) error {
 	if strings.Contains(s, separator) {
 		return errors.New("contains separator")
 	}
+	unlock := lockTest(opts.testName)
+	defer unlock()
 	if opts.update {
 		addValue(tb, s, opts)
 	} else {
@@ -195,7 +198,7 @@ func validateLocalPath(path string) error {
 //
 // If the race detector is enabled, this function skips the test with [testing.TB.Skip] because [testing.AllocsPerRun] reports inaccurate allocations under -race.
 //
-// It must not be called concurrently with the same test name.
+// It is safe to call concurrently, including with the same test name.
 // See the package documentation for details.
 func AllocsPerRun(tb testing.TB, runs int, f func(), optfs ...Option) (float64, bool) {
 	tb.Helper()
@@ -216,6 +219,14 @@ type allocsPerRun struct {
 }
 
 var values syncutil.Map[string, []string]
+
+var testMu syncutil.Map[string, *sync.Mutex]
+
+func lockTest(testName string) func() {
+	m, _ := testMu.LoadOrStore(testName, &sync.Mutex{})
+	m.Lock()
+	return m.Unlock
+}
 
 func addValue(tb testing.TB, v string, opts *options) {
 	tb.Helper()
