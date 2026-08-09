@@ -13,10 +13,11 @@ func Greater[T cmp.Ordered](tb testing.TB, v1, v2 T, opts ...Option) bool {
 	ok := v1 > v2
 	if !ok {
 		tb.Helper()
+		vs := ValueStringer.Load()
 		Fail(
 			tb,
 			"greater",
-			fmt.Sprintf("not greater than:\nv1 = %s\nv2 = %s", ValueStringer.Load()(v1), ValueStringer.Load()(v2)),
+			fmt.Sprintf("not greater than:\nv1 = %s\nv2 = %s", vs(v1), vs(v2)),
 			1,
 			opts...,
 		)
@@ -31,10 +32,11 @@ func GreaterOrEqual[T cmp.Ordered](tb testing.TB, v1, v2 T, opts ...Option) bool
 	ok := v1 >= v2
 	if !ok {
 		tb.Helper()
+		vs := ValueStringer.Load()
 		Fail(
 			tb,
 			"greater_or_equal",
-			fmt.Sprintf("not greater than or equal to:\nv1 = %s\nv2 = %s", ValueStringer.Load()(v1), ValueStringer.Load()(v2)),
+			fmt.Sprintf("not greater than or equal to:\nv1 = %s\nv2 = %s", vs(v1), vs(v2)),
 			1,
 			opts...,
 		)
@@ -49,10 +51,11 @@ func Less[T cmp.Ordered](tb testing.TB, v1, v2 T, opts ...Option) bool {
 	ok := v1 < v2
 	if !ok {
 		tb.Helper()
+		vs := ValueStringer.Load()
 		Fail(
 			tb,
 			"less",
-			fmt.Sprintf("not less than:\nv1 = %s\nv2 = %s", ValueStringer.Load()(v1), ValueStringer.Load()(v2)),
+			fmt.Sprintf("not less than:\nv1 = %s\nv2 = %s", vs(v1), vs(v2)),
 			1,
 			opts...,
 		)
@@ -67,10 +70,11 @@ func LessOrEqual[T cmp.Ordered](tb testing.TB, v1, v2 T, opts ...Option) bool {
 	ok := v1 <= v2
 	if !ok {
 		tb.Helper()
+		vs := ValueStringer.Load()
 		Fail(
 			tb,
 			"less_or_equal",
-			fmt.Sprintf("not less than or equal to:\nv1 = %s\nv2 = %s", ValueStringer.Load()(v1), ValueStringer.Load()(v2)),
+			fmt.Sprintf("not less than or equal to:\nv1 = %s\nv2 = %s", vs(v1), vs(v2)),
 			1,
 			opts...,
 		)

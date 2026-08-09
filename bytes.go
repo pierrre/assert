@@ -14,10 +14,11 @@ func BytesEqual(tb testing.TB, b1, b2 []byte, opts ...Option) bool {
 	ok := bytes.Equal(b1, b2)
 	if !ok {
 		tb.Helper()
+		vs := ValueStringer.Load()
 		Fail(
 			tb,
 			"bytes_equal",
-			fmt.Sprintf("not equal:\nb1 = %s\nb2 = %s", ValueStringer.Load()(b1), ValueStringer.Load()(b2)),
+			fmt.Sprintf("not equal:\nb1 = %s\nb2 = %s", vs(b1), vs(b2)),
 			1,
 			opts...,
 		)
@@ -33,10 +34,11 @@ func BytesNotEqual(tb testing.TB, b1, b2 []byte, opts ...Option) bool {
 	ok := !bytes.Equal(b1, b2)
 	if !ok {
 		tb.Helper()
+		vs := ValueStringer.Load()
 		Fail(
 			tb,
 			"bytes_not_equal",
-			fmt.Sprintf("equal:\nb1 = %s\nb2 = %s", ValueStringer.Load()(b1), ValueStringer.Load()(b2)),
+			fmt.Sprintf("equal:\nb1 = %s\nb2 = %s", vs(b1), vs(b2)),
 			1,
 			opts...,
 		)
@@ -52,10 +54,11 @@ func BytesContains(tb testing.TB, b, subslice []byte, opts ...Option) bool {
 	ok := bytes.Contains(b, subslice)
 	if !ok {
 		tb.Helper()
+		vs := ValueStringer.Load()
 		Fail(
 			tb,
 			"bytes_contains",
-			fmt.Sprintf("not contains:\nb = %s\nsubslice = %s", ValueStringer.Load()(b), ValueStringer.Load()(subslice)),
+			fmt.Sprintf("not contains:\nb = %s\nsubslice = %s", vs(b), vs(subslice)),
 			1,
 			opts...,
 		)
@@ -71,10 +74,11 @@ func BytesNotContains(tb testing.TB, b, subslice []byte, opts ...Option) bool {
 	ok := !bytes.Contains(b, subslice)
 	if !ok {
 		tb.Helper()
+		vs := ValueStringer.Load()
 		Fail(
 			tb,
 			"bytes_not_contains",
-			fmt.Sprintf("contains:\nb = %s\nsubslice = %s", ValueStringer.Load()(b), ValueStringer.Load()(subslice)),
+			fmt.Sprintf("contains:\nb = %s\nsubslice = %s", vs(b), vs(subslice)),
 			1,
 			opts...,
 		)
@@ -90,10 +94,11 @@ func BytesHasPrefix(tb testing.TB, b, prefix []byte, opts ...Option) bool {
 	ok := bytes.HasPrefix(b, prefix)
 	if !ok {
 		tb.Helper()
+		vs := ValueStringer.Load()
 		Fail(
 			tb,
 			"bytes_has_prefix",
-			fmt.Sprintf("not has prefix:\nb = %s\nprefix = %s", ValueStringer.Load()(b), ValueStringer.Load()(prefix)),
+			fmt.Sprintf("not has prefix:\nb = %s\nprefix = %s", vs(b), vs(prefix)),
 			1,
 			opts...,
 		)
@@ -109,10 +114,11 @@ func BytesNotHasPrefix(tb testing.TB, b, prefix []byte, opts ...Option) bool {
 	ok := !bytes.HasPrefix(b, prefix)
 	if !ok {
 		tb.Helper()
+		vs := ValueStringer.Load()
 		Fail(
 			tb,
 			"bytes_not_has_prefix",
-			fmt.Sprintf("has prefix:\nb = %s\nprefix = %s", ValueStringer.Load()(b), ValueStringer.Load()(prefix)),
+			fmt.Sprintf("has prefix:\nb = %s\nprefix = %s", vs(b), vs(prefix)),
 			1,
 			opts...,
 		)
@@ -128,10 +134,11 @@ func BytesHasSuffix(tb testing.TB, b, suffix []byte, opts ...Option) bool {
 	ok := bytes.HasSuffix(b, suffix)
 	if !ok {
 		tb.Helper()
+		vs := ValueStringer.Load()
 		Fail(
 			tb,
 			"bytes_has_suffix",
-			fmt.Sprintf("not has suffix:\nb = %s\nsuffix = %s", ValueStringer.Load()(b), ValueStringer.Load()(suffix)),
+			fmt.Sprintf("not has suffix:\nb = %s\nsuffix = %s", vs(b), vs(suffix)),
 			1,
 			opts...,
 		)
@@ -147,10 +154,11 @@ func BytesNotHasSuffix(tb testing.TB, b, suffix []byte, opts ...Option) bool {
 	ok := !bytes.HasSuffix(b, suffix)
 	if !ok {
 		tb.Helper()
+		vs := ValueStringer.Load()
 		Fail(
 			tb,
 			"bytes_not_has_suffix",
-			fmt.Sprintf("has suffix:\nb = %s\nsuffix = %s", ValueStringer.Load()(b), ValueStringer.Load()(suffix)),
+			fmt.Sprintf("has suffix:\nb = %s\nsuffix = %s", vs(b), vs(suffix)),
 			1,
 			opts...,
 		)
@@ -166,10 +174,11 @@ func BytesEqualFold(tb testing.TB, b1, b2 []byte, opts ...Option) bool {
 	ok := bytes.EqualFold(b1, b2)
 	if !ok {
 		tb.Helper()
+		vs := ValueStringer.Load()
 		Fail(
 			tb,
 			"bytes_equal_fold",
-			fmt.Sprintf("not equal fold:\nb1 = %s\nb2 = %s", ValueStringer.Load()(b1), ValueStringer.Load()(b2)),
+			fmt.Sprintf("not equal fold:\nb1 = %s\nb2 = %s", vs(b1), vs(b2)),
 			1,
 			opts...,
 		)
@@ -185,10 +194,11 @@ func BytesNotEqualFold(tb testing.TB, b1, b2 []byte, opts ...Option) bool {
 	ok := !bytes.EqualFold(b1, b2)
 	if !ok {
 		tb.Helper()
+		vs := ValueStringer.Load()
 		Fail(
 			tb,
 			"bytes_not_equal_fold",
-			fmt.Sprintf("equal fold:\nb1 = %s\nb2 = %s", ValueStringer.Load()(b1), ValueStringer.Load()(b2)),
+			fmt.Sprintf("equal fold:\nb1 = %s\nb2 = %s", vs(b1), vs(b2)),
 			1,
 			opts...,
 		)

@@ -16,10 +16,11 @@ func Positive[T SignedNumber](tb testing.TB, v T, opts ...Option) bool {
 	ok := v > 0
 	if !ok {
 		tb.Helper()
+		vs := ValueStringer.Load()
 		Fail(
 			tb,
 			"positive",
-			"not positive:\nv = "+ValueStringer.Load()(v),
+			"not positive:\nv = "+vs(v),
 			1,
 			opts...,
 		)
@@ -34,10 +35,11 @@ func Negative[T SignedNumber](tb testing.TB, v T, opts ...Option) bool {
 	ok := v < 0
 	if !ok {
 		tb.Helper()
+		vs := ValueStringer.Load()
 		Fail(
 			tb,
 			"negative",
-			"not negative:\nv = "+ValueStringer.Load()(v),
+			"not negative:\nv = "+vs(v),
 			1,
 			opts...,
 		)

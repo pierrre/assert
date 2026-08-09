@@ -12,10 +12,11 @@ func Zero[T comparable](tb testing.TB, v T, opts ...Option) bool {
 	ok := v == zero
 	if !ok {
 		tb.Helper()
+		vs := ValueStringer.Load()
 		Fail(
 			tb,
 			"zero",
-			"not zero:\nv = "+ValueStringer.Load()(v),
+			"not zero:\nv = "+vs(v),
 			1,
 			opts...,
 		)
@@ -31,10 +32,11 @@ func NotZero[T comparable](tb testing.TB, v T, opts ...Option) bool {
 	ok := v != zero
 	if !ok {
 		tb.Helper()
+		vs := ValueStringer.Load()
 		Fail(
 			tb,
 			"not_zero",
-			"zero:\nv = "+ValueStringer.Load()(v),
+			"zero:\nv = "+vs(v),
 			1,
 			opts...,
 		)

@@ -20,10 +20,11 @@ func FloatInf[T Float](tb testing.TB, f T, sign int, opts ...Option) bool {
 	ok := math.IsInf(float64(f), sign)
 	if !ok {
 		tb.Helper()
+		vs := ValueStringer.Load()
 		Fail(
 			tb,
 			"float_inf",
-			"not infinite:\nf = "+ValueStringer.Load()(f),
+			"not infinite:\nf = "+vs(f),
 			1,
 			opts...,
 		)
@@ -41,10 +42,11 @@ func FloatNotInf[T Float](tb testing.TB, f T, sign int, opts ...Option) bool {
 	ok := !math.IsInf(float64(f), sign)
 	if !ok {
 		tb.Helper()
+		vs := ValueStringer.Load()
 		Fail(
 			tb,
 			"float_not_inf",
-			"infinite:\nf = "+ValueStringer.Load()(f),
+			"infinite:\nf = "+vs(f),
 			1,
 			opts...,
 		)
@@ -59,10 +61,11 @@ func FloatNaN[T Float](tb testing.TB, f T, opts ...Option) bool {
 	ok := math.IsNaN(float64(f))
 	if !ok {
 		tb.Helper()
+		vs := ValueStringer.Load()
 		Fail(
 			tb,
 			"float_nan",
-			"not NaN:\nf = "+ValueStringer.Load()(f),
+			"not NaN:\nf = "+vs(f),
 			1,
 			opts...,
 		)
@@ -77,10 +80,11 @@ func FloatNotNaN[T Float](tb testing.TB, f T, opts ...Option) bool {
 	ok := !math.IsNaN(float64(f))
 	if !ok {
 		tb.Helper()
+		vs := ValueStringer.Load()
 		Fail(
 			tb,
 			"float_not_nan",
-			"NaN:\nf = "+ValueStringer.Load()(f),
+			"NaN:\nf = "+vs(f),
 			1,
 			opts...,
 		)

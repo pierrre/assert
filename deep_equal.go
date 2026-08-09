@@ -37,10 +37,11 @@ func DeepEqual[T any](tb testing.TB, v1, v2 T, opts ...Option) bool {
 	ok := equal
 	if !ok {
 		tb.Helper()
+		vs := ValueStringer.Load()
 		Fail(
 			tb,
 			"deep_equal",
-			fmt.Sprintf("not equal:\ndiff = %s\nv1 = %s\nv2 = %s", diff, ValueStringer.Load()(v1), ValueStringer.Load()(v2)),
+			fmt.Sprintf("not equal:\ndiff = %s\nv1 = %s\nv2 = %s", diff, vs(v1), vs(v2)),
 			1,
 			opts...,
 		)
@@ -56,10 +57,11 @@ func NotDeepEqual[T any](tb testing.TB, v1, v2 T, opts ...Option) bool {
 	ok := !equal
 	if !ok {
 		tb.Helper()
+		vs := ValueStringer.Load()
 		Fail(
 			tb,
 			"not_deep_equal",
-			fmt.Sprintf("equal:\nv1 = %s\nv2 = %s", ValueStringer.Load()(v1), ValueStringer.Load()(v2)),
+			fmt.Sprintf("equal:\nv1 = %s\nv2 = %s", vs(v1), vs(v2)),
 			1,
 			opts...,
 		)
