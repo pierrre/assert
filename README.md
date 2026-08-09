@@ -9,6 +9,7 @@ Go test assertion library.
 - [Test assertion (equal, comparison, nil, empty, length, error, etc...)](#assertions)
 - [No reflection (uses generics)](#why-)
 - [Customization (print and compare values)](#customization)
+- [Auto-updating assertions (snapshot testing)](#auto-updating-assertions)
 
 ## Assertions
 
@@ -101,6 +102,32 @@ The default behavior can be customized:
 
 - [`DeepEqualer`](https://pkg.go.dev/github.com/pierrre/assert#DeepEqualer) allows customizing how values are compared with [`DeepEqual()`](https://pkg.go.dev/github.com/pierrre/assert#DeepEqual).
 - [`ValueStringer`](https://pkg.go.dev/github.com/pierrre/assert#ValueStringer) allows customizing how values (including errors) are printed.
+
+## Auto-updating assertions
+
+The [`assertauto`](https://pkg.go.dev/github.com/pierrre/assert/assertauto) sub-package provides assertions that automatically update their expected values.
+It compares actual values against expected values stored in files, and is useful for snapshot testing.
+
+Unlike [`assert.Equal()`](https://pkg.go.dev/github.com/pierrre/assert#Equal), the expected value is not passed to the function but stored in a file:
+
+```go
+assertauto.Equal(t, value)
+```
+
+To generate or update the expected values, run the tests with the environment variable `ASSERTAUTO_UPDATE=true`:
+
+```sh
+ASSERTAUTO_UPDATE=true go test ./...
+```
+
+The expected values are stored in the `_assertauto` directory, relative to the tested package.
+Each test creates a file named after the test, with the `.txt` extension.
+Values from the same test are stored sequentially in the same file.
+The storage directory can be changed with the environment variable `ASSERTAUTO_DIRECTORY`.
+
+It also provides [`AllocsPerRun()`](https://pkg.go.dev/github.com/pierrre/assert/assertauto#AllocsPerRun) to assert the number of allocations of a function.
+
+The value stringer and the assert options can be customized with [`ValueStringer()`](https://pkg.go.dev/github.com/pierrre/assert/assertauto#ValueStringer) and [`AssertOptions()`](https://pkg.go.dev/github.com/pierrre/assert/assertauto#AssertOptions).
 
 ## FAQ
 
