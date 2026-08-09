@@ -11,6 +11,7 @@ import (
 //
 // If the race detector is enabled, this function does nothing and returns true.
 // This prevents tests from failing due to the increased number of allocations.
+// It logs a message to [testing.TB.Log] indicating that the check was skipped.
 //
 //nolint:thelper // It's called below.
 func AllocsPerRun(tb testing.TB, runs int, f func(), allocs float64, opts ...Option) bool {
@@ -28,6 +29,8 @@ func AllocsPerRun(tb testing.TB, runs int, f func(), allocs float64, opts ...Opt
 				opts...,
 			)
 		}
+	} else {
+		tb.Log("assert allocs_per_run: skipped because the race detector is enabled")
 	}
 	return ok
 }

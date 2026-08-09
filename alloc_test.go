@@ -28,3 +28,28 @@ func TestAllocsPerRunFail(t *testing.T) {
 	ok := AllocsPerRun(t, 10, func() {}, 1, report)
 	False(t, ok)
 }
+
+func TestAllocsPerRunRace(t *testing.T) {
+	if !raceutil.Enabled {
+		t.Skip("allocs check is only skipped under -race")
+	}
+	lct := &logCaptureTB{T: t}
+	ok := AllocsPerRun(lct, 10, func() {}, 1)
+	True(t, ok)
+	True(t, lct.logged)
+}
+
+type logCaptureTB struct {
+	*testing.T
+	logged bool
+}
+
+func (t *logCaptureTB) Log(args ...any) {
+	t.logged = true
+	t.T.Log(args...)
+}
+
+func (t *logCaptureTB) Logf(format string, args ...any) {
+	t.logged = true
+	t.T.Logf(format, args...)
+}
