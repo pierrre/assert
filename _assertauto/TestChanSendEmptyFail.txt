@@ -1,0 +1,1 @@
+[string] (len=45) "assert chan_send_empty: not empty:\nlength = 1"

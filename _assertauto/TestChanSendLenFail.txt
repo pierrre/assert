@@ -1,0 +1,1 @@
+[string] (len=64) "assert chan_send_len: unexpected length:\nexpected = 2\nactual = 1"

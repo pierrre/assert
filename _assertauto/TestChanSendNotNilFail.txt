@@ -1,0 +1,1 @@
+[string] (len=29) "assert chan_send_not_nil: nil"
