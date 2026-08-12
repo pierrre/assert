@@ -105,7 +105,7 @@ func TestErrorCreateDirectory(t *testing.T) {
 	tmpDir := t.TempDir()
 	testName := t.Name() + "Fake"
 	fp := BuildFilePath(tmpDir, testName)
-	err := os.WriteFile(fp, []byte("test"), 0o644) //nolint:gosec // We want 644.
+	err := os.WriteFile(fp, []byte("test"), 0o644)
 	assert.NoError(t, err)
 	report := asserttest.ReportPrefix(t, "assert assertauto: create directory:")
 	t.Run("Save", func(t *testing.T) {

@@ -271,11 +271,11 @@ func saveValues(vs []string, opts *options) error {
 	s := encodeValues(vs)
 	fp := buildFilePath(opts.directory, opts.testName)
 	dir := filepath.Dir(fp)
-	err := os.MkdirAll(dir, 0o755) //nolint:gosec // We want 755.
+	err := os.MkdirAll(dir, 0o755)
 	if err != nil {
 		return fmt.Errorf("create directory: %w", err)
 	}
-	err = os.WriteFile(fp, []byte(s), 0o644) //nolint:gosec // We want 644.
+	err = os.WriteFile(fp, []byte(s), 0o644)
 	if err != nil {
 		return fmt.Errorf("write file: %w", err)
 	}
@@ -288,7 +288,7 @@ func encodeValues(vs []string) string {
 
 func loadValues(opts *options) ([]string, error) {
 	fp := buildFilePath(opts.directory, opts.testName)
-	b, err := os.ReadFile(fp) //nolint:gosec // We want to read the file.
+	b, err := os.ReadFile(fp)
 	if err != nil {
 		return nil, fmt.Errorf("read file: %w", err)
 	}
