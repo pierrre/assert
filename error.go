@@ -5,6 +5,8 @@ import (
 	"fmt"
 	"strings"
 	"testing"
+
+	"github.com/pierrre/go-libs/reflectutil"
 )
 
 // Error asserts that err is not nil.
@@ -114,7 +116,7 @@ func ErrorAsType[E error](tb testing.TB, err error, opts ...Option) (E, bool) {
 		Fail(
 			tb,
 			"error_as_type",
-			fmt.Sprintf("no match:\nerr = %s\ntype = %T", vs(err), *new(E)),
+			fmt.Sprintf("no match:\nerr = %s\ntype = %s", vs(err), reflectutil.TypeFullNameFor[E]()),
 			1,
 			opts...,
 		)
