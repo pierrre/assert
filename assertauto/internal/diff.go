@@ -5,7 +5,7 @@
 // Use of this source code is governed by a BSD-style
 // license that can be found in the LICENSE file.
 //
-//nolint:gocritic,gocyclo,predeclared // This is an imported code from Go standard library.
+//nolint:gocritic,gocyclo,predeclared,wastedassign // This is an imported code from Go standard library.
 package diff
 
 import (
