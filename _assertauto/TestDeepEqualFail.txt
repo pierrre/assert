@@ -1,1 +1,1 @@
-[string] (len=91) "assert deep_equal: not equal:\ndiff = .: int not equal\n\tv1=1\n\tv2=2\nv1 = [int] 1\nv2 = [int] 2"
+[string] (len=94) "assert deep_equal: not equal:\ndiff = .: int not equal\nv1 = 1\nv2 = 2\n\nv1 = [int] 1\nv2 = [int] 2"

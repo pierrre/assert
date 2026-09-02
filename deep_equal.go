@@ -24,8 +24,7 @@ func NewDeepEqualerWithComparator(cr *compare.Comparator) func(v1, v2 any) (stri
 		if len(res) == 0 {
 			return "", true
 		}
-		diff := fmt.Sprintf("%+v", res)
-		return diff, false
+		return res.String(), false
 	}
 }
 
